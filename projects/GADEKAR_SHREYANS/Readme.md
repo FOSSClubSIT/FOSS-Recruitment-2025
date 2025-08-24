@@ -1,4 +1,4 @@
-# Project Title: Write your project name here
+# Project Title: An NLP-Based Web Application for Automatic News Summarization
 
 ## Student Details
 - **Name**: Shreyans Samrat Gadekar  
