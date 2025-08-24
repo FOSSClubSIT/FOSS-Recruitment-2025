@@ -19,6 +19,8 @@ from io import BytesIO
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from docx import Document
+import subprocess
+import sys
 
 # ------------------- Load Models -------------------
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=-1)
@@ -28,8 +30,7 @@ emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-e
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
-    import subprocess
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+    subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"])
     nlp = spacy.load("en_core_web_sm")
 
 def set_background(image_file):
