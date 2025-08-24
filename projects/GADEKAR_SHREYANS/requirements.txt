@@ -9,4 +9,3 @@ matplotlib
 python-docx
 reportlab
 requests
-base64
