@@ -57,12 +57,16 @@ Example:
 
 ## Project Structure
 
-GADEKAR_SHREYANS/ ├── README.md ├── requirements.txt ├── background image └── sample_output/report and screenshots of web app 
+GADEKAR_SHREYANS/ 
+├── README.md 
+├── requirements.txt 
+├── background image 
+└── sample_output/report and screenshots of web app 
 
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
+![alt text](<Screenshot 2025-08-24 160501.png>)
 
 ---
 
