@@ -10,7 +10,7 @@
 
 ## Problem Statement
 single program to encrypt/decrypt using various ciphers
-()
+(Caeser, Vignere, Advanced Encryption Systems)
 ---
 
 ## Features
@@ -24,7 +24,7 @@ Example:
 
 ## Tech Stack
 List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+Python, python libraries(parser, )
 
 ---
 
@@ -49,9 +49,7 @@ Add a screenshot of your project running, or copy-paste sample terminal output h
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+ChatGPT
 
 ---
 
