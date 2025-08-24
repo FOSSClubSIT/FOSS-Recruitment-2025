@@ -10,4 +10,3 @@ matplotlib
 python-docx
 reportlab
 requests
-en-core-web-sm 
