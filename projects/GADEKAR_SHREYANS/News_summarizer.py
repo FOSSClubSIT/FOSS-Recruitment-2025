@@ -19,10 +19,12 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from docx import Document
 
-# Load Hugging Face models (local, no API keys needed)
-summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=-1)
-sentiment_analyzer = pipeline("sentiment-analysis", 
-                              model="distilbert-base-uncased-finetuned-sst-2-english", device=-1)
+# ------------------- Load Models -------------------
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+sentiment_pipeline = pipeline("sentiment-analysis")
+topic_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base")
+nlp = spacy.load("en_core_web_sm")
 
 def set_background(image_file):
     """Reads local image and encodes it as base64 to set as background in Streamlit."""
