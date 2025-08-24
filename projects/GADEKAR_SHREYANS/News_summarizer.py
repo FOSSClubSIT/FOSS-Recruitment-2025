@@ -34,7 +34,8 @@ except OSError:
 
 def set_background(image_file):
     """Reads local image and encodes it as base64 to set as background in Streamlit."""
-    with open(r"C:\Users\K8IN\Desktop\FOSS-Recruitment-2025\projects\GADEKAR_SHREYANS\360_F_492391117_bsAteaWt7I9gCAJY1Mt3QXXxdLXE2Nzq.jpg", "rb") as file:
+    file_path = os.path.join(os.path.dirname(__file__), image_file)
+    with open(file_path, "rb") as file:
         encoded = base64.b64encode(file.read()).decode()
     st.markdown(
         f"""
