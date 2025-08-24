@@ -2,7 +2,7 @@
 Streamlit News Summarizer & Sentiment Analyzer
 ----------------------------------------------
 This app extracts text from a news article URL, summarizes it, 
-and analyzes sentiment — with a futuristic background.
+and analyzes sentiment, generates wordcloud, and also pdf — with a futuristic background.
 """
     
 import streamlit as st
