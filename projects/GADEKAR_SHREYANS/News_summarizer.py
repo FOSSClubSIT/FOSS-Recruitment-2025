@@ -74,3 +74,33 @@ def analyze_sentiment(text: str) -> str:
     result = sentiment_analyzer(text)[0]
     return f"{result['label']} (confidence: {result['score']:.2f})"
 
+set_background("360_F_492391117_bsAteaWt7I9gCAJY1Mt3QXXxdLXE2Nzq.jpg")  # your background image
+
+st.markdown("<h1 class='main-title'>📰 News Summarizer & Sentiment Analyzer</h1>", unsafe_allow_html=True)
+st.markdown("<p style='color:white;'>Paste any news article URL below and let AI do the rest!</p>", unsafe_allow_html=True)
+
+url = st.text_input("Enter News Article URL:")
+
+if st.button("Summarize & Analyze"):
+    if url:
+        try:
+            with st.spinner("Extracting article..."):
+                article_text = extract_text(url)
+
+            st.markdown("<div class='card'><h3>Extracted Article</h3></div>", unsafe_allow_html=True)
+            st.write(article_text[:500] + "...")
+
+            with st.spinner("📝 Generating summary..."):
+                summary = summarize_text(article_text)
+            st.markdown("<div class='card'><h3>Summary</h3></div>", unsafe_allow_html=True)
+            st.success(summary)
+
+            with st.spinner("🔍 Analyzing sentiment..."):
+                sentiment = analyze_sentiment(summary)
+            st.markdown("<div class='card'><h3>Sentiment</h3></div>", unsafe_allow_html=True)
+            st.info(sentiment)
+
+        except Exception as e:
+            st.error(f"⚠️ Error: {e}")
+    else:
+        st.warning("Please enter a valid URL.")
