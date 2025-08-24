@@ -21,6 +21,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from docx import Document
 import subprocess
 import sys
+import os
 
 # ------------------- Load Models -------------------
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=-1)
