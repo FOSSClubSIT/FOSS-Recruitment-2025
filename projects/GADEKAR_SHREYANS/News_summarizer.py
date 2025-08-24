@@ -96,12 +96,11 @@ def generate_pdf(text, summary, sentiment, topics, entities, emotions):
     buffer.seek(0)
     return buffer
 
-set_background("360_F_492391117_bsAteaWt7I9gCAJY1Mt3QXXxdLXE2Nzq.jpg")  # your background image
+# ------------------- Streamlit UI -------------------
+set_background("360_F_492391117_bsAteaWt7I9gCAJY1Mt3QXXxdLXE2Nzq.jpg")
 
 st.markdown("<h1 class='main-title'>📰 News Summarizer & Sentiment Analyzer</h1>", unsafe_allow_html=True)
 st.markdown("<p style='color:white;'>Paste any news article URL below and let AI do the rest!</p>", unsafe_allow_html=True)
-# ------------------- Streamlit UI -------------------
-st.title("📰 AI News Analyzer")
 
 url = st.text_input("Enter a news article URL")
 
