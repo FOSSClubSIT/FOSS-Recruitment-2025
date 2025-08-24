@@ -9,4 +9,22 @@ body {
 h1 {
   margin-bottom: 40px;
   font-size: 2rem;
+  color: #333;
+}
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  max-width: 500px;
+  margin: 0 auto;
+  gap: 100px;
+}
+
+.emoji {
+  font-size: 2.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.emoji:hover {
+  transform: scale(1.3);
 }
