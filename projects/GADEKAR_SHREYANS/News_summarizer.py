@@ -67,6 +67,13 @@ def chunk_text(text, max_tokens=200):
     for i in range(0, len(words), max_tokens):
         yield " ".join(words[i:i + max_tokens])
 
+def generate_wordcloud(text):
+    wc = WordCloud(width=800, height=400, background_color="black").generate(text)
+    fig, ax = plt.subplots()
+    ax.imshow(wc, interpolation="bilinear")
+    ax.axis("off")
+    return fig
+
 def summarize_text(text: str) -> str:
     """Summarizes long text in chunks and returns a final summary."""
     chunks = list(chunk_text(text))
