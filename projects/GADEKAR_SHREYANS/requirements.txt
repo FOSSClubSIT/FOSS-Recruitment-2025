@@ -7,7 +7,6 @@ lxml-html-clean
 bs4
 matplotlib
 python-docx
-io
 reportlab
 requests
 base64
