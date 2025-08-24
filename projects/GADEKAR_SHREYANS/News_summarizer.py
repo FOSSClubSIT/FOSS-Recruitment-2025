@@ -73,3 +73,4 @@ def analyze_sentiment(text: str) -> str:
     """Analyzes sentiment of text."""
     result = sentiment_analyzer(text)[0]
     return f"{result['label']} (confidence: {result['score']:.2f})"
+
