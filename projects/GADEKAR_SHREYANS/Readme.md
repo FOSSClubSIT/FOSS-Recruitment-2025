@@ -85,6 +85,7 @@ GADEKAR_SHREYANS/
 ---
 
 ## Notes for Reviewers
+- URL link to the deployed web app:- https://news-summarizer-withwordcloudandreportpdf.streamlit.app/ 
 - Requires an internet connection for Hugging Face models & article extraction.
 - Background image path must be updated if running on a different system.
 
