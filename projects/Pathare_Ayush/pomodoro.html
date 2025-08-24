@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>FOSS Pomodoro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Iceberg&display=swap" rel="stylesheet">
+
+<style>
+    body.flash-red {
+        animation: flashBackground 2s ease-in-out;
+    }
+
+    @keyframes flashBackground {
+        0% { background-color: white; }
+        50% { background-color: red; }
+        100% { background-color: white; }
+    }
+</style>
+
+<style>
+    #timer {
+        font-family: 'Jokerman', cursive;
+        font-size: 48px;
+        text-align: center;
+        margin-top: 30px;
+    }
+</style>
+
+<style>
+    #controls button {
+        font-family: 'Bradley Hand ITC', 'Bradley Hand', cursive;
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border: none;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
+
+    #controls button:hover {
+        background-color: #ddd;
+    }
+</style>
+
+
+</head>
+<body>
+    <div class="header"><h1>FOSS Clock</h1></div>
+    <div id="timer" style="font-size: 48px; text-align: center; margin-top: 30px;">25:00</div>
+
+<div id="controls" style="text-align: center; margin-top: 20px;">
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <p><button id="break">Want A Break?</button></p>
+</div>
+
+<!-- Link the pomodoro script -->
+<script src="pomodoro.js"></script>
+
+</body>
+</html>
