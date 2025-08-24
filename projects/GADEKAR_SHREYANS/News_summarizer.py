@@ -120,29 +120,58 @@ set_background("360_F_492391117_bsAteaWt7I9gCAJY1Mt3QXXxdLXE2Nzq.jpg")  # your b
 
 st.markdown("<h1 class='main-title'>📰 News Summarizer & Sentiment Analyzer</h1>", unsafe_allow_html=True)
 st.markdown("<p style='color:white;'>Paste any news article URL below and let AI do the rest!</p>", unsafe_allow_html=True)
+# ------------------- Streamlit UI -------------------
+st.title("📰 AI News Analyzer")
 
-url = st.text_input("Enter News Article URL:")
+url = st.text_input("Enter a news article URL")
 
-if st.button("Summarize & Analyze"):
-    if url:
-        try:
-            with st.spinner("Extracting article..."):
-                article_text = extract_text(url)
-
-            st.markdown("<div class='card'><h3>Extracted Article</h3></div>", unsafe_allow_html=True)
-            st.write(article_text[:500] + "...")
-
-            with st.spinner("📝 Generating summary..."):
-                summary = summarize_text(article_text)
-            st.markdown("<div class='card'><h3>Summary</h3></div>", unsafe_allow_html=True)
-            st.success(summary)
-
-            with st.spinner("🔍 Analyzing sentiment..."):
-                sentiment = analyze_sentiment(summary)
-            st.markdown("<div class='card'><h3>Sentiment</h3></div>", unsafe_allow_html=True)
-            st.info(sentiment)
-
-        except Exception as e:
-            st.error(f"⚠️ Error: {e}")
+if url:
+    article_text = extract_text_from_url(url)
+    if len(article_text) > 100:
+        with st.spinner("Analyzing..."):
+            # Summarization
+            summary = summarizer(article_text[:1000], max_length=150, min_length=50, do_sample=False)[0]['summary_text']
+            
+            # Sentiment
+            sentiment = sentiment_pipeline(article_text[:512])[0]['label']
+            
+            # Topic Classification
+            candidate_labels = ["Politics", "Sports", "Technology", "Health", "Entertainment", "Crime"]
+            topics = topic_classifier(article_text[:512], candidate_labels)['labels'][0]
+            
+            # NER
+            doc = nlp(article_text[:512])
+            entities = ", ".join([f"{ent.text} ({ent.label_})" for ent in doc.ents])
+            
+            # Emotions
+            emotions = emotion_classifier(article_text[:512])[0]['label']
+            
+            # Display
+            st.subheader("Extracted Text")
+            st.write(article_text[:1000] + "...")
+            
+            st.subheader("Summary")
+            st.write(summary)
+            
+            st.subheader("Sentiment")
+            st.success(sentiment)
+            
+            st.subheader("Topic Classification")
+            st.info(topics)
+            
+            st.subheader("Named Entities")
+            st.warning(entities if entities else "No significant entities found")
+            
+            st.subheader("Emotion Detection")
+            st.success(emotions)
+            
+            st.subheader("Word Cloud")
+            st.pyplot(generate_wordcloud(article_text))
+            
+            # Download Reports
+            st.subheader("Download Reports")
+            pdf_buf = generate_pdf(article_text, summary, sentiment, topics, entities, emotions)
+            
+            st.download_button("Download PDF Report", pdf_buf, "report.pdf", "application/pdf")
     else:
-        st.warning("Please enter a valid URL.")
+        st.error("Could not extract enough text from the URL.")
