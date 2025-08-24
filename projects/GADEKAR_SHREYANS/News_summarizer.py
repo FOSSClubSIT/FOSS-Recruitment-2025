@@ -54,12 +54,14 @@ def set_background(image_file):
         unsafe_allow_html=True
     )
 
-def extract_text(url: str) -> str:
-    """Extracts article text from a URL using newspaper3k."""
-    article = Article(url)
-    article.download()
-    article.parse()
-    return article.text
+def extract_text_from_url(url):
+    try:
+        r = requests.get(url, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
+        paragraphs = soup.find_all("p")
+        return " ".join([p.get_text() for p in paragraphs])
+    except Exception as e:
+        return str(e)
 
 def chunk_text(text, max_tokens=200):
     """Splits long text into smaller chunks for summarization."""
