@@ -1,4 +1,5 @@
 streamlit
+torch
 transformers
 spacy
 newspaper3k
