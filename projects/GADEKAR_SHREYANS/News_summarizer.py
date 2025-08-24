@@ -28,8 +28,9 @@ emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-e
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
-    st.error("⚠ SpaCy model 'en_core_web_sm' not found. Run:\n\n `python -m spacy download en_core_web_sm`")
-    st.stop()
+    from spacy.cli import download
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 def set_background(image_file):
     """Reads local image and encodes it as base64 to set as background in Streamlit."""
