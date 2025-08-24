@@ -1,0 +1,11 @@
+Console Pixel Art Generator
+Use: r=red, b=blue, g=green, y=yellow, w=white, .=empty
+Enter 'sample' for a predefined heart pattern.
+Enter grid size (e.g., 5 for 5x5, 0 to exit): sample
+
+Sample Heart Pattern:
+  ███  
+ █████ 
+ █████ 
+  ███  
+   █

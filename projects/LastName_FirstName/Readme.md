@@ -1,82 +1,98 @@
-# Project Title: Write your project name here
+# Project Title: Console-Based Pixel Art Generator
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Ratnesh kumar  
+- **PRN**: 24070123083
+- **Year**: SY 
+- **Branch**: ENTC 
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
+This project enables beginners to create colorful pixel art in the terminal using simple text inputs, transforming basic characters into vibrant ASCII designs for a fun, retro-inspired creative experience.
 
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+- Create colorful pixel art in the terminal from simple text inputs (e.g., 'r' for red, 'b' for blue).
+- Display predefined patterns like a heart for instant testing.
+- Works fully offline with no external dependencies.
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+- Python
+- ANSI escape codes (for terminal color output)
+- Built-in Python modules: `sys`, `time`
 
 ---
 
 ## How to Run
-Explain step by step how to run your project.  
-Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+1. Ensure Python 3.8+ is installed on your system.
+2. Open a terminal and navigate to the project source folder: `cd projects/lastname_firstname/src`.
+3. Run the script with `python pixel_art.py`.
+4. Follow the on-screen prompts: Enter the grid size (e.g., 5), then input each row's characters, or type 'sample' for a predefined pattern.
+5. View the colored pixel art output in the terminal; enter 0 for grid size to exit.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+projects/kumar_ratnesh/
 
+├── README.md              
+├── requirements.txt       
+├── src/<br>
+│   └── pixel_art.py      
+└── sample_output.txt          
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
+Console Pixel Art Generator<br>
+Use: r=red, b=blue, g=green, y=yellow, w=white, .=empty<br>
+Enter 'sample' for a predefined heart pattern.<br>
+Enter grid size (e.g., 5 for 5x5, 0 to exit): 3<br>
+Enter 3 rows of 3 chars (r,b,g,y,w,.)<br>
+Row 1: .r.<br>
+Row 2: rrr<br>
+Row 3: .r.<br>
 
+<img width="174" height="128" alt="image" src="https://github.com/user-attachments/assets/4c81b167-238a-4af6-89fd-da28ef86580e" />
+    
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+GitHub Copilot, Grok
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+If I had more time to make the **Console-Based Pixel Art Generator** better, I’d add:
+
+1. **Save Art**: Save your designs to a file to use later.
+2. **More Colors**: Add fun colors like pink or purple.
+3. **Easy Editor**: Use arrow keys to draw pixels in the terminal.
+4. **Moving Art**: Show patterns that move like a mini cartoon.
+5. **Save as Picture**: Turn your art into a PNG image.
+6. **More Examples**: Add cool shapes like stars or trees.
+7. **Better Help**: Nicer error messages to fix mistakes easily.
 
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+This project runs fully offline with no external dependencies, using only Python’s built-in `sys` and `time` modules. For best results, run in a terminal supporting ANSI colors (e.g., Windows Terminal, Git Bash, or Linux/macOS terminals).
 
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 
