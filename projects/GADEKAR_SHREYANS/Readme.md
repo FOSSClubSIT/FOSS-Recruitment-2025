@@ -67,7 +67,10 @@ GADEKAR_SHREYANS/
 
 ## Demo Screenshot / Output
 ![alt text](<Screenshot 2025-08-24 160501.png>)
-
+![alt text](<Screenshot 2025-08-24 160513.png>)
+![alt text](<Screenshot 2025-08-24 160525.png>)
+![alt text](<Screenshot 2025-08-24 160537.png>)
+![alt text](image.png)
 ---
 
 ## AI Tools Used
