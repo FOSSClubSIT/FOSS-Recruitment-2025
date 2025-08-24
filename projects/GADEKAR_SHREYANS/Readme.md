@@ -43,9 +43,7 @@ Example:
 ## How to Run
 Explain step by step how to run your project.  
 Example:  
-1. Clone the repository  
-   git clone https://github.com/your-username/news-analyzer.git
-   cd news-analyzer
+1. Clone the repository
 2. Install dependencies
     pip install -r requirements.txt
     Download SpaCy English model
