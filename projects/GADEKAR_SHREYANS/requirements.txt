@@ -1,7 +1,9 @@
-streamlit
+streamlit==1.33.0
+numpy==1.26.4
+thinc==8.2.2
 torch
 transformers
-spacy[cpu]
+spacy==3.7.2
 newspaper3k
 wordcloud
 lxml-html-clean
@@ -10,4 +12,5 @@ matplotlib
 python-docx
 reportlab
 requests
-en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
+spacy-download
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
