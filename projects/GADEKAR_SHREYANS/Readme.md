@@ -1,46 +1,63 @@
 # Project Title: Write your project name here
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Shreyans Samrat Gadekar  
+- **PRN**: 23070126043  
+- **Year**: TY  
+- **Branch**: AIML  
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
+News articles are frequently lengthy and slanted, making it difficult for readers to quickly understand the point.  
+This project combines news article summaries, subject classification, sentiment detection, wordcloud generation, entity extraction, and report generation into a single app.
 
 ---
 
 ## Features
 List the main things your project can do.  
 Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+- Extracts article text from any given news URL  
+- Summarizes news content using Hugging Face transformers  
+- Performs **sentiment analysis** (Positive/Negative)  
+- Classifies articles into topics (Politics, Sports, Technology, etc.)  
+- Extracts **Named Entities** (people, organizations, locations, etc.)  
+- Detects **emotions** (Fear, Anger, Joy, Sadness, etc.)  
+- Generates a **word cloud visualization**  
+- Creates downloadable **PDF reports** for journalists/researchers  
+- Futuristic **Streamlit UI with background image**
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+- **Python**  
+- **Streamlit** (UI)  
+- **Hugging Face Transformers** (NLP models)  
+- **Newspaper3k / BeautifulSoup** (text extraction)  
+- **spaCy** (Named Entity Recognition)  
+- **WordCloud + Matplotlib** (visualization)  
+- **ReportLab** (PDF generation)
 
 ---
 
 ## How to Run
 Explain step by step how to run your project.  
 Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+1. Clone the repository  
+   git clone https://github.com/your-username/news-analyzer.git
+   cd news-analyzer
+2. Install dependencies
+    pip install -r requirements.txt
+    Download SpaCy English model
+    python -m spacy download en_core_web_sm
+3. Run the Streamlit app
+    streamlit run app.py
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+GADEKAR_SHREYANS/ ├── README.md ├── requirements.txt ├── background image └── sample_output/report and screenshots of web app 
 
 ---
 
@@ -50,33 +67,31 @@ Add a screenshot of your project running, or copy-paste sample terminal output h
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+- ChatGPT (for guidance & debugging)
+- Hugging Face Transformers (for NLP models)
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
-
+- Add multi-language support (Hindi, Marathi, etc.)
+- Integrate a real-time news feed scraper
+- Improve summarization quality with fine-tuned models
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+- Requires an internet connection for Hugging Face models & article extraction.
+- Background image path must be updated if running on a different system.
 
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
-
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
