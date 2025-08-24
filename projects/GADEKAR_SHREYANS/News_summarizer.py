@@ -11,9 +11,9 @@ from newspaper import Article
 import base64
 
 # Load Hugging Face models (local, no API keys needed)
-summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=-1)
 sentiment_analyzer = pipeline("sentiment-analysis", 
-                              model="distilbert-base-uncased-finetuned-sst-2-english")
+                              model="distilbert-base-uncased-finetuned-sst-2-english", device=-1)
 
 def set_background(image_file):
     """Reads local image and encodes it as base64 to set as background in Streamlit."""
