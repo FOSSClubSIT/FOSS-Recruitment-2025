@@ -24,7 +24,11 @@ summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=-
 sentiment_pipeline = pipeline("sentiment-analysis", device=-1)
 topic_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=-1)
 emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", device=-1)
-nlp = spacy.load("en_core_web_sm")
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    st.error("⚠ SpaCy model 'en_core_web_sm' not found. Run:\n\n `python -m spacy download en_core_web_sm`")
+    st.stop()
 
 def set_background(image_file):
     """Reads local image and encodes it as base64 to set as background in Streamlit."""
