@@ -68,3 +68,8 @@ def summarize_text(text: str) -> str:
         summaries.append(summary[0]['summary_text'])
     final_summary = summarizer(" ".join(summaries), max_length=100, min_length=50, do_sample=False)
     return final_summary[0]['summary_text']
+
+def analyze_sentiment(text: str) -> str:
+    """Analyzes sentiment of text."""
+    result = sentiment_analyzer(text)[0]
+    return f"{result['label']} (confidence: {result['score']:.2f})"
