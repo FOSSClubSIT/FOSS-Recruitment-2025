@@ -43,3 +43,9 @@ def set_background(image_file):
         unsafe_allow_html=True
     )
 
+def extract_text(url: str) -> str:
+    """Extracts article text from a URL using newspaper3k."""
+    article = Article(url)
+    article.download()
+    article.parse()
+    return article.text
