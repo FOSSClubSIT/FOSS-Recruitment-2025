@@ -92,6 +92,28 @@ def analyze_sentiment(text: str) -> str:
     result = sentiment_analyzer(text)[0]
     return f"{result['label']} (confidence: {result['score']:.2f})"
 
+def generate_pdf(text, summary, sentiment, topics, entities, emotions):
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer)
+    styles = getSampleStyleSheet()
+    flow = []
+    flow.append(Paragraph("📑 News Analysis Report", styles['Title']))
+    flow.append(Spacer(1, 12))
+    flow.append(Paragraph(f"<b>Extracted Text:</b> {text}", styles['Normal']))
+    flow.append(Spacer(1, 12))
+    flow.append(Paragraph(f"<b>Summary:</b> {summary}", styles['Normal']))
+    flow.append(Spacer(1, 12))
+    flow.append(Paragraph(f"<b>Sentiment:</b> {sentiment}", styles['Normal']))
+    flow.append(Spacer(1, 12))
+    flow.append(Paragraph(f"<b>Topics:</b> {topics}", styles['Normal']))
+    flow.append(Spacer(1, 12))
+    flow.append(Paragraph(f"<b>Entities:</b> {entities}", styles['Normal']))
+    flow.append(Spacer(1, 12))
+    flow.append(Paragraph(f"<b>Emotions:</b> {emotions}", styles['Normal']))
+    doc.build(flow)
+    buffer.seek(0)
+    return buffer
+
 set_background("360_F_492391117_bsAteaWt7I9gCAJY1Mt3QXXxdLXE2Nzq.jpg")  # your background image
 
 st.markdown("<h1 class='main-title'>📰 News Summarizer & Sentiment Analyzer</h1>", unsafe_allow_html=True)
