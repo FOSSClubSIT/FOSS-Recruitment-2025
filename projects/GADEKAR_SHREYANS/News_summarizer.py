@@ -9,6 +9,15 @@ import streamlit as st
 from transformers import pipeline
 from newspaper import Article
 import base64
+import requests
+from bs4 import BeautifulSoup
+import spacy
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from io import BytesIO
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from docx import Document
 
 # Load Hugging Face models (local, no API keys needed)
 summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", device=-1)
