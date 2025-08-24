@@ -55,3 +55,16 @@ def chunk_text(text, max_tokens=200):
     words = text.split()
     for i in range(0, len(words), max_tokens):
         yield " ".join(words[i:i + max_tokens])
+
+def summarize_text(text: str) -> str:
+    """Summarizes long text in chunks and returns a final summary."""
+    chunks = list(chunk_text(text))
+    summaries = []
+    for chunk in chunks:
+        input_len = len(chunk.split())
+        max_len = min(120, int(input_len * 0.8))
+        min_len = min(50, int(input_len * 0.4))
+        summary = summarizer(chunk, max_length=max_len, min_length=min_len, do_sample=False)
+        summaries.append(summary[0]['summary_text'])
+    final_summary = summarizer(" ".join(summaries), max_length=100, min_length=50, do_sample=False)
+    return final_summary[0]['summary_text']
