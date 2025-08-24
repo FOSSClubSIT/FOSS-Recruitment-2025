@@ -49,3 +49,9 @@ def extract_text(url: str) -> str:
     article.download()
     article.parse()
     return article.text
+
+def chunk_text(text, max_tokens=200):
+    """Splits long text into smaller chunks for summarization."""
+    words = text.split()
+    for i in range(0, len(words), max_tokens):
+        yield " ".join(words[i:i + max_tokens])
