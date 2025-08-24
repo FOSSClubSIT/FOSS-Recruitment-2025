@@ -20,11 +20,11 @@ from reportlab.lib.styles import getSampleStyleSheet
 from docx import Document
 
 # ------------------- Load Models -------------------
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-sentiment_pipeline = pipeline("sentiment-analysis")
-topic_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base")
-nlp = spacy.load("en_core_web_sm")
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=-1)
+sentiment_pipeline = pipeline("sentiment-analysis", device=-1)
+topic_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=-1)
+emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", device=-1)
+nlp = spacy.load("en_core_web_sm", device=-1)
 
 def set_background(image_file):
     """Reads local image and encodes it as base64 to set as background in Streamlit."""
