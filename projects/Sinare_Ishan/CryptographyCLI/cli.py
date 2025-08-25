@@ -3,22 +3,19 @@ from argparse import ArgumentParser, Namespace
 from ciphers import caesar, vigenere, aes
 parser = ArgumentParser()
 parser.add_argument('-v', '--verbose', help='Provides a verbose description', action='store_true')
-parser.add_argument('--cipher', help="Pick a cipher", type=str, choices=['Caesar', 'Vigenere', 'AES'],default='Caesar')
-parser.add_argument('--action', help="Encrypt/Decrypt", type=str, choices=['encrypt', 'decrypt'], default='encrypt')
+parser.add_argument('cipher', help="Pick a cipher", type=str, choices=['Caesar', 'Vigenere', 'AES'],default='Caesar')
+parser.add_argument('action', help="Encrypt/Decrypt", type=str, choices=['encrypt', 'decrypt'], default='encrypt')
 args = parser.parse_args()
 
 #if args.verbose:
 if args.cipher == 'Caesar':
-    print("Initiating Caesar cipher")
     key1 = int(input('ENTER INTEGER VALUE FOR KEY : '))
-    
+
     if args.action == 'decrypt':
-        print("Initiating decryption sequence")
-        text1 = input("Enter the text you want decrypted : \n")
-        caesar.encrypt(text1,key1)
+        text1 = input("\nEnter the text you want decrypted : \n")
+        caesar.decrypt(text1,key1)
     elif args.action == 'encrypt':
-        print("Initiating encryption sequence")
-        text1 = input("Enter the text you want encrypted : \n")
+        text1 = input("\nEnter the text you want encrypted : \n")
         caesar.encrypt(text1,key1)
 
 if args.cipher == 'Vigenere':

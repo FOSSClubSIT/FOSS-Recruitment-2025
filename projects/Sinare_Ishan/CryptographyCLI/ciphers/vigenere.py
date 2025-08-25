@@ -1,5 +1,3 @@
-print("VIGENERE CIPHER")
-
 def encrypt(text:str, key:str):
     print("Encrytping using Vigenere")
 
