@@ -1,40 +1,58 @@
 import time
+import os
 
-# --- Simple functions for the app ---
 
-def water_reminder():
-    """Prints a message for the water reminder."""
-    print("\n💧 Time to drink water! 💧")
+interval=int(input("What time interval do you need ? "))
+
+
+# Timers in seconds
+WATER_REMINDER_INTERVAL = interval  # It was to be for 1 hour but for demo I have kept it for 10 sec
+
+
+# --- Sound Alert Function ---
+def play_sound(message):
+    """
+    Plays a simple beep sound and prints a message.
+    The method for playing sound is OS-dependent.
+    """
+    print(f"\n🔔 ALERT: {message}\n")
+    if os.name == 'nt':  # For Windows
+        import winsound
+        winsound.Beep(1000, 1000)  # Beep at 1000 Hz for 500 ms
+        pass
+
 
 # --- Main App Logic ---
+def run_reminder_app():
+    """
+    Starts the water and food reminder application.
+    """
+    print("💧Water Reminder App ⏰")
+    print("-----------------------------------")
+    print("Press Ctrl+C at any time to stop the app.")
 
-def start_reminder_app():
-    """Starts the main reminder loop."""
-    print("Reminder App Started. Press Ctrl+C to stop.")
 
-    # Get the starting time for our timers
+
+    # Get the user's start time
     start_time = time.time()
-    
-    # Calculate the next time for each reminder
-    next_water_time = start_time + 10  # 1 hour
+    next_water_time = start_time + WATER_REMINDER_INTERVAL
 
     try:
         while True:
             current_time = time.time()
 
-            # Check if it's time for a water reminder
+            # Check for water reminder
             if current_time >= next_water_time:
-                water_reminder()
-                # Reset from current time (avoids drift)
-                next_water_time = current_time + 3600
-
-
-            # Wait for 1 second before checking again
-            time.sleep(1)
+                play_sound("Time to drink some water! 💧")
+                next_water_time += WATER_REMINDER_INTERVAL
+                
 
     except KeyboardInterrupt:
-        print("\n\n⏹️ Reminder App Stopped. Have a great day!\n")
+        end_time = time.time()
+        print("\n-----------------------------------")
+        print("⏹️ Reminder App Stopped. Have a great day!")
 
-# --- Run the app ---
+
+# --- Run the application ---
 if __name__ == "__main__":
-    start_reminder_app()
+    run_reminder_app()
