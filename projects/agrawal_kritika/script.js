@@ -6,6 +6,10 @@ const quotes = {
   calm: { text: "Your calm is a superpower. Breathe and embrace it.", color: "#C8E6C9" },
   excited: { text: "Your excitement fuels your creativity — let it shine!", color: "#FFE082" },
   tired: { text: "Rest is progress. Recharge and face tomorrow stronger.", color: "#D7CCC8" },
+  anxious: { text: "Step by step. You’ve overcome every challenge before, you can now.", color: "#B3E5FC" },
+  confident: { text: "Believe in yourself. You are capable of amazing things.", color: "#D1C4E9" },
+  bored: { text: "Try something new today; even small changes spark growth.", color: "#EEEEEE" },
+  "in-love": { text: "Love deeply and openly; it enriches life in countless ways.", color: "#F8BBD0" }
 };
 
 document.querySelectorAll('.emoji').forEach(emoji => {
