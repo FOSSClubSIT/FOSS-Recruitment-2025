@@ -28,7 +28,9 @@ public class ExpenseTracker {
             System.out.println("1. Add Expense");
             System.out.println("2. Show All Expenses");
             System.out.println("3. Save Expenses to File");
-            System.out.println("4. Exit");
+            System.out.println("4. Show Total Expenses");
+
+            System.out.println("5. Exit");
 
             System.out.print("Choose an option: ");
 
@@ -45,6 +47,10 @@ public class ExpenseTracker {
                 case 3:
                     saveExpensesToFile();
                 case 4:
+                    showTotalExpenses();
+                    break;
+
+                case 5:
                     running = false;
                     System.out.println("Exiting... Goodbye!");
                     break;
@@ -119,6 +125,21 @@ public class ExpenseTracker {
             System.out.println(" Expenses saved to: " + file.getAbsolutePath());
         } catch (IOException e) {
             System.out.println(" Error saving expenses: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Calculates and displays the total of all recorded expenses.
+     */
+    private static void showTotalExpenses() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded yet.");
+        } else {
+            double total = 0;
+            for (Expense e : expenses) {
+                total += e.getAmount(); // make sure Expense class has getAmount()
+            }
+            System.out.println(" Total Expenses: " + total);
         }
     }
 
