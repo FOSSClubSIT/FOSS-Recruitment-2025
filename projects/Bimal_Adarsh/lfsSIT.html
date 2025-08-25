@@ -28,6 +28,11 @@
         body::-webkit-scrollbar {
             display: none;
         }
+        /* Styles for the tag suggestion dropdown */
+        .suggestions-box {
+            max-height: 150px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -47,13 +52,14 @@
                     <a href="#" class="text-gray-600 hover:text-blue-600 transition-transform duration-200 hover:scale-110 font-medium">Top Contributors</a>
                 </nav>
 
-                <!-- Profile Button -->
-                <div class="flex items-center">
-                     <button class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700">
+                <!-- Profile/Auth Button -->
+                <div id="auth-container" class="flex items-center">
+                     <button onclick="handleAuthClick()" class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        <svg id="login-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
+                        <svg id="logout-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 hidden"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                     </button>
                 </div>
             </div>
@@ -151,12 +157,13 @@
                             </div>
 
                             <!-- Tags Input -->
-                            <div>
+                            <div class="relative">
                                 <label for="item-tags" class="block text-sm font-medium text-gray-700 mb-1">Tags (Keywords)</label>
-                                <p class="text-xs text-gray-500 mb-2">Help us find matches. Type a keyword and press Enter or Comma.</p>
+                                <p class="text-xs text-gray-500 mb-2">Help us find matches. Start typing to see suggestions.</p>
                                 <div id="tags-container" class="flex flex-wrap items-center gap-2 p-2 border border-gray-300 rounded-lg">
                                     <input type="text" id="item-tags-input" class="flex-grow p-1 focus:outline-none" placeholder="e.g., laptop, hydroflask, keys...">
                                 </div>
+                                <div id="lost-suggestions" class="suggestions-box absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg hidden"></div>
                             </div>
 
                             <!-- Image Upload -->
@@ -226,12 +233,13 @@
                             </div>
 
                             <!-- Tags Input -->
-                            <div>
+                            <div class="relative">
                                 <label for="found-item-tags" class="block text-sm font-medium text-gray-700 mb-1">Tags (Keywords)</label>
-                                <p class="text-xs text-gray-500 mb-2">Help us find matches. Type a keyword and press Enter or Comma.</p>
+                                <p class="text-xs text-gray-500 mb-2">Help us find matches. Start typing to see suggestions.</p>
                                 <div id="found-tags-container" class="flex flex-wrap items-center gap-2 p-2 border border-gray-300 rounded-lg">
                                     <input type="text" id="found-item-tags-input" class="flex-grow p-1 focus:outline-none" placeholder="e.g., water bottle, stickers...">
                                 </div>
+                                <div id="found-suggestions" class="suggestions-box absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg hidden"></div>
                             </div>
 
                             <!-- Image Upload -->
@@ -264,6 +272,77 @@
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Login/Register Page -->
+        <div id="login-page" class="hidden">
+            <section class="pt-32 pb-20 bg-gray-50 min-h-screen flex items-center justify-center">
+                <div class="max-w-md w-full mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg">
+                    <!-- Login Form -->
+                    <div id="login-form-container">
+                        <h2 class="text-3xl font-bold text-gray-900 text-center mb-6">Welcome Back</h2>
+                        <form id="login-form" class="space-y-6">
+                            <div>
+                                <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Student Email</label>
+                                <input type="email" id="login-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" id="login-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-blue-700">Log In</button>
+                            </div>
+                        </form>
+                        <p class="text-center text-sm text-gray-600 mt-6">
+                            Don't have an account? <a href="#" onclick="toggleAuthForms()" class="font-medium text-blue-600 hover:underline">Register here</a>
+                        </p>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <div id="register-form-container" class="hidden">
+                        <h2 class="text-3xl font-bold text-gray-900 text-center mb-6">Create Account</h2>
+                        <form id="register-form" class="space-y-6">
+                            <div>
+                                <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">Student Email</label>
+                                <input type="email" id="register-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                                <p id="email-error" class="text-red-500 text-xs mt-1 hidden">Email must end with @sitpune.edu.in</p>
+                            </div>
+                            <div>
+                                <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" id="register-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-yellow-500">Register</button>
+                            </div>
+                        </form>
+                        <p class="text-center text-sm text-gray-600 mt-6">
+                            Already have an account? <a href="#" onclick="toggleAuthForms()" class="font-medium text-blue-600 hover:underline">Log in here</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="hidden">
+            <section class="pt-32 pb-20 bg-gray-50 min-h-screen">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg text-center">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Your Profile</h2>
+                        <div class="w-24 h-24 rounded-full bg-blue-100 mx-auto flex items-center justify-center mb-6">
+                            <span id="profile-initials" class="text-4xl font-bold text-blue-600"></span>
+                        </div>
+                        <p class="text-2xl font-semibold text-gray-800" id="profile-name"></p>
+                        <p class="text-gray-600 mt-1" id="profile-email"></p>
+                        <div class="mt-8 border-t pt-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Your Activity</h3>
+                            <p class="text-gray-500 mt-2">Your reported items will appear here.</p>
+                            <!-- Activity feed can be added here later -->
+                        </div>
                     </div>
                 </div>
             </section>
@@ -318,232 +397,362 @@
     </footer>
 
     <script>
-        // --- Page Navigation ---
+        // --- GLOBAL STATE & INITIALIZATION ---
+        let allTags = JSON.parse(localStorage.getItem('allTags')) || ['bottle', 'keys', 'wallet', 'laptop', 'airpods', 'notebook'];
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthStateUI();
+        });
+
+        // --- PAGE NAVIGATION ---
         function showPage(pageId) {
-            // Hide all pages
-            document.getElementById('landing-page').classList.add('hidden');
-            document.getElementById('lost-item-form').classList.add('hidden');
-            document.getElementById('found-item-form').classList.add('hidden');
-            document.getElementById('success-page').classList.add('hidden');
-            document.getElementById('error-page').classList.add('hidden');
-            
-            // Show the requested page
-            document.getElementById(pageId).classList.remove('hidden');
-            window.scrollTo(0, 0); // Scroll to top on page change
+            ['landing-page', 'lost-item-form', 'found-item-form', 'success-page', 'error-page', 'login-page', 'profile-page'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            const page = document.getElementById(pageId);
+            if (page) page.classList.remove('hidden');
+            window.scrollTo(0, 0);
         }
 
-        // --- LOST ITEM FORM SCRIPT ---
+        // --- AUTHENTICATION SYSTEM ---
+        const loginIcon = document.getElementById('login-icon');
+        const logoutIcon = document.getElementById('logout-icon');
 
-        // --- Tag Input Logic (Lost) ---
-        const tagsInput = document.getElementById('item-tags-input');
-        const tagsContainer = document.getElementById('tags-container');
-        let tags = [];
+        function updateAuthStateUI() {
+            if (currentUser) {
+                loginIcon.classList.add('hidden');
+                logoutIcon.classList.remove('hidden');
+            } else {
+                loginIcon.classList.remove('hidden');
+                logoutIcon.classList.add('hidden');
+            }
+        }
 
-        tagsInput.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
-                const tagValue = tagsInput.value.trim().replace(/,/g, '');
-                if (tagValue.length > 1 && !tags.includes(tagValue)) {
-                    tags.push(tagValue);
-                    addTag(tagValue, tagsContainer, removeTag);
-                }
-                tagsInput.value = '';
+        function handleAuthClick() {
+            if (currentUser) {
+                currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                updateAuthStateUI();
+                showPage('landing-page');
+            } else {
+                showPage('login-page');
+            }
+        }
+
+        function toggleAuthForms() {
+            document.getElementById('login-form-container').classList.toggle('hidden');
+            document.getElementById('register-form-container').classList.toggle('hidden');
+        }
+
+        const registerForm = document.getElementById('register-form');
+        const registerEmailInput = document.getElementById('register-email');
+        const emailError = document.getElementById('email-error');
+
+        registerEmailInput.addEventListener('input', () => {
+            if (!registerEmailInput.value.endsWith('@sitpune.edu.in')) {
+                emailError.classList.remove('hidden');
+                registerEmailInput.classList.add('border-red-500');
+            } else {
+                emailError.classList.add('hidden');
+                registerEmailInput.classList.remove('border-red-500');
+            }
+        });
+        
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = registerEmailInput.value;
+            const password = document.getElementById('register-password').value;
+
+            if (!email.endsWith('@sitpune.edu.in')) {
+                alert('Please use a valid @sitpune.edu.in email address.');
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            if (users[email]) {
+                alert('An account with this email already exists.');
+                return;
+            }
+
+            const newName = generateUniqueName(Object.values(users).map(u => u.name));
+            
+            users[email] = { name: newName, email: email };
+            localStorage.setItem('users', JSON.stringify(users));
+
+            currentUser = users[email];
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            updateAuthStateUI();
+            loadProfilePage();
+            showPage('profile-page');
+        });
+
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            
+            if (users[email]) {
+                currentUser = users[email];
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAuthStateUI();
+                loadProfilePage();
+                showPage('profile-page');
+            } else {
+                alert('Invalid email or password.');
             }
         });
 
-        function removeTag(event, label) {
-            event.preventDefault();
-            tags = tags.filter(tag => tag !== label);
-            renderTags(tags, tagsContainer, addTag, removeTag, tagsInput);
+        function loadProfilePage() {
+            if (currentUser) {
+                document.getElementById('profile-name').textContent = currentUser.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                document.getElementById('profile-email').textContent = currentUser.email;
+                document.getElementById('profile-initials').textContent = currentUser.name.split('-').map(w => w[0].toUpperCase()).join('');
+            }
         }
+
+        function generateUniqueName(existingNames) {
+            const adjectives = ['Happy', 'Clever', 'Brave', 'Sunny', 'Gentle', 'Wise', 'Swift'];
+            const animals = ['Lion', 'Tiger', 'Eagle', 'Dolphin', 'Fox', 'Wolf', 'Bear'];
+            const nouns = ['Runner', 'Jumper', 'Seeker', 'Finder', 'Guard', 'Pilot', 'Rover'];
+            
+            let name;
+            let attempts = 0;
+            do {
+                const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+                const animal = animals[Math.floor(Math.random() * animals.length)];
+                const noun = nouns[Math.floor(Math.random() * nouns.length)];
+                name = `${adj}-${animal}-${noun}`.toLowerCase();
+                attempts++;
+            } while (existingNames.includes(name) && attempts < 100);
+
+            return name;
+        }
+
+        // --- UNIVERSAL TAGGING SYSTEM ---
+        function updateGlobalTags(tagLabel) {
+            const cleanedLabel = tagLabel.trim();
+            if (cleanedLabel && !allTags.includes(cleanedLabel)) {
+                allTags.push(cleanedLabel);
+                localStorage.setItem('allTags', JSON.stringify(allTags));
+            }
+        }
+
+        function showSuggestions(inputValue, suggestionsEl, onSelectCallback) {
+            suggestionsEl.innerHTML = '';
+            if (inputValue.length === 0) {
+                suggestionsEl.classList.add('hidden');
+                return;
+            }
+            const filteredTags = allTags.filter(tag => tag.toLowerCase().startsWith(inputValue.toLowerCase()));
+            if (filteredTags.length > 0) {
+                filteredTags.forEach(tag => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = tag;
+                    suggestionItem.className = 'p-2 cursor-pointer hover:bg-gray-100';
+                    suggestionItem.onclick = () => onSelectCallback(tag);
+                    suggestionsEl.appendChild(suggestionItem);
+                });
+                suggestionsEl.classList.remove('hidden');
+            } else {
+                suggestionsEl.classList.add('hidden');
+            }
+        }
+
+        function renderTagBubbles(tagsArray, container, removeCallback) {
+            while (container.children.length > 1) {
+                container.removeChild(container.firstChild);
+            }
+            tagsArray.forEach(label => {
+                const tagElement = document.createElement('div');
+                tagElement.className = 'flex items-center bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full';
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'ml-2 text-blue-500 hover:text-blue-700';
+                button.innerHTML = '&times;';
+                button.onclick = (e) => removeCallback(e, label);
+                const span = document.createElement('span');
+                span.textContent = label;
+                tagElement.appendChild(span);
+                tagElement.appendChild(button);
+                container.insertBefore(tagElement, container.lastElementChild);
+            });
+        }
+
+        // --- LOST ITEM FORM SCRIPT ---
+        const lostTagsInput = document.getElementById('item-tags-input');
+        const lostTagsContainer = document.getElementById('tags-container');
+        const lostSuggestionsEl = document.getElementById('lost-suggestions');
+        let lostFormTags = [];
+
+        function addLostTag(tagLabel) {
+            const cleanedLabel = tagLabel.trim();
+            if (cleanedLabel && !lostFormTags.includes(cleanedLabel)) {
+                lostFormTags.push(cleanedLabel);
+                updateGlobalTags(cleanedLabel);
+                renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
+            }
+            lostTagsInput.value = '';
+            lostSuggestionsEl.classList.add('hidden');
+        }
+
+        function removeLostTag(event, label) {
+            event.preventDefault();
+            lostFormTags = lostFormTags.filter(tag => tag !== label);
+            renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
+        }
+
+        lostTagsInput.addEventListener('input', () => showSuggestions(lostTagsInput.value, lostSuggestionsEl, addLostTag));
+        lostTagsInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                addLostTag(lostTagsInput.value.replace(/,/g, ''));
+            }
+        });
         
-        // --- Image Preview Logic (Lost) ---
+        // --- FOUND ITEM FORM SCRIPT ---
+        const foundTagsInput = document.getElementById('found-item-tags-input');
+        const foundTagsContainer = document.getElementById('found-tags-container');
+        const foundSuggestionsEl = document.getElementById('found-suggestions');
+        let foundFormTags = [];
+
+        function addFoundTag(tagLabel) {
+            const cleanedLabel = tagLabel.trim();
+            if (cleanedLabel && !foundFormTags.includes(cleanedLabel)) {
+                foundFormTags.push(cleanedLabel);
+                updateGlobalTags(cleanedLabel);
+                renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
+            }
+            foundTagsInput.value = '';
+            foundSuggestionsEl.classList.add('hidden');
+        }
+
+        function removeFoundTag(event, label) {
+            event.preventDefault();
+            foundFormTags = foundFormTags.filter(tag => tag !== label);
+            renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
+        }
+
+        foundTagsInput.addEventListener('input', () => showSuggestions(foundTagsInput.value, foundSuggestionsEl, addFoundTag));
+        foundTagsInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                addFoundTag(foundTagsInput.value.replace(/,/g, ''));
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.relative')) {
+                lostSuggestionsEl.classList.add('hidden');
+                foundSuggestionsEl.classList.add('hidden');
+            }
+        });
+
+        // --- IMAGE & FORM SUBMISSION LOGIC ---
         const imageInput = document.getElementById('item-image');
         const imagePreview = document.getElementById('image-preview');
         const imagePreviewContainer = document.getElementById('image-preview-container');
         const uploadIcon = document.getElementById('upload-icon');
         const uploadText = document.getElementById('upload-text');
         let imageDataUrl = null;
+        imageInput.addEventListener('change', (e) => handleImageChange(e, (dataUrl) => { imageDataUrl = dataUrl; }, imagePreview, imagePreviewContainer, uploadIcon, uploadText));
 
-        imageInput.addEventListener('change', (e) => handleImageChange(e, 
-            (dataUrl) => { imageDataUrl = dataUrl; }, 
-            imagePreview, imagePreviewContainer, uploadIcon, uploadText
-        ));
-
-        // --- Form Submission (Lost) ---
-        const itemForm = document.getElementById('item-form');
-        itemForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const file = imageInput.files[0];
-            if (file && file.size > 10 * 1024 * 1024) {
-                document.getElementById('error-message').textContent = 'The image you selected is too large. Please upload a file smaller than 10MB.';
-                showPage('error-page');
-                return;
-            }
-
-            const fullData = {
-                itemName: document.getElementById('item-name').value,
-                description: document.getElementById('item-description').value,
-                tags: tags,
-                imageData: imageDataUrl,
-                status: 'lost',
-                timestamp: new Date().toISOString()
-            };
-            const storageData = { ...fullData, imageData: undefined, imageAttached: !!imageDataUrl };
-            saveData('lostItem', storageData, fullData);
-        });
-
-
-        // --- FOUND ITEM FORM SCRIPT ---
-
-        // --- Tag Input Logic (Found) ---
-        const foundTagsInput = document.getElementById('found-item-tags-input');
-        const foundTagsContainer = document.getElementById('found-tags-container');
-        let foundTags = [];
-
-        foundTagsInput.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
-                const tagValue = foundTagsInput.value.trim().replace(/,/g, '');
-                if (tagValue.length > 1 && !foundTags.includes(tagValue)) {
-                    foundTags.push(tagValue);
-                    addTag(tagValue, foundTagsContainer, removeFoundTag);
-                }
-                foundTagsInput.value = '';
-            }
-        });
-
-        function removeFoundTag(event, label) {
-            event.preventDefault();
-            foundTags = foundTags.filter(tag => tag !== label);
-            renderTags(foundTags, foundTagsContainer, addTag, removeFoundTag, foundTagsInput);
-        }
-
-        // --- Image Preview Logic (Found) ---
         const foundImageInput = document.getElementById('found-item-image');
         const foundImagePreview = document.getElementById('found-image-preview');
         const foundImagePreviewContainer = document.getElementById('found-image-preview-container');
         const foundUploadIcon = document.getElementById('found-upload-icon');
         const foundUploadText = document.getElementById('found-upload-text');
         let foundImageDataUrl = null;
-
-        foundImageInput.addEventListener('change', (e) => handleImageChange(e, 
-            (dataUrl) => { foundImageDataUrl = dataUrl; },
-            foundImagePreview, foundImagePreviewContainer, foundUploadIcon, foundUploadText
-        ));
-
-        // --- Form Submission (Found) ---
-        const foundForm = document.getElementById('found-form');
-        foundForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const file = foundImageInput.files[0];
-            if (file && file.size > 10 * 1024 * 1024) {
-                document.getElementById('error-message').textContent = 'The image you selected is too large. Please upload a file smaller than 10MB.';
-                showPage('error-page');
-                return;
-            }
-
-            const fullData = {
-                itemName: document.getElementById('found-item-name').value,
-                location: document.getElementById('found-item-location').value,
-                description: document.getElementById('found-item-description').value,
-                tags: foundTags,
-                imageData: foundImageDataUrl,
-                status: 'found',
-                timestamp: new Date().toISOString()
-            };
-            const storageData = { ...fullData, imageData: undefined, imageAttached: !!foundImageDataUrl };
-            saveData('foundItem', storageData, fullData);
-        });
-
-
-        // --- SHARED/HELPER FUNCTIONS ---
-
-        function addTag(label, container, removeCallback) {
-            const tagElement = document.createElement('div');
-            tagElement.classList.add('flex', 'items-center', 'bg-blue-100', 'text-blue-700', 'text-sm', 'font-semibold', 'px-3', 'py-1', 'rounded-full');
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.classList.add('ml-2', 'text-blue-500', 'hover:text-blue-700');
-            button.innerHTML = '&times;';
-            button.onclick = (e) => removeCallback(e, label);
-            const span = document.createElement('span');
-            span.textContent = label;
-            tagElement.appendChild(span);
-            tagElement.appendChild(button);
-            container.insertBefore(tagElement, container.lastElementChild);
-        }
-
-        function renderTags(tagsArray, container, addCallback, removeCallback, inputEl) {
-            while (container.children.length > 1) {
-                container.removeChild(container.firstChild);
-            }
-            tagsArray.forEach(tag => addCallback(tag, container, removeCallback));
-        }
+        foundImageInput.addEventListener('change', (e) => handleImageChange(e, (dataUrl) => { foundImageDataUrl = dataUrl; }, foundImagePreview, foundImagePreviewContainer, foundUploadIcon, foundUploadText));
 
         function handleImageChange(e, setDataUrlCallback, previewEl, previewContainerEl, iconEl, textEl) {
             const file = e.target.files[0];
             if (file) {
                 if (file.size > 10 * 1024 * 1024) {
-                    document.getElementById('error-message').textContent = 'The image you selected is too large. Please upload a file smaller than 10MB.';
+                    document.getElementById('error-message').textContent = 'The image is too large. Max size is 10MB.';
                     showPage('error-page');
-                    e.target.value = "";
-                    return;
+                    e.target.value = ""; return;
                 }
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = (event) => {
                     setDataUrlCallback(event.target.result);
                     previewEl.src = event.target.result;
                     previewContainerEl.classList.remove('hidden');
                     iconEl.classList.add('hidden');
                     textEl.textContent = 'Change file';
-                }
+                };
                 reader.readAsDataURL(file);
             }
         }
 
-        function saveData(storagePrefix, storageData, fullDataForLog) {
+        const itemForm = document.getElementById('item-form');
+        itemForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pendingTag = lostTagsInput.value.trim().replace(/,/g, '');
+            if (pendingTag) addLostTag(pendingTag);
+            const fullData = {
+                itemName: document.getElementById('item-name').value,
+                description: document.getElementById('item-description').value,
+                tags: lostFormTags, imageData: imageDataUrl, status: 'lost', timestamp: new Date().toISOString()
+            };
+            saveData('lostItem', fullData);
+        });
+
+        const foundForm = document.getElementById('found-form');
+        foundForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pendingTag = foundTagsInput.value.trim().replace(/,/g, '');
+            if (pendingTag) addFoundTag(pendingTag);
+            const fullData = {
+                itemName: document.getElementById('found-item-name').value,
+                location: document.getElementById('found-item-location').value,
+                description: document.getElementById('found-item-description').value,
+                tags: foundFormTags, imageData: foundImageDataUrl, status: 'found', timestamp: new Date().toISOString()
+            };
+            saveData('foundItem', fullData);
+        });
+
+        function saveData(storagePrefix, fullData) {
+             const storageData = { ...fullData, imageData: undefined, imageAttached: !!fullData.imageData };
              try {
                 const key = `${storagePrefix}_${storageData.timestamp}`;
                 localStorage.setItem(key, JSON.stringify(storageData));
                 console.log(`--- Data saved to localStorage with key: ${key} ---`);
                 console.log("Data in localStorage:", storageData);
                 console.log("--- Full data (that would go to a backend) ---");
-                console.log(fullDataForLog);
+                console.log(fullData);
                 showPage('success-page');
             } catch (error) {
                 console.error("Failed to save to localStorage:", error);
-                document.getElementById('error-message').textContent = 'An unexpected error occurred while saving your report. Please try again.';
+                document.getElementById('error-message').textContent = 'An unexpected error occurred while saving your report.';
                 showPage('error-page');
             }
         }
 
         function resetFormsAndShowHome() {
-            // Reset lost form
             itemForm.reset();
-            tags = [];
-            renderTags(tags, tagsContainer, addTag, removeTag, tagsInput);
-            imageDataUrl = null;
-            imageInput.value = '';
-            imagePreview.src = '#';
+            lostFormTags = [];
+            renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
+            imageDataUrl = null; imageInput.value = ''; imagePreview.src = '#';
             imagePreviewContainer.classList.add('hidden');
             uploadIcon.classList.remove('hidden');
             uploadText.textContent = 'or drag and drop';
 
-            // Reset found form
             foundForm.reset();
-            foundTags = [];
-            renderTags(foundTags, foundTagsContainer, addTag, removeFoundTag, foundTagsInput);
-            foundImageDataUrl = null;
-            foundImageInput.value = '';
-            foundImagePreview.src = '#';
+            foundFormTags = [];
+            renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
+            foundImageDataUrl = null; foundImageInput.value = ''; foundImagePreview.src = '#';
             foundImagePreviewContainer.classList.add('hidden');
             foundUploadIcon.classList.remove('hidden');
             foundUploadText.textContent = 'or drag and drop';
 
             showPage('landing-page');
         }
-
     </script>
 </body>
 </html>
