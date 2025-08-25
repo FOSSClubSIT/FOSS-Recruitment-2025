@@ -3,50 +3,48 @@ var MOOD_TO_EMOJI = {
   tired: "🥱", anxious: "😰", confident: "😎", bored: "😐", "in-love": "😍"
 };
 
-var activeYear;
-var activeMonth; // 0-based
-var selectedDateKey;
+var activeYear, activeMonth;
 
 function formatMonthLabel(y, m) {
-  var d = new Date(y, m, 1);
-  return d.toLocaleString(undefined, { month: "long", year: "numeric" });
+  return new Date(y, m, 1).toLocaleString(undefined, { month: "long", year: "numeric" });
 }
 
 function keyFromDate(d) {
-  var y = d.getFullYear();
-  var m = String(d.getMonth() + 1).padStart(2, "0");
-  var day = String(d.getDate()).padStart(2, "0");
-  return y + "-" + m + "-" + day;
+  // Use local date formatting to avoid timezone issues
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function renderDayCell(date, otherMonth) {
   var key = keyFromDate(date);
   var entry = Storage.getEntry(key);
-  var isToday = (key === keyFromDate(new Date()));
-  var moodEmoji = entry && entry.mood ? MOOD_TO_EMOJI[entry.mood] : "";
+  var isToday = key === keyFromDate(new Date());
+  var moodEmoji = entry?.mood ? MOOD_TO_EMOJI[entry.mood] : "";
+
   var classes = "day";
   if (otherMonth) classes += " other-month";
   if (isToday) classes += " today";
+  if (entry?.mood) classes += " has-entry";
 
-  return '<div class="' + classes + '" data-key="' + key + '">' +
-    '<div class="date">' + date.getDate() + '</div>' +
-    '<div class="emoji-cell">' + moodEmoji + '</div>' +
-    "</div>";
+  return `<div class="${classes}" data-key="${key}">
+            <div class="date">${date.getDate()}</div>
+            <div class="emoji-cell">${moodEmoji}</div>
+          </div>`;
 }
 
 function buildCalendarDays(year, month) {
   var start = new Date(year, month, 1);
   var end = new Date(year, month + 1, 0);
-  var startWeekday = (start.getDay() + 6) % 7; // Monday=0
+  var startWeekday = (start.getDay() + 6) % 7;
   var totalDays = end.getDate();
-
   var cells = [];
 
-  // Weekday header
-  var weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  for (var i = 0; i < weekdays.length; i++) {
-    cells.push('<div class="weekday">' + weekdays[i] + "</div>");
-  }
+  // Week headers
+  ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach(d => {
+    cells.push(`<div class="weekday">${d}</div>`);
+  });
 
   // Leading blanks
   for (var i = 0; i < startWeekday; i++) {
@@ -56,17 +54,14 @@ function buildCalendarDays(year, month) {
 
   // Actual days
   for (var day = 1; day <= totalDays; day++) {
-    var d2 = new Date(year, month, day);
-    cells.push(renderDayCell(d2, false));
+    cells.push(renderDayCell(new Date(year, month, day), false));
   }
 
-  // Fill end of grid
-  var totalCellsExcludingHeader = cells.length - 7;
-  var remainder = totalCellsExcludingHeader % 7;
-  if (remainder !== 0) {
-    var toAdd = 7 - remainder;
+  // Trailing blanks
+  var remainder = (cells.length - 7) % 7;
+  if (remainder) {
     var last = new Date(year, month, totalDays);
-    for (var j = 1; j <= toAdd; j++) {
+    for (var j = 1; j <= 7 - remainder; j++) {
       var d3 = new Date(last);
       d3.setDate(last.getDate() + j);
       cells.push(renderDayCell(d3, true));
@@ -75,14 +70,51 @@ function buildCalendarDays(year, month) {
   return cells.join("");
 }
 
+function showEntryDetails(key) {
+  var entry = Storage.getEntry(key);
+  if (!entry) return;
+  
+  var date = new Date(key);
+  var dateStr = date.toLocaleDateString(undefined, { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
+  var moodText = entry.mood ? entry.mood.replace('-', ' ') : 'No mood recorded';
+  var noteText = entry.note || 'No note added';
+  
+  var details = `
+    <div class="entry-details card">
+      <h3>${dateStr}</h3>
+      <div class="entry-mood">
+        <strong>Mood:</strong> ${moodText} ${entry.mood ? MOOD_TO_EMOJI[entry.mood] : ''}
+      </div>
+      <div class="entry-note">
+        <strong>Note:</strong> ${noteText}
+      </div>
+    </div>
+  `;
+  
+  // Remove existing details and add new ones
+  var existing = document.querySelector('.entry-details');
+  if (existing) existing.remove();
+  
+  document.querySelector('.container').insertAdjacentHTML('beforeend', details);
+}
+
 function drawCalendar() {
   document.getElementById("month-label").textContent = formatMonthLabel(activeYear, activeMonth);
   document.getElementById("calendar-grid").innerHTML = buildCalendarDays(activeYear, activeMonth);
-}
-
-function selectDate(key) {
-  selectedDateKey = key;
-  // View-only mode: no editing here
+  
+  // Add click events to days
+  document.querySelectorAll('.day').forEach(day => {
+    day.addEventListener('click', function() {
+      var key = this.getAttribute('data-key');
+      if (key) showEntryDetails(key);
+    });
+  });
 }
 
 function wireEvents() {
@@ -105,14 +137,6 @@ function wireEvents() {
     activeYear = t.getFullYear();
     activeMonth = t.getMonth();
     drawCalendar();
-    selectDate(keyFromDate(t));
-  };
-
-  document.getElementById("calendar-grid").onclick = function (e) {
-    var day = e.target.closest(".day");
-    if (!day) return;
-    var key = day.getAttribute("data-key");
-    if (key) selectDate(key);
   };
 }
 
@@ -122,5 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
   activeMonth = t.getMonth();
   drawCalendar();
   wireEvents();
-  selectDate(keyFromDate(t));
+  
+  // Listen for mood updates from the main page
+  window.addEventListener('moodUpdated', function() {
+    setTimeout(drawCalendar, 100);
+  });
 });
