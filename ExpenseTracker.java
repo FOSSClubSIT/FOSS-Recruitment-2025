@@ -5,10 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * ExpenseTracker is the main application class.
+ * ExpeneTracker is the main application class.
  * It provides a simple menu system to add and view expenses.
  */
 public class ExpenseTracker {
+    private static String fileName = "expenses.txt";
     // List to hold all expense objects
     private static ArrayList<Expense> expenses = new ArrayList<>();
 
@@ -20,6 +21,7 @@ public class ExpenseTracker {
      * Displays a menu to interact with the expense tracker.
      */
     public static void main(String[] args) {
+        loadExpenses();
         boolean running = true;
 
         // Loop until user chooses to exit
@@ -46,11 +48,13 @@ public class ExpenseTracker {
                     break;
                 case 3:
                     saveExpensesToFile();
+                    break;
                 case 4:
                     showTotalExpenses();
                     break;
 
                 case 5:
+                    saveExpensesToFile(); // auto-save before quitting
                     running = false;
                     System.out.println("Exiting... Goodbye!");
                     break;
@@ -64,14 +68,24 @@ public class ExpenseTracker {
      * Prompts the user to enter expense details and adds it to the list.
      */
     private static void addExpense() {
-        System.out.print("Enter amount: ");
-        double amount = scanner.nextDouble();
-        scanner.nextLine(); // consume newline
+        double amount = 0;
+        boolean valid = false;
+
+        // keep asking until user gives a valid number
+        while (!valid) {
+            System.out.print("Enter amount: ");
+            String input = scanner.nextLine();
+            try {
+                amount = Double.parseDouble(input);
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.out.println(" Invalid amount. Please enter a number.");
+            }
+        }
 
         System.out.print("Enter category (e.g. Food, Travel): ");
         String category = scanner.nextLine();
 
-        // Create new Expense object and add to list
         Expense expense = new Expense(amount, category, LocalDate.now());
         expenses.add(expense);
 
@@ -103,28 +117,14 @@ public class ExpenseTracker {
      * The file will be created in the same directory where the program is run.
      */
     private static void saveExpensesToFile() {
-        try {
-            System.out.print("Enter a file name (without extension so no .exe or .txt or .csv nothing i mean it): ");
-            String fileName = scanner.nextLine().trim();
-
-            if (fileName.isEmpty()) {
-                fileName = "expenses"; // fallback default name
-            }
-
-            // Always save as .txt in the current working directory
-            File file = new File(System.getProperty("user.dir"), fileName + ".txt");
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (Expense e : expenses) {
                 writer.write(e.getAmount() + "," + e.getCategory() + "," + e.getDate());
                 writer.newLine();
             }
-
-            writer.close();
-            System.out.println(" Expenses saved to: " + file.getAbsolutePath());
+            System.out.println(" Expenses saved to " + fileName);
         } catch (IOException e) {
-            System.out.println(" Error saving expenses: " + e.getMessage());
+            System.out.println("Error saving expenses: " + e.getMessage());
         }
     }
 
@@ -140,6 +140,35 @@ public class ExpenseTracker {
                 total += e.getAmount(); // make sure Expense class has getAmount()
             }
             System.out.println(" Total Expenses: " + total);
+        }
+    }
+
+    /**
+     * Loads expenses from the text file (if it exists) at startup.
+     */
+    private static void loadExpenses() {
+        File file = new File(fileName);
+
+        if (!file.exists()) {
+            System.out.println("No previous expenses found, starting fresh.");
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // format: amount,category,date
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    double amount = Double.parseDouble(parts[0]);
+                    String category = parts[1];
+                    LocalDate date = LocalDate.parse(parts[2]);
+                    expenses.add(new Expense(amount, category, date));
+                }
+            }
+            System.out.println(" Loaded " + expenses.size() + " expenses from file.");
+        } catch (IOException e) {
+            System.out.println("Error loading expenses: " + e.getMessage());
         }
     }
 

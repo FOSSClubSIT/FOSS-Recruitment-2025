@@ -8,6 +8,7 @@ import java.awt.*;
  * Represents a single expense with amount, category, and date.
  */
 public class Expense {
+
     private double amount;
     private String category;
     private LocalDate date;
