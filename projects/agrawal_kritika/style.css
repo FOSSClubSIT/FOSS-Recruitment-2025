@@ -43,4 +43,17 @@ h1 {
   box-sizing: border-box;
 }
 
+#quote {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  color: #222;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.highlight {
+  font-weight: bold;
+  color: #004d40;
+  text-transform: uppercase;
+}

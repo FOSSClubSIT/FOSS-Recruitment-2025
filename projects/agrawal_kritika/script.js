@@ -13,6 +13,9 @@ document.querySelectorAll('.emoji').forEach(emoji => {
     const mood = emoji.getAttribute('data-mood');
     const quote = quotes[mood];
 
+    // Change background
+    document.body.style.background = quote.color;
+    
     // Show quote
     document.getElementById('quote').innerHTML = 
       `<span class="highlight">${mood.replace('-', ' ')}</span>: ${quote.text}`;
