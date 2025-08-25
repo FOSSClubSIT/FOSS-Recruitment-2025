@@ -14,11 +14,8 @@ single program to encrypt/decrypt using various ciphers
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+-Encrypts using Caesar ciphers with custom key and text
+-Decrypts using Caesar ciphers with custom key and text
 
 ---
 
