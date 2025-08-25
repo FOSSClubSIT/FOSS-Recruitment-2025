@@ -3,6 +3,8 @@ import java.util.*;
 import java.io.*;
 import javax.swing.*;
 import java.awt.*;
+import java.text.*;
+import java.time.format.DateTimeFormatter;
 
 /**
  * ExpeneTracker is the main application class.
@@ -184,16 +186,14 @@ public class ExpenseTracker {
         }
 
         Map<String, Double> categoryTotals = new HashMap<>();
-
         for (Expense e : expenses) {
-            categoryTotals.put(
-                    e.getCategory(),
+            categoryTotals.put(e.getCategory(),
                     categoryTotals.getOrDefault(e.getCategory(), 0.0) + e.getAmount());
         }
 
         System.out.println("\n--- Category-wise Summary ---");
         for (Map.Entry<String, Double> entry : categoryTotals.entrySet()) {
-            System.out.println(entry.getKey() + " = ₹" + entry.getValue());
+            System.out.println(entry.getKey() + " = R" + String.format("%.2f", entry.getValue()));
         }
     }
 
