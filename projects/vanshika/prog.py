@@ -10,7 +10,7 @@ WATER_REMINDER_INTERVAL = interval
 
 
 
-# --- Sound Alert Function ---
+# Sound Alert Function 
 def play_sound(message):
     """
     Plays a simple beep sound and prints a message.
@@ -39,7 +39,7 @@ def play_sound(message):
 
 
 
-# --- Main App Logic ---
+# Main App Logic
 def run_reminder_app():
     """
     Starts the water and food reminder application.
@@ -70,6 +70,6 @@ def run_reminder_app():
         print("⏹️ Reminder App Stopped. Have a great day!")
 
 
-# --- Run the application ---
+# Run the application
 if __name__ == "__main__":
     run_reminder_app()
