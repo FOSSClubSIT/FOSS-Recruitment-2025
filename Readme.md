@@ -108,3 +108,6 @@ Expenses are saved to a local file and automatically loaded on startup.
 - [x] Listed AI tools used (or None)
 - [x] Explained Future Improvements
 - [x] Project runs offline
+
+This is the end
+Thank you for reading the Readme
