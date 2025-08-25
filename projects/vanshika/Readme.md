@@ -1,39 +1,44 @@
 # Project Title: Write your project name here
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Vanshika Atal  
+- **PRN**: 25070126187  
+- **Year**: FY  
+- **Branch**: AI ML  
 
 ---
 
 ## Problem Statement
 Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
 
+In this fast paced lifestyle people forget to keep themselves adequately hydrated, So the project I developed helps to remind users
+to drink water at customizable time intervals and notify the users using audible alerts, visual cues, and motivational hydration tips to encourage healthy water intake habits.
 ---
 
 ## Features
 List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+
+1) It has customizable reminder interval
+2) Audible alerts
+3) Visual reminder message as it display hydration message
+4) Randomized fun facts are shown with each reminder to keep the user engaged and motivated
+5) Continuous operation as the app runs in a loop and continuously reminds the user at set intervals until manually stopped
+
 
 ---
 
 ## Tech Stack
 List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+
+Python
 
 ---
 
 ## How to Run
 Explain step by step how to run your project.  
-Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
+
+1. Open the folder Vanshika in VS Code.  
+2. Run `prog.py`  
 3. The program will start in offline mode.
 
 ---
@@ -51,32 +56,37 @@ Add a screenshot of your project running, or copy-paste sample terminal output h
 
 ## AI Tools Used
 List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+
+ChatGPT and Gemini
 
 ---
 
 ## Future Improvements
 Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+
+If I had more time then I would include
+1) User feedback input
+2) A reminder log which tracks whether the user acknowledged the reminder and display it graphically as well
+3) Use of voice reminders 
 
 
 ---
 
 ## Notes for Reviewers
 Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+
+Project runs offline
 
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
 - [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 
