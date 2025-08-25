@@ -31,8 +31,8 @@ public class ExpenseTracker {
             System.out.println("2. Show All Expenses");
             System.out.println("3. Save Expenses to File");
             System.out.println("4. Show Total Expenses");
-
-            System.out.println("5. Exit");
+            System.out.println("5. Show Category-wise Summary");
+            System.out.println("6. Exit");
 
             System.out.print("Choose an option: ");
 
@@ -52,8 +52,10 @@ public class ExpenseTracker {
                 case 4:
                     showTotalExpenses();
                     break;
-
                 case 5:
+                    showCategorySummary();
+                    break;
+                case 6:
                     saveExpensesToFile(); // auto-save before quitting
                     running = false;
                     System.out.println("Exiting... Goodbye!");
@@ -169,6 +171,29 @@ public class ExpenseTracker {
             System.out.println(" Loaded " + expenses.size() + " expenses from file.");
         } catch (IOException e) {
             System.out.println("Error loading expenses: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Shows the total expenses grouped by category.
+     */
+    private static void showCategorySummary() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded yet.");
+            return;
+        }
+
+        Map<String, Double> categoryTotals = new HashMap<>();
+
+        for (Expense e : expenses) {
+            categoryTotals.put(
+                    e.getCategory(),
+                    categoryTotals.getOrDefault(e.getCategory(), 0.0) + e.getAmount());
+        }
+
+        System.out.println("\n--- Category-wise Summary ---");
+        for (Map.Entry<String, Double> entry : categoryTotals.entrySet()) {
+            System.out.println(entry.getKey() + " = ₹" + entry.getValue());
         }
     }
 
