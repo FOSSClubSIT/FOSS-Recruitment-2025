@@ -6,10 +6,6 @@ def water_reminder():
     """Prints a message for the water reminder."""
     print("\n💧 Time to drink water! 💧")
 
-def food_reminder():
-    """Prints a message for the food reminder."""
-    print("\n🍽️ Time to eat something! 🍽️")
-
 # --- Main App Logic ---
 
 def start_reminder_app():
@@ -21,7 +17,6 @@ def start_reminder_app():
     
     # Calculate the next time for each reminder
     next_water_time = start_time + 10  # 1 hour
-    next_food_time = start_time + 15   # 3 hours
 
     try:
         while True:
@@ -33,11 +28,6 @@ def start_reminder_app():
                 # Reset from current time (avoids drift)
                 next_water_time = current_time + 3600
 
-            # Check if it's time for a food reminder
-            if current_time >= next_food_time:
-                food_reminder()
-                # Reset from current time (avoids drift)
-                next_food_time = current_time + 10800
 
             # Wait for 1 second before checking again
             time.sleep(1)
