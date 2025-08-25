@@ -98,7 +98,7 @@ public class ExpenseTracker {
      */
     private static void saveExpensesToFile() {
         try {
-            System.out.print("Enter a file name (without extension): ");
+            System.out.print("Enter a file name (without extension so no .exe or .txt or .csv nothing i mean it): ");
             String fileName = scanner.nextLine().trim();
 
             if (fileName.isEmpty()) {
