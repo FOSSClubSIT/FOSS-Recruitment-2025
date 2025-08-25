@@ -6,7 +6,7 @@ interval=int(input("What time interval do you need (in seconds) ? "))
 
 
 # Timers in seconds
-WATER_REMINDER_INTERVAL = interval  # It was to be for 1 hour but for demo I have kept it for 10 sec
+WATER_REMINDER_INTERVAL = interval  
 
 
 
@@ -32,7 +32,7 @@ def play_sound(message):
     print(f"💡 Tip: {tip}\n")
     print("💧" * 15)
 
-    if os.name == 'nt':  # For Windows
+    if os.name == 'nt':  
         import winsound
         winsound.Beep(1000, 1000)  # Beep at 1000 Hz for 1 sec
         pass
