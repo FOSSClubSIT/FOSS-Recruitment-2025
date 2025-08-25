@@ -52,3 +52,20 @@ ct = ColumnTransformer(
     ],
     remainder='passthrough'   # keeps numeric features as they are
 )
+
+# Transform data
+X = ct.fit_transform(X)
+
+# Train-test split
+X_train, X_test, y_train, y_test= train_test_split(X, y, test_size= 0.2, random_state=1)
+
+# 5. Regression Models
+# =============================
+def train_linear_regression(X_train, y_train, X_test, y_test):
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    print("\n--- Multiple Linear Regression ---")
+    print("RMSE:", np.sqrt(mean_squared_error(y_test, y_pred)))
+    print("R²:", r2_score(y_test, y_pred))
+    return model
