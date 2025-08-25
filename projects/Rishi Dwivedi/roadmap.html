@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    nav { background: #222; color: #fff; padding: 10px; }
+    nav a { color: #fff; margin-right: 15px; text-decoration: none; }
+    h1 { text-align: center; color: #2ecc40; }
+    .container { padding: 20px; }
+    .step-card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    .btn { border: 1px solid #2ecc40; padding: 5px 10px; text-decoration: none; color: #2ecc40; }
+    footer { text-align: center; padding: 10px; margin-top: 20px; background: #f4f4f4; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">FOSS_SIT</a>
+  <a href="index.html#roadmaps">Roadmaps</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<div class="container">
+  <a href="index.html">&larr; Back to All Resources</a>
+  <h1 id="roadmap-title"></h1>
+  <main id="roadmap-steps"></main>
+</div>
+
+<footer>
+  <p>&copy; 2025 FOSS Club Lavale</p>
+</footer>
+
+<script>
+  const resources = {
+    "Python": {
+      roadmap: [
+        { title: "Basics & Setup", description: "Install Python and write your first code." },
+        { title: "Variables", description: "Learn data types and variables." }
+      ]
+    },
+    "JavaScript": {
+      roadmap: [
+        { title: "Core Fundamentals", description: "Syntax and basics." },
+        { title: "DOM Manipulation", description: "Work with HTML elements." }
+      ]
+    }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const skill = params.get('skill') || "Python";
+  document.getElementById('roadmap-title').textContent = skill + " Roadmap";
+
+  const stepsContainer = document.getElementById('roadmap-steps');
+  if (resources[skill]) {
+    resources[skill].roadmap.forEach((step, index) => {
+      const card = document.createElement('div');
+      card.className = 'step-card';
+      card.innerHTML = `
+        <h3>${step.title}</h3>
+        <p>${step.description}</p>
+        <a href="course.html?skill=${encodeURIComponent(skill)}&step=${index}" class="btn">Start</a>
+      `;
+      stepsContainer.appendChild(card);
+    });
+  } else {
+    stepsContainer.innerHTML = "<p>No roadmap found.</p>";
+  }
+</script>
+
+</body>
+</html>
