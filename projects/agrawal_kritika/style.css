@@ -86,3 +86,39 @@ h1 {
 .panel { max-width: 720px; margin: 16px auto; }
 .panel-title { font-weight: 700; margin-bottom: 8px; }
 
+.app-header {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid rgba(226,232,240,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  z-index: 10;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-link {
+  color: #334e68;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: #edf2f7;
+}
+
+.nav-link.active {
+  background: #e1effe;
+  color: #1e429f;
+}
