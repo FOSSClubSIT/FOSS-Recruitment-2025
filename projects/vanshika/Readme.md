@@ -52,6 +52,44 @@ your-project/ ├── README.md ├── src/        # your code ├── do
 ## Demo Screenshot / Output
 Add a screenshot of your project running, or copy-paste sample terminal output here.
 
+Output copy-paste-
+
+What time interval do you need (in seconds) ? 10
+💧Water Reminder App ⏰
+-----------------------------------
+Press Ctrl+C at any time to stop the app.
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+
+🔔 ALERT: Time to drink some water! 
+
+💡 Tip: 🧠 Did you know? Staying hydrated boosts brain power!
+
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+
+🔔 ALERT: Time to drink some water!
+
+💡 Tip: 💪 Muscles love water. Keep them happy!
+
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+
+🔔 ALERT: Time to drink some water!
+
+💡 Tip: 😌 Water helps reduce stress. Seriously!
+
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+
+🔔 ALERT: Time to drink some water!
+
+💡 Tip: 🌟 Hydration = Energy. Drink up!
+
+💧💧💧💧💧💧💧💧💧💧💧💧💧💧💧
+
+-----------------------------------
+⏹️ Reminder App Stopped. Have a great day!
+PS C:\Users\atala\FOSS-Recruitment-2025\projects\vanshika> 
 ---
 
 ## AI Tools Used
@@ -85,7 +123,7 @@ Project runs offline
 - [x] Wrote Problem Statement  
 - [x] Listed Features & Tech Stack  
 - [x] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
+- [x] Provided Demo Output (screenshot or text)  
 - [x] Listed AI tools used (or None)  
 - [x] Explained Future Improvements  
 - [x] Project runs offline
