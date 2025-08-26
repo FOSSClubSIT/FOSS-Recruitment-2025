@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Details</title>
 <style>
+    /*
+      File: course.html
+      Author: Rishi Dwivedi
+      Description: This page displays the detailed content for a specific roadmap step,
+      including notes, tasks, and an interactive quiz.
+    */
+
+    /* Importing the fonts I'm using for the site's theme. */
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@400;600;700&display=swap');
 
+    /* =================================== */
+    /* 1. Theme & Variables                */
+    /* =================================== */
+    /* I'm using CSS Variables to keep my theme consistent and easy to change. */
     :root {
       --green: #2ECC40;
       --dark-bg: #1a1a1a;
@@ -17,7 +30,12 @@
       --border: #444;
     }
 
-    * { box-sizing: border-box; }
+    /* =================================== */
+    /* 2. Base & Reset Styles              */
+    /* =================================== */
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -25,85 +43,178 @@
       color: var(--text);
       margin: 0;
       padding: 0;
-      -webkit-font-smoothing: antialiased;
+      -webkit-font-smoothing: antialiased; /* Makes text look smoother on some screens. */
     }
 
+    /* =================================== */
+    /* 3. Navigation Bar                   */
+    /* =================================== */
     nav {
-      background: var(--bg);
-      padding: 15px 20px;
+      background: rgba(26, 26, 26, 0.8);
+      backdrop-filter: blur(10px); /* Frosted glass effect for the navbar. */
+      padding: 15px 0;
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
     }
     .nav-container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
+      padding: 0 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .nav-logo { 
-      font-family: 'Fira Code', monospace; 
-      font-size: 20px; 
-      color: var(--text); 
-      text-decoration: none; 
-      display: flex; 
-      align-items: center; 
-      gap: 10px; 
+    .nav-logo {
+      font-family: 'Fira Code', monospace;
+      font-weight: 500;
+      font-size: 20px;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .nav-logo img { height: 28px; }
+    .nav-logo img { height: 28px; margin-right: 10px; }
     .nav-logo span { color: var(--green); }
-    .nav-links a { 
-      color: var(--text-muted); 
-      margin-left: 20px; 
-      font-weight: 600; 
-      text-decoration: none; 
-      transition: color 0.2s ease; 
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: 600;
+      transition: color 0.2s ease;
     }
     .nav-links a:hover { color: var(--green); }
-
+    
+    /* =================================== */
+    /* 4. Page Layout & Content            */
+    /* =================================== */
     .container {
       max-width: 900px;
-      margin: 30px auto;
-      padding: 0 20px;
+      margin: 0 auto;
+      padding: 25px;
     }
-
-    .page-header { text-align: center; margin-bottom: 30px; }
-    .page-header h1 { font-family: 'Fira Code', monospace; font-size: 28px; color: var(--text); }
+    .page-header {
+      text-align: center;
+      margin: 40px 0;
+    }
+    .page-header h1 {
+        font-family: 'Fira Code', monospace;
+        font-size: 28px;
+        color: var(--text);
+    }
     .page-header h1 span { color: var(--green); }
 
-    .back-link { 
-      display: inline-block; 
-      margin-bottom: 20px; 
-      color: var(--text-muted); 
-      text-decoration: none; 
-      font-weight: 500; 
-      transition: color 0.2s ease; 
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
     }
-    .back-link:hover { color: var(--green); }
-
+    .back-link:hover {
+        color: var(--green);
+    }
+    
     .content-section {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 25px;
       margin-bottom: 20px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .content-section:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      border-color: var(--green);
-    }
-
     .notes { line-height: 1.7; }
-    code { background-color: var(--bg); padding: 3px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; }
-    ul { padding-left: 20px; }
-    input[type="radio"] { margin-right: 8px; }
+    code { 
+        background-color: var(--bg); 
+        padding: 3px 6px; 
+        border-radius: 4px; 
+        font-family: 'Fira Code', monospace;
+        border: 1px solid var(--border);
+    }
 
-    #feedback { font-weight: bold; margin-top: 15px; }
+    /* =================================== */
+    /* 5. Upgrading Components              */
+    /* =================================== */
 
+    /* Custom styles for the task checklist. */
+    .task-list {
+        list-style: none;
+        padding: 0;
+    }
+    .task-list li {
+        padding-left: 30px;
+        position: relative;
+        margin-bottom: 12px;
+        color: var(--text-muted);
+    }
+    /* I'm using the ::before pseudo-element to create a custom bullet point. */
+    .task-list li::before {
+        content: '■';
+        color: var(--green);
+        position: absolute;
+        left: 0;
+        top: 2px;
+        font-size: 18px;
+    }
+
+    /* Styles for the interactive quiz options. */
+    .quiz-options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    /* This is to hide the actual radio button... */
+    .quiz-options-container input[type="radio"] {
+        display: none;
+    }
+    /* ...and style the label to look like a clickable button. */
+    .quiz-option-label {
+        display: block;
+        background: var(--bg);
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        padding: 15px;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .quiz-option-label:hover {
+        border-color: var(--green); /* This creates the green hover effect. */
+    }
+    /* This CSS trick styles the label when its hidden radio button is selected. */
+    .quiz-options-container input[type="radio"]:checked + label {
+        border-color: var(--green);
+        background-color: rgba(46, 204, 64, 0.1);
+    }
+
+    /* Styles for the roadmap progress bar feature. */
+    .progress-bar-container {
+        margin-bottom: 30px;
+    }
+    .progress-bar-bg {
+        background-color: var(--bg);
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+    }
+    .progress-bar-fill {
+        height: 12px;
+        background-color: var(--green);
+        width: 0%; /* The width is set by my JavaScript based on progress. */
+        transition: width 0.5s ease-in-out;
+        border-radius: 8px;
+    }
+    .progress-text {
+        text-align: right;
+        font-size: 12px;
+        font-family: 'Fira Code', monospace;
+        color: var(--text-muted);
+        margin-top: 5px;
+    }
+
+    /* =================================== */
+    /* 6. Footer                           */
+    /* =================================== */
     footer {
       text-align: center;
       padding: 40px 20px;
@@ -116,80 +227,270 @@
 </head>
 <body>
 
-<nav>
-  <div class="nav-container">
-    <a href="index.html" class="nav-logo">
-      <img src="https://fossunited.org/assets/fossunited/images/clubs/fossclub_logo.svg" alt="FOSS Club Logo">
-      FOSS<span>_</span>Lavale
-    </a>
-    <div class="nav-links">
-      <a href="index.html#roadmaps">Roadmaps</a>
-      <a href="contact.html">Contact</a>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="https://fossunited.org/assets/fossunited/images/clubs/fossclub_logo.svg" alt="FOSS Club Logo">
+        FOSS<span>_</span>SIT
+      </a>
+      <div class="nav-links">
+        <a href="index.html#roadmaps">Roadmaps</a>
+        <a href="index.html#contact">Contact Us</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+  
+  <div class="container" id="course-container">
+    </div>
 
-<div class="container" id="course-container"></div>
-
-<footer>
-  <p>This project is open-source. <a href="#">Submit a Pull Request on GitHub.</a></p>
-  <p>Made with <span>❤️</span> by FOSS Club SIT.</p>
-  <p><small>&copy; 2025 FOSS Club SIT.</small></p>
-</footer>
+  <footer>
+    <p>This project is open-source. <a href="#">Submit a Pull Request on GitHub.</a></p>
+    <p>Made with <span>❤️</span> by FOSS Club SIT(Rishi Dwivedi).</p>
+    <p><small>&copy; 2025 FOSS Club Lavale.</small></p>
+  </footer>
 
 <script>
-const resources = {
-  "Python": [
-    { title: "Basics & Setup", notes: "Install Python and write your first program.", tasks: ["Install Python", "Print 'Hello World'"], quiz: { question: "Which function prints in Python?", options: ["print()", "echo()", "log()"], answer: "print()" } },
-    { title: "Variables & Data Types", notes: "Learn integers, strings, and lists.", tasks: ["Create variables", "Print them"], quiz: { question: "Whole numbers in Python are of type?", options: ["String", "Integer", "Float"], answer: "Integer" } },
-    { title: "Control Flow", notes: "Use if-else and loops.", tasks: ["Write an if-else", "Write a for loop"], quiz: { question: "Which keyword is used for loops?", options: ["if", "for", "def"], answer: "for" } }
-  ],
-  "JavaScript": [
-    { title: "Core Fundamentals", notes: "JS basics, let/const/var.", tasks: ["Open console", "Declare a variable"], quiz: { question: "Keyword for constant variable?", options: ["let", "var", "const"], answer: "const" } },
-    { title: "DOM Manipulation", notes: "Select and modify HTML elements.", tasks: ["Create button", "Change paragraph text on click"], quiz: { question: "DOM stands for?", options: ["Document Object Model","Dynamic Object Manipulation","Data Object Model"], answer: "Document Object Model" } }
-  ]
-};
+    /**
+     * @fileoverview This script dynamically builds the course detail page.
+     * It reads parameters from the URL, finds the corresponding course data,
+     * and injects the content into the page.
+     * @author [Rishi Dwivedi]
+     */
 
-const params = new URLSearchParams(window.location.search);
-const skill = params.get('skill');
-const stepIndex = parseInt(params.get('step'));
-const container = document.getElementById('course-container');
+    /**
+     * This is my 'database'. It's a JavaScript object containing all the
+     * content for the different roadmaps and their steps.
+     * In future all these different json file in the three pages could be made a single json file conatining all the data for easy accesibility
+     */
+    const resources = {
+        "Python": {
+            roadmap: [
+                {
+                    title: "Basics & Setup",
+                    notes: "<h3>Welcome to Python!</h3><p>Install Python from python.org and write a 'Hello, World!' program using the <code>print()</code> function. This is the first step for any programmer.</p>",
+                    tasks: ["Install Python 3 on your computer.", "Write a script that prints your name."],
+                    quiz: { question: "Which function displays text in Python?", options: ["log()", "print()", "display()"], answer: "print()" }
+                },
+                {
+                    title: "Variables & Data Types",
+                    notes: "<h3>Storing Information</h3><p>Variables store data. Python has several built-in types like integers (e.g., <code>x = 10</code>), strings for text (e.g., <code>name = 'FOSS'</code>), and lists for collections.</p>",
+                    tasks: ["Create a variable for your age and another for your name.", "Print a sentence combining both variables."],
+                    quiz: { question: "What is the data type for a whole number like 10?", options: ["String", "Float", "Integer"], answer: "Integer" }
+                },
+                {
+                    title: "Control Flow",
+                    notes: "<h3>Making Decisions</h3><p>Control flow structures like <code>if-elif-else</code> statements allow your program to make decisions. <code>for</code> and <code>while</code> loops are used to repeat actions.</p>",
+                    tasks: ["Write a script that prints 'Even' or 'Odd' for a given number.", "Write a `for` loop that prints numbers from 1 to 10."],
+                    quiz: { question: "Which statement is used to execute a block of code repeatedly?", options: ["if", "def", "for"], answer: "for" }
+                },
+                {
+                    title: "Functions & Modules",
+                    notes: "<h3>Organizing Code</h3><p>Functions, defined with <code>def</code>, are reusable blocks of code. Modules are Python files with functions you can <code>import</code> into your script to add functionality.</p>",
+                    tasks: ["Write a function that takes two numbers and returns their sum.", "Import the `math` module and use its `sqrt` function."],
+                    quiz: { question: "What keyword is used to define a function in Python?", options: ["function", "def", "fun"], answer: "def" }
+                },
+                {
+                    title: "OOP Basics",
+                    notes: "<h3>Object-Oriented Programming</h3><p>OOP structures code around objects. A <code>class</code> is a blueprint for creating objects. <code>self</code> refers to the instance of the class.</p>",
+                    tasks: ["Create a `Car` class with `color` and `brand` attributes.", "Create an object (instance) of your `Car` class."],
+                    quiz: { question: "What is a blueprint for creating objects in Python called?", options: ["function", "module", "class"], answer: "class" }
+                },
+                {
+                    title: "Libraries & Small Projects",
+                    notes: "<h3>Using External Code</h3><p>The Python Package Index (PyPI) has thousands of libraries you can install with <code>pip</code>. A popular one is <code>requests</code> for making HTTP requests.</p>",
+                    tasks: ["Use `pip` to install the `requests` library.", "Write a script to fetch data from a public API (e.g., JSONPlaceholder)."],
+                    quiz: { question: "What is the command-line tool for installing Python packages?", options: ["npm", "pip", "install"], answer: "pip" }
+                }
+            ]
+        },
+        "JavaScript": {
+            roadmap: [
+                {
+                    title: "Core Fundamentals",
+                    notes: "<h3>Intro to JavaScript</h3><p>JS runs in the browser. You can start coding in the developer console (F12). Use <code>let</code> and <code>const</code> to declare variables.</p>",
+                    tasks: ["Open your browser's console.", "Declare a `const` variable for the current year and log it."],
+                    quiz: { question: "Which keyword is for a variable that cannot be changed?", options: ["let", "var", "const"], answer: "const" }
+                },
+                {
+                    title: "DOM Manipulation",
+                    notes: "<h3>Interacting with HTML</h3><p>The Document Object Model (DOM) is a representation of your HTML page. You can use JS to change it, for example, with <code>document.getElementById()</code> to select an element.</p>",
+                    tasks: ["Create an HTML button and a paragraph.", "Write JS to change the paragraph's text when the button is clicked."],
+                    quiz: { question: "What does DOM stand for?", options: ["Document Object Model", "Data Object Model", "Dynamic Object Manipulation"], answer: "Document Object Model" }
+                },
+                {
+                    title: "ES6 Features",
+                    notes: "<h3>Modern JavaScript</h3><p>ES6 introduced many powerful features. Arrow functions (<code>=></code>) provide a shorter syntax for functions, and template literals (<code>` `</code>) make it easier to embed variables in strings.</p>",
+                    tasks: ["Rewrite a simple function using arrow function syntax.", "Create a string using a template literal that includes a variable."],
+                    quiz: { question: "What characters are used to define a template literal?", options: ["' '", "\" \"", "` `"], answer: "` `" }
+                },
+                {
+                    title: "Events & Callbacks",
+                    notes: "<h3>Responding to Actions</h3><p>Events are actions that happen in the browser, like clicks or key presses. You use <code>addEventListener</code> to 'listen' for an event and run a callback function when it occurs.</p>",
+                    tasks: ["Add a 'keyup' event listener to an input field.", "Log the value of the input field to the console on each keyup."],
+                    quiz: { question: "Which method is used to attach an event handler to an element?", options: ["onClick()", "attachEvent()", "addEventListener()"], answer: "addEventListener()" }
+                },
+                {
+                    title: "Fetch API & AJAX",
+                    notes: "<h3>Getting Data</h3><p>The Fetch API allows you to make network requests to get data from a server asynchronously. This is the modern way to perform AJAX (Asynchronous JavaScript and XML).</p>",
+                    tasks: ["Use the Fetch API to get data from a public API like JSONPlaceholder.", "Log the title of the first post to the console."],
+                    quiz: { question: "Is the Fetch API synchronous or asynchronous by default?", options: ["Synchronous", "Asynchronous"], answer: "Asynchronous" }
+                }
+            ]
+        },
+        "Deep Learning": {
+            roadmap: [
+                 {
+                    title: "Linear Algebra & Math",
+                    notes: "<h3>The Foundation</h3><p>Deep Learning is built on math. Key concepts include vectors, matrices, and derivatives. Libraries like NumPy are essential for performing these operations efficiently.</p>",
+                    tasks: ["Create a 2x2 matrix in NumPy.", "Perform matrix multiplication on two matrices."],
+                    quiz: { question: "Which Python library is fundamental for scientific computing and matrix operations?", options: ["Pandas", "NumPy", "Matplotlib"], answer: "NumPy" }
+                },
+                {
+                    title: "Neural Networks Basics",
+                    notes: "<h3>The Core Concept</h3><p>A neural network is composed of layers of neurons. Each neuron takes inputs, applies a weight, and passes the result through an activation function (like ReLU or Sigmoid).</p>",
+                    tasks: ["Draw a simple diagram of a single neuron.", "Describe the role of an activation function in one sentence."],
+                    quiz: { question: "What is the role of an activation function?", options: ["To store data", "To introduce non-linearity", "To calculate loss"], answer: "To introduce non-linearity" }
+                },
+                {
+                    title: "Frameworks: TensorFlow / PyTorch",
+                    notes: "<h3>Building Models</h3><p>Frameworks like TensorFlow and PyTorch provide high-level APIs to build and train complex neural networks without writing everything from scratch. They handle differentiation automatically.</p>",
+                    tasks: ["Install either TensorFlow or PyTorch.", "Build a simple sequential model with one hidden layer."],
+                    quiz: { question: "Which of these is a popular Deep Learning framework?", options: ["Scikit-learn", "PyTorch", "NumPy"], answer: "PyTorch" }
+                },
+                {
+                    title: "Training Models",
+                    notes: "<h3>Learning from Data</h3><p>Training involves feeding a dataset to the model, calculating the loss (error), and using an optimizer (like Adam) to update the model's weights to reduce the loss. This is done over many epochs.</p>",
+                    tasks: ["Choose a simple dataset like MNIST or CIFAR-10.", "Write the code for a basic training loop."],
+                    quiz: { question: "What does an optimizer do in a training loop?", options: ["It loads the data", "It updates the model's weights", "It visualizes the results"], answer: "It updates the model's weights" }
+                },
+                {
+                    title: "Projects & Deployment",
+                    notes: "<h3>Real-World Application</h3><p>The final step is to apply your skills to a real project, perhaps from a platform like Kaggle. Deployment involves making your trained model available for others to use, often via a web API.</p>",
+                    tasks: ["Find a beginner-friendly competition on Kaggle.", "Train a model and submit your predictions."],
+                    quiz: { question: "Which platform is famous for data science competitions?", options: ["GitHub", "Kaggle", "Stack Overflow"], answer: "Kaggle" }
+                }
+            ]
+        },
+        "Git & GitHub": {
+             roadmap: [
+                { 
+                    title: "Intro to Version Control",
+                    notes: "<h3>What is Git?</h3><p>Git is a distributed version control system. It tracks changes to your files, allowing you to revert to previous versions and collaborate with others without overwriting their work.</p>",
+                    tasks: ["Install Git on your machine.", "Configure your Git username and email."],
+                    quiz: { question: "Is Git a centralized or distributed version control system?", options: ["Centralized", "Distributed"], answer: "Distributed" }
+                },
+                { 
+                    title: "Basic Commands (add, commit, push)",
+                    notes: "<h3>Saving Your Work</h3><p>The basic workflow is: 1. `git add` to stage your changes. 2. `git commit` to save the staged changes with a message. 3. `git push` to upload your commits to a remote repository like GitHub.</p>",
+                    tasks: ["Create a new directory and initialize a Git repository.", "Create a file, add it, and commit it with a message."],
+                    quiz: { question: "Which command saves your staged changes to the project history?", options: ["git add", "git push", "git commit"], answer: "git commit" }
+                },
+                { 
+                    title: "Branching and Merging",
+                    notes: "<h3>Working in Parallel</h3><p>Branches let you work on new features without affecting the main codebase (usually the `main` or `master` branch). Once your feature is ready, you `git merge` it back into the main branch.</p>",
+                    tasks: ["Create a new branch called 'feature-test'.", "Make a change on that branch, commit it, and merge it back into `main`."],
+                    quiz: { question: "What is the primary benefit of using branches?", options: ["To make your code run faster", "To isolate work on new features", "To delete old files"], answer: "To isolate work on new features" }
+                },
+                { 
+                    title: "Collaborating on GitHub (Forks & PRs)",
+                    notes: "<h3>Working with Others</h3><p>To contribute to a project you don't own, you first `fork` it to create your own copy. You then push changes to your fork and open a Pull Request (PR) to ask the original project owner to merge your changes.</p>",
+                    tasks: ["Fork a public repository on GitHub.", "Clone your fork to your local machine."],
+                    quiz: { question: "What is the standard way to propose changes to a project on GitHub?", options: ["Emailing the author", "Opening a Pull Request", "Commenting on an issue"], answer: "Opening a Pull Request" }
+                },
+                { 
+                    title: "Resolving Merge Conflicts",
+                    notes: "<h3>Handling Disagreements</h3><p>A merge conflict happens when Git can't automatically merge changes because two people edited the same line in a file. You must manually edit the file to resolve the conflict and then commit the fix.</p>",
+                    tasks: ["Intentionally create a simple merge conflict and resolve it.", "Read the Git documentation on what conflict markers (<<<<<<<, =======, >>>>>>>) mean."],
+                    quiz: { question: "When does a merge conflict occur?", options: ["When your internet is down", "When two changes affect the same line of code", "When you make a typo"], answer: "When two changes affect the same line of code" }
+                }
+            ]
+        }
+    };
+    
+    // I use URLSearchParams to easily get the 'skill' and 'step' from the page's URL.
+    // This is how I know which content to display.
+    const params = new URLSearchParams(window.location.search);
+    const skill = params.get('skill');
+    const stepIndex = parseInt(params.get('step'));
+    
+    // I select the main container element where I'll inject all the HTML.
+    const container = document.getElementById('course-container');
 
-if (skill && resources[skill] && resources[skill][stepIndex] !== undefined) {
-    const step = resources[skill][stepIndex];
-    container.innerHTML = `
-      <a href="roadmap.html?skill=${encodeURIComponent(skill)}" class="back-link">&larr; Back to Roadmap</a>
-      <header class="page-header"><h1>${step.title}<span>.</span></h1></header>
-      <div class="content-section notes">${step.notes}</div>
-      <div class="content-section">
-        <h3>📝 Tasks</h3>
-        <ul>${step.tasks.map(t => `<li>${t}</li>`).join('')}</ul>
-      </div>
-      <div class="content-section">
-        <h3>🧠 Quiz</h3>
-        <p>${step.quiz.question}</p>
-        <div>
-          ${step.quiz.options.map(o => `<div style="margin-bottom:10px;"><input type="radio" name="quiz" value="${o}" id="${o}"><label for="${o}">${o}</label></div>`).join('')}
-        </div>
-        <p id="feedback"></p>
-      </div>
-    `;
+    // This is a safety check. If the URL is valid and I can find the data...
+    if (skill && resources[skill] && resources[skill].roadmap[stepIndex] !== undefined) {
+        
+        // I get the specific data for this course step.
+        const stepData = resources[skill].roadmap[stepIndex];
+        const totalSteps = resources[skill].roadmap.length;
 
-    document.querySelectorAll('input[name="quiz"]').forEach(radio => {
-        radio.addEventListener('change', e => {
-            const feedback = document.getElementById('feedback');
-            if(e.target.value === step.quiz.answer){
-                feedback.innerText = '✅ Correct!';
-                feedback.style.color = 'var(--green)';
-            } else {
-                feedback.innerText = '❌ Incorrect, try again.';
-                feedback.style.color = '#ef4444';
-            }
+        // I calculate the progress for the progress bar.
+        const progressPercentage = ((stepIndex + 1) / totalSteps) * 100;
+        
+        // I use a template literal to build the entire HTML for the course content.
+        // This is much cleaner than creating each element one by one.
+        container.innerHTML = `
+            <a href="roadmap.html?skill=${encodeURIComponent(skill)}" class="back-link">&larr; Back to Roadmap</a>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width: ${progressPercentage}%;"></div>
+                </div>
+                <div class="progress-text">Step ${stepIndex + 1} of ${totalSteps}</div>
+            </div>
+
+            <header class="page-header"><h1>${stepData.title}<span>.</span></h1></header>
+            
+            <div class="content-section notes">${stepData.notes}</div>
+
+            <div class="content-section">
+                <h3>📝 Your Tasks</h3>
+                <ul class="task-list">${stepData.tasks.map(task => `<li>${task}</li>`).join('')}</ul>
+            </div>
+
+            <div class="content-section">
+                <h3>🧠 Quiz</h3>
+                <p>${stepData.quiz.question}</p>
+                <div class="quiz-options-container">
+                    ${stepData.quiz.options.map((option, index) => `
+                        <div>
+                            <input type="radio" name="quiz" value="${option}" id="option-${index}">
+                            <label for="option-${index}" class="quiz-option-label">${option}</label>
+                        </div>
+                    `).join('')}
+                </div>
+                <p id="feedback" style="font-weight: bold; margin-top: 15px;"></p>
+            </div>
+        `;
+        
+        /**
+         * After creating the quiz HTML, I add an event listener to the radio buttons.
+         * This checks the answer and provides feedback to the user.
+         */
+        document.querySelectorAll('input[name="quiz"]').forEach(radio => {
+            radio.addEventListener('change', (event) => {
+                const feedbackEl = document.getElementById('feedback');
+                if (event.target.value === stepData.quiz.answer) {
+                    feedbackEl.innerText = '✅ Correct! Module completed.';
+                    feedbackEl.style.color = 'var(--green)';
+                    
+                    // If correct, I save the completion status to the browser's localStorage.
+                    // This allows the roadmap page to see that this step is done.
+                    localStorage.setItem(`${skill}-${stepIndex}-completed`, 'true');
+                } else {
+                    feedbackEl.innerText = '❌ Incorrect, please try again.';
+                    feedbackEl.style.color = '#ef4444';
+                }
+            });
         });
-    });
-} else {
-    container.innerHTML = `<a href="index.html" class="back-link">&larr; Back to Home</a><header class="page-header"><h1>Resource Not Found</h1></header><div class="content-section"><p>Course not found.</p></div>`;
-}
+
+    } else {
+        // If the URL is invalid or the data doesn't exist, I show a clean error message.
+        container.innerHTML = `
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            <header class="page-header"><h1>Resource Not Found</h1></header>
+            <div class="content-section"><p>The course you are looking for does not exist. Please check the URL or go back to the home page.</p></div>
+        `;
+    }
 </script>
 
 </body>
