@@ -5,8 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roadmap</title>
 <style>
+    /*
+      File: roadmap.html
+      Author: [SIT]
+      Description: This page displays the step-by-step learning path for a specific skill.
+      It uses a timeline design and tracks user progress (visited/completed states).
+    */
+
+    /* Importing the fonts I'm using for the site's theme. */
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@400;600;700&display=swap');
 
+    /* =================================== */
+    /* 1. Theme & Variables                */
+    /* =================================== */
     :root {
       --green: #2ECC40;
       --dark-bg: #1a1a1a;
@@ -17,95 +28,319 @@
       --border: #444;
     }
 
-    body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: var(--text); margin: 0; padding: 0; }
-    nav { background: var(--bg); padding: 15px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
-    .nav-container { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .nav-logo { font-family: 'Fira Code', monospace; font-size: 20px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-    .nav-logo img { height: 28px; }
+    /* =================================== */
+    /* 2. Base & Reset Styles              */
+    /* =================================== */
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =================================== */
+    /* 3. Navigation Bar                   */
+    /* =================================== */
+    nav {
+      background: rgba(26, 26, 26, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      font-family: 'Fira Code', monospace;
+      font-weight: 500;
+      font-size: 20px;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo img { height: 28px; margin-right: 10px; }
     .nav-logo span { color: var(--green); }
-    .nav-links a { color: var(--text-muted); margin-left: 20px; font-weight: 600; text-decoration: none; transition: color 0.2s ease; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
     .nav-links a:hover { color: var(--green); }
 
-    .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-    h1 { text-align: center; margin-bottom: 40px; color: var(--green); font-family: 'Fira Code', monospace; }
+    /* =================================== */
+    /* 4. Page Layout                      */
+    /* =================================== */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+    
+    .page-header {
+        text-align: center;
+        margin: 40px 0;
+    }
+    .page-header h1 {
+        font-family: 'Fira Code', monospace;
+        font-size: 28px;
+        color: var(--text);
+    }
+    .page-header h1 span { color: var(--green); }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .card {
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-link:hover { color: var(--green); }
+
+    /* =================================== */
+    /* 5. Roadmap Timeline & Cards         */
+    /* =================================== */
+    .roadmap-container {
+        position: relative;
+        padding-left: 50px; /* This makes space for the timeline line and nodes */
+    }
+    /* I'm using a ::before pseudo-element to create the main vertical timeline. */
+    .roadmap-container::before {
+        content: '';
+        position: absolute;
+        left: 25px;
+        top: 20px;
+        bottom: 20px;
+        width: 3px;
+        background-color: var(--border);
+        border-radius: 2px;
+    }
+
+    .step-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 20px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      padding: 25px;
+      margin-bottom: 25px;
+      position: relative; /* This is needed for the ::before node positioning */
+      transition: border-color 0.2s ease, opacity 0.3s ease;
     }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-      border-color: var(--green);
+    /* This ::before pseudo-element creates the circle on the timeline for each step. */
+    .step-card::before {
+        content: '';
+        position: absolute;
+        left: -38px;
+        top: 28px;
+        width: 15px;
+        height: 15px;
+        background-color: var(--border);
+        border: 3px solid var(--dark-bg);
+        border-radius: 50%;
+        z-index: 1;
+        transition: background-color 0.3s ease;
     }
-    .card h3 { margin-top: 0; color: var(--text); }
-    .card p { color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+    
+    .step-card:hover { border-color: var(--green); }
+    .step-card:hover::before { background-color: var(--green); }
+    
+    .step-card h2 { margin: 0 0 5px 0; font-size: 22px; color: var(--text); }
+    .step-card .step-description {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 15px;
+    }
     .btn {
       display: inline-block;
-      padding: 8px 14px;
-      margin-top: 12px;
+      background-color: transparent;
       color: var(--green);
+      padding: 10px 16px;
       text-decoration: none;
-      border: 1px solid var(--green);
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: 600;
-      transition: background 0.2s ease, color 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      border: 1px solid var(--green);
+      text-align: center;
     }
-    .btn:hover { background: var(--green); color: var(--dark-bg); }
+    .btn:hover { background-color: var(--green); color: var(--dark-bg); }
 
-    footer { text-align: center; padding: 40px 20px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 40px; }
+    /* =================================== */
+    /* 6. Progress Tracking Styles         */
+    /* =================================== */
+    /* A dimmed style for steps the user has clicked on but not completed. */
+    .step-card.visited { opacity: 0.6; }
+    .step-card.visited::before { background-color: var(--green); }
+
+    /* A prominent style for steps where the user passed the quiz. */
+    .step-card.completed {
+        opacity: 1;
+        border-color: var(--green);
+    }
+    .step-card.completed::before {
+        background-color: var(--green);
+    }
+    .step-card.completed .btn {
+        background-color: var(--green);
+        color: var(--dark-bg);
+    }
+    /* I use the ::after pseudo-element to add a checkmark to the button text. */
+    .step-card.completed .btn::after {
+        content: " ✔";
+    }
+
+    /* =================================== */
+    /* 7. Footer                           */
+    /* =================================== */
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border);
+        margin-top: 40px;
+    }
     footer span { color: #e25555; }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-container">
-    <a href="index.html" class="nav-logo">
-      <img src="https://fossunited.org/assets/fossunited/images/clubs/fossclub_logo.svg" alt="FOSS Club Logo">
-      FOSS<span>_</span>Lavale
-    </a>
-    <div class="nav-links">
-      <a href="index.html#roadmaps">Roadmaps</a>
-      <a href="contact.html">Contact</a>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="https://fossunited.org/assets/fossunited/images/clubs/fossclub_logo.svg" alt="FOSS Club Logo">
+        FOSS<span>_</span>SIT
+      </a>
+      <div class="nav-links">
+        <a href="index.html#roadmaps">Roadmaps</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
     </div>
-  </div>
 </nav>
 
 <div class="container">
-  <h1>Learning Roadmaps</h1>
-  <div class="grid" id="roadmap-grid"></div>
+    <a href="index.html" class="back-link">&larr; Back to All Resources</a>
+
+    <header class="page-header">
+        <h1 id="roadmap-title"></h1>
+    </header>
+
+    <main id="roadmap-steps" class="roadmap-container"></main>
 </div>
 
 <footer>
-  <p>Made with <span>❤️</span> by FOSS Club Lavale.</p>
+    <p>This project is open-source. <a href="#">Submit a Pull Request on GitHub.</a></p>
+    <p>Made with <span>❤️</span> by FOSS Club SIT(Rishi Dwivedi).</p>
+    <p><small>&copy; 2025 FOSS Club Lavale.</small></p>
 </footer>
 
 <script>
-const resources = {
-    "Python": { description: "Learn Python from basics to advanced projects.", steps: 6 },
-    "JavaScript": { description: "Master JS and web development essentials.", steps: 5 },
-    "Deep Learning": { description: "Dive into neural networks and AI frameworks.", steps: 5 },
-    "Git & GitHub": { description: "Version control and collaboration skills.", steps: 5 }
-};
+    /**
+     * @fileoverview This script dynamically builds the roadmap page for a specific skill.
+     * It reads the skill from the URL, generates the timeline of steps, and checks
+     * localStorage to apply progress tracking styles (visited/completed).
+     * @author [Rishi Dwivedi]
+     */
 
-const grid = document.getElementById('roadmap-grid');
+    /**
+     * This is my 'database'. Even though this page only needs the title and description,
+     * I'm keeping the full data object here to be consistent with course.html.
+     * This makes maintenance easier in the long run.
+     */
+    const resources = {
+        "Python": {
+            roadmap: [
+                { title: "Basics & Setup", description: "Install Python and write your first line of code." }, { title: "Variables & Data Types", description: "Learn how to store and manage different kinds of information." }, { title: "Control Flow", description: "Make decisions in your code with loops and conditions." }, { title: "Functions & Modules", description: "Organize your code into reusable blocks." }, { title: "OOP Basics", description: "Understand the fundamentals of Object-Oriented Programming." }, { title: "Libraries & Small Projects", description: "Explore popular libraries and build your first simple application." }
+            ]
+        },
+        "JavaScript": {
+            roadmap: [
+                { title: "Core Fundamentals", description: "Grasp the essential syntax and concepts of the web's language." }, { title: "DOM Manipulation", description: "Learn to interact with and change HTML elements on a page." }, { title: "ES6 Features", description: "Explore modern JavaScript features like arrow functions and promises." }, { title: "Events & Callbacks", description: "Make your web pages respond to user actions like clicks and keystrokes." }, { title: "Fetch API & AJAX", description: "Request data from servers to build dynamic applications." }
+            ]
+        },
+        "Deep Learning": {
+            roadmap: [
+                { title: "Linear Algebra & Math", description: "Understand the mathematical foundation of neural networks." }, { title: "Neural Networks Basics", description: "Learn about neurons, layers, and activation functions." }, { title: "Frameworks: TensorFlow / PyTorch", description: "Use powerful tools to build and train models efficiently." }, { title: "Training Models", description: "Dive into the process of training, validating, and testing your models." }, { title: "Projects & Deployment", description: "Apply your knowledge to real-world datasets and learn to deploy your models." }
+            ]
+        },
+        "Git & GitHub": {
+             roadmap: [
+                { title: "Intro to Version Control", description: "Understand why tracking changes to your code is essential." }, { title: "Basic Commands (add, commit, push)", description: "Learn the core workflow for saving your work locally and remotely." }, { title: "Branching and Merging", description: "Work on new features safely in parallel without breaking your main code." }, { title: "Collaborating on GitHub (Forks & PRs)", description: "Master the standard open-source workflow for contributing to projects." }, { title: "Resolving Merge Conflicts", description: "Learn the crucial skill of fixing conflicts when code clashes." }
+            ]
+        }
+    };
 
-for (const skill in resources) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-        <h3>${skill}</h3>
-        <p>${resources[skill].description}</p>
-        <a href="course.html?skill=${encodeURIComponent(skill)}&step=0" class="btn">Start Learning</a>
-    `;
-    grid.appendChild(card);
-}
+    // use URLSearchParams to get the 'skill' from the page's URL.
+    const params = new URLSearchParams(window.location.search);
+    const skill = params.get('skill') || "Python"; // I default to Python if the URL is missing the parameter.
+
+    // set the main title of the page.
+    document.getElementById('roadmap-title').innerHTML = `${skill} Roadmap<span>.</span>`;
+    const stepsContainer = document.getElementById('roadmap-steps');
+
+    // This checks if the skill from the URL actually exists in my data.
+    if (resources[skill] && resources[skill].roadmap) {
+        // I loop through each step for the given skill to create the cards.
+        resources[skill].roadmap.forEach((step, index) => {
+            const card = document.createElement('div');
+            
+            /**
+             * This is my progress tracking logic. I check the browser's localStorage for two
+             * different keys: one for 'completed' (set on the course page quiz) and one
+             * for 'visited' (set on this page when a user clicks a module).
+             */
+            const stepKey = `${skill}-${index}`;
+            const isCompleted = localStorage.getItem(`${stepKey}-completed`) === 'true';
+            const isVisited = localStorage.getItem(stepKey) === 'true';
+
+            // Based on the progress, we decide which CSS class to apply to the card.
+            // 'completed' has a higher priority than 'visited'.
+            let cardClass = 'step-card';
+            if (isCompleted) {
+                cardClass += ' completed';
+            } else if (isVisited) {
+                cardClass += ' visited';
+            }
+            card.className = cardClass;
+            
+            // HTML for the step card.
+            card.innerHTML = `
+                <div>
+                    <h2>${step.title}</h2>
+                    <p class="step-description">${step.description}</p>
+                    <a href="course.html?skill=${encodeURIComponent(skill)}&step=${index}" class="btn">Start Module</a>
+                </div>
+            `;
+            
+            /**
+             * I add an event listener to the button. When a user clicks to start a module,
+             * I mark it as 'visited' in localStorage, unless it's already completed.
+             */
+            card.querySelector('.btn').addEventListener('click', () => {
+                if (!isCompleted) {
+                    localStorage.setItem(stepKey, 'true');
+                }
+            });
+            
+            // Finally, I added the finished card to the page.
+            stepsContainer.appendChild(card);
+        });
+    } else {
+        // If the skill in the URL is not found, I display an error message.
+        stepsContainer.innerHTML = "<p>No roadmap found for this skill.</p>";
+    }
 </script>
-
 </body>
 </html>
