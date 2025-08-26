@@ -117,4 +117,87 @@
   <button onclick="findRecipes()">Find Recipes</button>
 
   <div class="recipes" id="recipes"></div>
+  <script>
+    const recipes = [
+      {
+        name: "Tomato Pasta",
+        ingredients: ["tomato", "pasta", "garlic"],
+        image: "images/pasta.jpg",
+        desc: "Delicious pasta with fresh tomato sauce.",
+        cuisine: "Italian"
+      },
+      {
+        name: "Veggie Omelette",
+        ingredients: ["egg", "onion", "tomato"],
+        image: "images/omelette.jpg",
+        desc: "Fluffy omelette packed with veggies.",
+        cuisine: "French"
+      },
+      {
+        name: "Grilled Cheese Sandwich",
+        ingredients: ["bread", "cheese", "butter"],
+        image: "images/cheese.webp",
+        desc: "Classic cheesy grilled sandwich.",
+        cuisine: "American"
+      },
+      {
+        name: "Fruit Salad",
+        ingredients: ["apple", "banana", "orange"],
+        image: "images/fruit.jpeg",
+        desc: "Refreshing and healthy fruit mix.",
+        cuisine: "Universal"
+      },
+      {
+        name: "Garlic Bread",
+        ingredients: ["bread", "garlic", "butter"],
+        image: "images/garlic.jpg",
+        desc: "Crispy garlic-flavored bread.",
+        cuisine: "Italian"
+      }
+    ];
+
+    // Auto-generate cuisines in dropdown
+    const cuisineSelect = document.getElementById("cuisine");
+    const cuisines = ["Any", ...new Set(recipes.map(r => r.cuisine))];
+    cuisines.forEach(c => {
+      const option = document.createElement("option");
+      option.value = c === "Any" ? "" : c;
+      option.textContent = c;
+      cuisineSelect.appendChild(option);
+    });
+
+    function findRecipes() {
+      const input = document.getElementById("ingredient").value.toLowerCase();
+      const userIngredients = input.split(",").map(i => i.trim()).filter(i => i);
+
+      const selectedCuisine = document.getElementById("cuisine").value;
+
+      const results = recipes.filter(r => {
+        const ingredientMatch = userIngredients.every(ing => r.ingredients.includes(ing));
+        const cuisineMatch = selectedCuisine === "" || r.cuisine === selectedCuisine;
+        return ingredientMatch && cuisineMatch;
+      });
+
+      const container = document.getElementById("recipes");
+      container.innerHTML = "";
+
+      if (results.length === 0) {
+        container.innerHTML = "<p style='color:#fff;background:#ee0979;padding:10px;border-radius:10px;display:inline-block;'>❌ No recipes found. Try different ingredients or cuisines!</p>";
+        return;
+      }
+
+      results.forEach(r => {
+        container.innerHTML += `
+          <div class="card">
+            <img src="${r.image}" alt="${r.name}">
+            <h3>${r.name}</h3>
+            <p><b>Cuisine:</b> ${r.cuisine}</p>
+            <p>${r.desc}</p>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>
 
