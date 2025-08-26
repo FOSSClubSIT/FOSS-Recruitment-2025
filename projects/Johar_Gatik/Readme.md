@@ -49,7 +49,7 @@
    ```
 5. Run the main script:
    ```bash
-   python src/ar_demo.py
+   python src/generate_samples.py
    ```
 6. Follow the on-screen instructions to test the AR functionality.
 
@@ -89,6 +89,7 @@ Below is a sample output of the project:
 
 ## AI Tools Used
 - GitHub Copilot
+- ChatGPT Code Generation
 
 ---
 
