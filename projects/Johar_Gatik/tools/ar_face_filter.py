@@ -1,26 +1,40 @@
 """
-AR Face Filter Program
+AR Face Filter Program with Hyper-Realistic Glasses Overlay
 """
 import cv2
-import os
+import mediapipe as mp
+import numpy as np
 
 class ARFaceFilter:
     def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-        self.marker_path = "glasses.png"
+        self.face_mesh = mp.solutions.face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, refine_landmarks=True)
+        self.drawing_utils = mp.solutions.drawing_utils
+        self.drawing_styles = mp.solutions.drawing_styles
+        self.glasses = cv2.imread("glasses.png", cv2.IMREAD_UNCHANGED)
 
-    def overlay_marker(self, frame, face_coords):
-        """Overlay the marker on detected faces."""
-        marker = cv2.imread(self.marker_path, cv2.IMREAD_UNCHANGED)
-        for (x, y, w, h) in face_coords:
-            marker_resized = cv2.resize(marker, (w, h // 2))
-            marker_h, marker_w, _ = marker_resized.shape
-            y_offset = y
-            x_offset = x
-            for i in range(marker_h):
-                for j in range(marker_w):
-                    if marker_resized[i, j][3] != 0:  # Check alpha channel
-                        frame[y_offset + i, x_offset + j] = marker_resized[i, j][:3]
+    def overlay_glasses(self, frame, landmarks):
+        """Overlay glasses on the face using facial landmarks."""
+        # Extract key points for the eyes
+        left_eye = landmarks[33]  # Example landmark for left eye
+        right_eye = landmarks[263]  # Example landmark for right eye
+        nose_bridge = landmarks[168]  # Example landmark for nose bridge
+
+        # Calculate the width and height of the glasses
+        glasses_width = int(np.linalg.norm(np.array(left_eye) - np.array(right_eye)))
+        glasses_height = int(glasses_width * self.glasses.shape[0] / self.glasses.shape[1])
+
+        # Resize the glasses image
+        resized_glasses = cv2.resize(self.glasses, (glasses_width, glasses_height))
+
+        # Calculate the position to overlay the glasses
+        x = int(nose_bridge[0] - glasses_width / 2)
+        y = int(nose_bridge[1] - glasses_height / 2)
+
+        # Overlay the glasses on the frame
+        for i in range(glasses_height):
+            for j in range(glasses_width):
+                if resized_glasses[i, j][3] != 0:  # Check alpha channel
+                    frame[y + i, x + j] = resized_glasses[i, j][:3]
 
     def start(self):
         """Start the AR Face Filter program."""
@@ -36,9 +50,20 @@ class ARFaceFilter:
                     print("Error: Failed to capture frame from webcam.")
                     break
 
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-                self.overlay_marker(frame, faces)
+                # Convert the frame to RGB
+                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+                # Process the frame with Mediapipe Face Mesh
+                results = self.face_mesh.process(rgb_frame)
+
+                if results.multi_face_landmarks:
+                    for face_landmarks in results.multi_face_landmarks:
+                        # Extract landmark coordinates
+                        landmarks = [(int(landmark.x * frame.shape[1]), int(landmark.y * frame.shape[0]))
+                                     for landmark in face_landmarks.landmark]
+
+                        # Overlay glasses
+                        self.overlay_glasses(frame, landmarks)
 
                 cv2.putText(frame, "Press 'q' to quit", (10, 30),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
