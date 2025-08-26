@@ -1,46 +1,61 @@
 # Project Title: Write your project name here
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Chahat Chetankumar Patel 
+- **PRN**: 24070126047  
+- **Year**: SY 
+- **Branch**: AIML  
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
+A simple blockchain system that securely records and validates transactions using cryptographic hashes.  
+
 
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+
+- Add new transactions as blocks
+- Display the blockchain in readable format
+- Validate integrity of the chain
+- Reset blockchain with a fresh genesis block
+- Persistent storage in JSON file 
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+- Language: Python
+- Libraries: argparse, json, hashlib, time, os
 
 ---
 
 ## How to Run
-Explain step by step how to run your project.  
-Example:  
 1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+2. Run the following commands:  
+    I. python main.py add "Mr.Zoro Bob 10 coins"
+    II.python main.py show
+    III.python main.py validate
+    IV.python main.py reset
+
+
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+mini-blockchain/
+├── main.py                 # CLI entry point
+├── mini_blockchain/
+│   ├── __init__.py
+│   ├── block.py            # Block class
+│   ├── blockchain.py       # Blockchain class
+│   ├── utils.py            # Helpers (validation, pretty print)
+├── data/
+│   └── chain.json          # Stored blockchain
+└── README.md
+
+
 
 ---
 
@@ -50,33 +65,33 @@ Add a screenshot of your project running, or copy-paste sample terminal output h
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+ChatGPT and Gemini(for guidance & code fixes)
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+- Add Proof-of-Work (mining) for block validation
+- Add a Flask API to interact with blockchain via HTTP
+- Add a peer-to-peer network for multiple nodes
+- Implement digital signatures for transactions
 
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+- Project runs completely offline.
+- Blockchain is persisted in data/chain.json.
 
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 

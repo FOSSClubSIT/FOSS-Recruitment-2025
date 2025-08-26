@@ -1,6 +1,7 @@
 import time
 import json
 from .block import Block
+import os
 
 class Blockchain:
 
@@ -18,7 +19,8 @@ class Blockchain:
         self.chain.append(new_block)
     
 
-    def save_chain(self,file_name = "chain.json"):
+    def save_chain(self,file_name = "data/chain.json"):
+        os.makedirs("data", exist_ok=True)
         chain_data = [block.__dict__ for block in self.chain]
         with open(file_name, "w") as f:
             json.dump(chain_data,f,indent=4)

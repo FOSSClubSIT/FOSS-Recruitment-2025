@@ -10,6 +10,7 @@ def main():
     except FileNotFoundError:
         print("no chain found creating a new one ...")
         blockchain.save_chain()
+        print_chain_prettily(blockchain.chain)
         
     print("Mini Blockchain CLI")
     print("Type a command: add, show, validate, reset, exit/quit")
