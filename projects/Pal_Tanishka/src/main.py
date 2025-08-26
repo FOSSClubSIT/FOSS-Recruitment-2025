@@ -38,7 +38,7 @@ categorical_features = ['Crop', 'Season', 'State']
 numeric_features = ['Annual_Rainfall', 'Temperature', 'Fertilizer']
 
 # Features (X) and target (y)
-X = df.iloc[:, :-1].values
+X = df.iloc[:, :-1]
 y = df.iloc[:, -1].values
 
 # Define categorical and numeric columns
@@ -48,7 +48,7 @@ numeric_features = ['Crop_Year', 'Area', 'Production', 'Annual_Rainfall', 'Ferti
 # Apply OneHotEncoder on categorical features
 ct = ColumnTransformer(
     transformers=[
-        ('encoder', OneHotEncoder(), categorical_features)
+        ('encoder', OneHotEncoder(handle_unknown='ignore'), categorical_features)
     ],
     remainder='passthrough'   # keeps numeric features as they are
 )
@@ -62,10 +62,64 @@ X_train, X_test, y_train, y_test= train_test_split(X, y, test_size= 0.2, random_
 # 5. Regression Models
 # =============================
 def train_linear_regression(X_train, y_train, X_test, y_test):
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    print("\n--- Multiple Linear Regression ---")
+    """
+    Train and evaluate a simple Multiple Linear Regression model.
+    """
+    lr = LinearRegression()
+    lr.fit(X_train, y_train)
+    y_pred = lr.predict(X_test)
+    print("\n--- Linear Regression Results ---")
+    print("R2 Score:", r2_score(y_test, y_pred))
     print("RMSE:", np.sqrt(mean_squared_error(y_test, y_pred)))
-    print("R²:", r2_score(y_test, y_pred))
-    return model
+    return lr
+
+# -------------------------
+# Polynomial Regression Model
+# -------------------------
+def train_polynomial_regression(X_train, y_train, X_test, y_test, degree=2):
+    """
+    Train and evaluate Polynomial Regression model.
+    """
+    poly = PolynomialFeatures(degree=degree)
+    X_train_poly = poly.fit_transform(X_train)
+    X_test_poly = poly.transform(X_test)
+
+    lr_poly = LinearRegression()
+    lr_poly.fit(X_train_poly, y_train)
+    y_pred_poly = lr_poly.predict(X_test_poly)
+
+    print(f"\n--- Polynomial Regression (degree={degree}) Results ---")
+    print("R2 Score:", r2_score(y_test, y_pred_poly))
+    print("RMSE:", np.sqrt(mean_squared_error(y_test, y_pred_poly)))
+    return lr_poly, poly
+
+# Train models
+# -------------------------
+linear_model = train_linear_regression(X_train, y_train, X_test, y_test)
+poly_model, poly_transformer = train_polynomial_regression(X_train, y_train, X_test, y_test, degree=2)
+
+# Example prediction
+# -------------------------
+def example_prediction():
+    # Example data (replace with realistic values from your dataset)
+    sample = pd.DataFrame([{
+        "Crop": "Wheat",
+        "Crop_Year": 2020,
+        "Season": "Rabi",
+        "State": "Uttar Pradesh",
+        "Area": 1500,
+        "Production": 3000,
+        "Annual_Rainfall": 800,
+        "Fertilizer": 120,
+        "Pesticide": 30
+    }])
+
+    # Transform input using same preprocessor
+    sample_processed = ct.transform(sample)
+
+    # Predict yield
+    prediction = linear_model.predict(sample_processed)
+    print("Predicted Yield:", prediction[0])
+
+# just call directly
+example_prediction()
