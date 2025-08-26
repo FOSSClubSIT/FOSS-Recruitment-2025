@@ -1,73 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roadmap</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    nav { background: #222; color: #fff; padding: 10px; }
-    nav a { color: #fff; margin-right: 15px; text-decoration: none; }
-    h1 { text-align: center; color: #2ecc40; }
-    .container { padding: 20px; }
-    .step-card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
-    .btn { border: 1px solid #2ecc40; padding: 5px 10px; text-decoration: none; color: #2ecc40; }
-    footer { text-align: center; padding: 10px; margin-top: 20px; background: #f4f4f4; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@400;600;700&display=swap');
+
+    :root {
+      --green: #2ECC40;
+      --dark-bg: #1a1a1a;
+      --bg: #242424;
+      --card-bg: #2a2a2a;
+      --text: #e2e2e2;
+      --text-muted: #a0a0a0;
+      --border: #444;
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: var(--text); margin: 0; padding: 0; }
+    nav { background: var(--bg); padding: 15px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
+    .nav-container { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo { font-family: 'Fira Code', monospace; font-size: 20px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .nav-logo img { height: 28px; }
+    .nav-logo span { color: var(--green); }
+    .nav-links a { color: var(--text-muted); margin-left: 20px; font-weight: 600; text-decoration: none; transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--green); }
+
+    .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+    h1 { text-align: center; margin-bottom: 40px; color: var(--green); font-family: 'Fira Code', monospace; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      border-color: var(--green);
+    }
+    .card h3 { margin-top: 0; color: var(--text); }
+    .card p { color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      margin-top: 12px;
+      color: var(--green);
+      text-decoration: none;
+      border: 1px solid var(--green);
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .btn:hover { background: var(--green); color: var(--dark-bg); }
+
+    footer { text-align: center; padding: 40px 20px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 40px; }
+    footer span { color: #e25555; }
+</style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html">FOSS_SIT</a>
-  <a href="index.html#roadmaps">Roadmaps</a>
-  <a href="contact.html">Contact</a>
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="https://fossunited.org/assets/fossunited/images/clubs/fossclub_logo.svg" alt="FOSS Club Logo">
+      FOSS<span>_</span>Lavale
+    </a>
+    <div class="nav-links">
+      <a href="index.html#roadmaps">Roadmaps</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
 </nav>
 
 <div class="container">
-  <a href="index.html">&larr; Back to All Resources</a>
-  <h1 id="roadmap-title"></h1>
-  <main id="roadmap-steps"></main>
+  <h1>Learning Roadmaps</h1>
+  <div class="grid" id="roadmap-grid"></div>
 </div>
 
 <footer>
-  <p>&copy; 2025 FOSS Club Lavale</p>
+  <p>Made with <span>❤️</span> by FOSS Club Lavale.</p>
 </footer>
 
 <script>
-  const resources = {
-    "Python": {
-      roadmap: [
-        { title: "Basics & Setup", description: "Install Python and write your first code." },
-        { title: "Variables", description: "Learn data types and variables." }
-      ]
-    },
-    "JavaScript": {
-      roadmap: [
-        { title: "Core Fundamentals", description: "Syntax and basics." },
-        { title: "DOM Manipulation", description: "Work with HTML elements." }
-      ]
-    }
-  };
+const resources = {
+    "Python": { description: "Learn Python from basics to advanced projects.", steps: 6 },
+    "JavaScript": { description: "Master JS and web development essentials.", steps: 5 },
+    "Deep Learning": { description: "Dive into neural networks and AI frameworks.", steps: 5 },
+    "Git & GitHub": { description: "Version control and collaboration skills.", steps: 5 }
+};
 
-  const params = new URLSearchParams(window.location.search);
-  const skill = params.get('skill') || "Python";
-  document.getElementById('roadmap-title').textContent = skill + " Roadmap";
+const grid = document.getElementById('roadmap-grid');
 
-  const stepsContainer = document.getElementById('roadmap-steps');
-  if (resources[skill]) {
-    resources[skill].roadmap.forEach((step, index) => {
-      const card = document.createElement('div');
-      card.className = 'step-card';
-      card.innerHTML = `
-        <h3>${step.title}</h3>
-        <p>${step.description}</p>
-        <a href="course.html?skill=${encodeURIComponent(skill)}&step=${index}" class="btn">Start</a>
-      `;
-      stepsContainer.appendChild(card);
-    });
-  } else {
-    stepsContainer.innerHTML = "<p>No roadmap found.</p>";
-  }
+for (const skill in resources) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+        <h3>${skill}</h3>
+        <p>${resources[skill].description}</p>
+        <a href="course.html?skill=${encodeURIComponent(skill)}&step=0" class="btn">Start Learning</a>
+    `;
+    grid.appendChild(card);
+}
 </script>
 
 </body>

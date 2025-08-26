@@ -1,50 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Course</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Details</title>
 <style>
-  body{margin:0; font-family:Arial, sans-serif; background:#fff; color:#000;}
-  nav{background:#222; color:#fff; padding:.75rem;}
-  nav .wrap{max-width:900px; margin:0 auto;}
-  .wrap{max-width:900px; margin:0 auto; padding:1rem;}
-  h1{text-align:center; color:green; margin:1rem 0;}
-  a{color:blue; text-decoration:none;}
-  .lesson{border:1px solid #ccc; padding:1rem; margin:1rem 0;}
-  footer{background:#f5f5f5; text-align:center; padding:1rem; font-size:.9rem; color:#555;}
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@400;600;700&display=swap');
+
+    :root {
+      --green: #2ECC40;
+      --dark-bg: #1a1a1a;
+      --bg: #242424;
+      --card-bg: #2a2a2a;
+      --text: #e2e2e2;
+      --text-muted: #a0a0a0;
+      --border: #444;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      background: var(--bg);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo { 
+      font-family: 'Fira Code', monospace; 
+      font-size: 20px; 
+      color: var(--text); 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
+    .nav-logo img { height: 28px; }
+    .nav-logo span { color: var(--green); }
+    .nav-links a { 
+      color: var(--text-muted); 
+      margin-left: 20px; 
+      font-weight: 600; 
+      text-decoration: none; 
+      transition: color 0.2s ease; 
+    }
+    .nav-links a:hover { color: var(--green); }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .page-header { text-align: center; margin-bottom: 30px; }
+    .page-header h1 { font-family: 'Fira Code', monospace; font-size: 28px; color: var(--text); }
+    .page-header h1 span { color: var(--green); }
+
+    .back-link { 
+      display: inline-block; 
+      margin-bottom: 20px; 
+      color: var(--text-muted); 
+      text-decoration: none; 
+      font-weight: 500; 
+      transition: color 0.2s ease; 
+    }
+    .back-link:hover { color: var(--green); }
+
+    .content-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .content-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      border-color: var(--green);
+    }
+
+    .notes { line-height: 1.7; }
+    code { background-color: var(--bg); padding: 3px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; }
+    ul { padding-left: 20px; }
+    input[type="radio"] { margin-right: 8px; }
+
+    #feedback { font-weight: bold; margin-top: 15px; }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+    footer span { color: #e25555; }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="wrap"><strong>FOSS_SIT</strong> • Roadmaps • Contact</div>
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="https://fossunited.org/assets/fossunited/images/clubs/fossclub_logo.svg" alt="FOSS Club Logo">
+      FOSS<span>_</span>Lavale
+    </a>
+    <div class="nav-links">
+      <a href="index.html#roadmaps">Roadmaps</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
 </nav>
 
-<div class="wrap">
-  <a href="roadmap.html">&larr; Back to Roadmap</a>
-  <h1>Python Basics</h1>
-
-  <div class="lesson">
-    <strong>Lesson 1: Install Python</strong>
-    <p>Step-by-step guide to install Python on your system.</p>
-  </div>
-
-  <div class="lesson">
-    <strong>Lesson 2: First Program</strong>
-    <p>Write and run your first <code>print("Hello, World!")</code> program.</p>
-  </div>
-
-  <div class="lesson">
-    <strong>Lesson 3: Variables</strong>
-    <p>Understand how to store values using variables.</p>
-  </div>
-</div>
+<div class="container" id="course-container"></div>
 
 <footer>
-  © 2025 FOSS Club Lavale
+  <p>This project is open-source. <a href="#">Submit a Pull Request on GitHub.</a></p>
+  <p>Made with <span>❤️</span> by FOSS Club SIT.</p>
+  <p><small>&copy; 2025 FOSS Club SIT.</small></p>
 </footer>
+
+<script>
+const resources = {
+  "Python": [
+    { title: "Basics & Setup", notes: "Install Python and write your first program.", tasks: ["Install Python", "Print 'Hello World'"], quiz: { question: "Which function prints in Python?", options: ["print()", "echo()", "log()"], answer: "print()" } },
+    { title: "Variables & Data Types", notes: "Learn integers, strings, and lists.", tasks: ["Create variables", "Print them"], quiz: { question: "Whole numbers in Python are of type?", options: ["String", "Integer", "Float"], answer: "Integer" } },
+    { title: "Control Flow", notes: "Use if-else and loops.", tasks: ["Write an if-else", "Write a for loop"], quiz: { question: "Which keyword is used for loops?", options: ["if", "for", "def"], answer: "for" } }
+  ],
+  "JavaScript": [
+    { title: "Core Fundamentals", notes: "JS basics, let/const/var.", tasks: ["Open console", "Declare a variable"], quiz: { question: "Keyword for constant variable?", options: ["let", "var", "const"], answer: "const" } },
+    { title: "DOM Manipulation", notes: "Select and modify HTML elements.", tasks: ["Create button", "Change paragraph text on click"], quiz: { question: "DOM stands for?", options: ["Document Object Model","Dynamic Object Manipulation","Data Object Model"], answer: "Document Object Model" } }
+  ]
+};
+
+const params = new URLSearchParams(window.location.search);
+const skill = params.get('skill');
+const stepIndex = parseInt(params.get('step'));
+const container = document.getElementById('course-container');
+
+if (skill && resources[skill] && resources[skill][stepIndex] !== undefined) {
+    const step = resources[skill][stepIndex];
+    container.innerHTML = `
+      <a href="roadmap.html?skill=${encodeURIComponent(skill)}" class="back-link">&larr; Back to Roadmap</a>
+      <header class="page-header"><h1>${step.title}<span>.</span></h1></header>
+      <div class="content-section notes">${step.notes}</div>
+      <div class="content-section">
+        <h3>📝 Tasks</h3>
+        <ul>${step.tasks.map(t => `<li>${t}</li>`).join('')}</ul>
+      </div>
+      <div class="content-section">
+        <h3>🧠 Quiz</h3>
+        <p>${step.quiz.question}</p>
+        <div>
+          ${step.quiz.options.map(o => `<div style="margin-bottom:10px;"><input type="radio" name="quiz" value="${o}" id="${o}"><label for="${o}">${o}</label></div>`).join('')}
+        </div>
+        <p id="feedback"></p>
+      </div>
+    `;
+
+    document.querySelectorAll('input[name="quiz"]').forEach(radio => {
+        radio.addEventListener('change', e => {
+            const feedback = document.getElementById('feedback');
+            if(e.target.value === step.quiz.answer){
+                feedback.innerText = '✅ Correct!';
+                feedback.style.color = 'var(--green)';
+            } else {
+                feedback.innerText = '❌ Incorrect, try again.';
+                feedback.style.color = '#ef4444';
+            }
+        });
+    });
+} else {
+    container.innerHTML = `<a href="index.html" class="back-link">&larr; Back to Home</a><header class="page-header"><h1>Resource Not Found</h1></header><div class="content-section"><p>Course not found.</p></div>`;
+}
+</script>
 
 </body>
 </html>
-
