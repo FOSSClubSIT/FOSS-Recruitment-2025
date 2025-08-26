@@ -12,5 +12,4 @@ Thumbs.db
 # Outputs
 sample_output/*
 !sample_output/.gitkeep
-assets/*
 !assets/.gitkeep
