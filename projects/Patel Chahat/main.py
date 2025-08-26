@@ -1,42 +1,52 @@
-import time
-import argparse
+import time 
+import json 
 from mini_blockchain.blockchain import Blockchain
 from mini_blockchain.utils import print_chain_prettily,is_chain_valid
 
 def main():
-    parser = argparse.ArgumentParser(description="Mini Blockchain CLI")
-    parser.add_argument("command",choices=["add","show","validate","reset"],help="command to run")
-    parser.add_argument("data",nargs="*",help="Transaction data (for add command)")
-    args = parser.parse_args()
-    
     blockchain = Blockchain()
-
-    try:
-        
+    try :
         blockchain.load_chain()
     except FileNotFoundError:
-        print("No chain found, Creating a new one...")
+        print("no chain found creating a new one ...")
         blockchain.save_chain()
-    
-    if args.command == "add":
-        if not args.data:
-            print("please provide transactional data")
-            return
-        transaction = " ".join(args.data)
-        blockchain.save_chain()
-        print(f"✅ Added block with transaction: {transaction}")
+        
+    print("Mini Blockchain CLI")
+    print("Type a command: add, show, validate, reset, exit/quit")
+    while True:
+        command = input("\n> ").strip().lower()
+        if command.startswith("add"):
+            parts = command.split(" ")
+            if len(parts)<2:
+                print("❌ please provide transactional data. Example: add Mr.Zoro payed 5 BTC")
+                continue
+            transaction = parts[1]
+            blockchain.add_block([transaction])
+            blockchain.save_chain()
+            print(f"✅ Added block with transaction: {transaction}")
 
-    elif args.command == "show":
-        print_chain_prettily(blockchain.chain)
-
-    elif args.command == "validate":
-        print("✅ Chain is valid!" if is_chain_valid(blockchain.chain) else "❌ Chain is invalid!")
-
-    elif args.command == "reset":
-        blockchain = Blockchain()  # start fresh
-        blockchain.save_chain()
-        print("🔄 Blockchain reset with a new genesis block.")
-
+        elif command == "show":
+            print_chain_prettily(blockchain.chain)
+        
+        elif command == "validate":
+            if is_chain_valid(blockchain.chain):
+                print(f"✅ Chain is valid!")
+            else:
+                print(f"❌ Chain is invalid!")
+        elif command == "reset":
+            blockchain = Blockchain()
+            blockchain.save_chain()
+            print("🔄 Blockchain has been reset with a new genesis block.")
+            print("Your current chain is now: ")
+            print_chain_prettily(blockchain.chain())
+        
+        elif command in ["exit","quit"]:
+            print("👋 Exiting blockchain CLI...")
+            print("Goodbye!")
+            break
+        else:
+            print("❌ Unknown command. Valid commands: add, show, validate, reset, exit")
+            
 
 if __name__ == "__main__":
     main()
