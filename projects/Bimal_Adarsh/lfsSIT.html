@@ -46,14 +46,9 @@
                     <a href="#" onclick="showPage('landing-page')" class="text-2xl font-bold text-gray-900">lfsSIT.com</a>
                 </div>
                 
-                <!-- Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#" onclick="showLostItemsPage()" class="text-gray-600 hover:text-blue-600 transition-transform duration-200 hover:scale-110 font-medium">Lost Items</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-transform duration-200 hover:scale-110 font-medium">Top Contributors</a>
-                </nav>
-
                 <!-- Right side icons -->
                 <div class="flex items-center space-x-4">
+                    <a href="#" onclick="showLostItemsPage()" class="text-gray-600 hover:text-blue-600 font-medium hidden md:block">Lost Items</a>
                     <!-- Notification Center -->
                     <div class="relative">
                         <button onclick="toggleNotifications()" class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 focus:outline-none">
@@ -456,6 +451,53 @@
             window.scrollTo(0, 0);
         }
 
+        function showLostItemsPage() {
+            const grid = document.getElementById('lost-items-grid');
+            const noItemsMessage = document.getElementById('no-lost-items');
+            grid.innerHTML = '';
+
+            const lostItems = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('lostItem_')) {
+                    try {
+                        const item = JSON.parse(localStorage.getItem(key));
+                        lostItems.push(item);
+                    } catch (e) { console.error(`Could not parse lost item from localStorage with key: ${key}`); }
+                }
+            }
+
+            if (lostItems.length === 0) {
+                grid.classList.add('hidden');
+                noItemsMessage.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noItemsMessage.classList.add('hidden');
+                lostItems.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                lostItems.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300';
+                    const imgSrc = item.imageData || 'https://placehold.co/600x400/f3f4f6/6b7280?text=No+Image';
+                    const tagsHTML = item.tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full inline-block">${tag}</span>`).join('');
+                    card.innerHTML = `
+                        <div class="h-48 bg-gray-200 flex items-center justify-center">
+                            <img class="h-full w-full object-cover" src="${imgSrc}" alt="${item.itemName}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/fee2e2/b91c1c?text=Image+Error';">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 truncate">${item.itemName}</h3>
+                            <p class="text-gray-500 text-sm mt-1">Location: ${item.location || 'Not Specified'}</p>
+                            <div class="mt-4 flex flex-wrap">
+                                ${tagsHTML || '<span class="text-xs text-gray-400">No tags</span>'}
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            showPage('lost-items-page');
+        }
+
         // --- NOTIFICATION SYSTEM ---
         const notificationPanel = document.getElementById('notification-panel');
         const notificationDot = document.getElementById('notification-dot');
@@ -679,8 +721,6 @@
             } while (existingNames.includes(name) && attempts < 100);
             return name;
         }
-
-        // --- UNIVERSAL TAGGING & FORM SYSTEM ---
         function updateGlobalTags(tagLabel) {
             const cleanedLabel = tagLabel.trim();
             if (cleanedLabel && !allTags.includes(cleanedLabel)) {
