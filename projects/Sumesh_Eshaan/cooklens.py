@@ -67,10 +67,31 @@ def get_timer():
 
 #UNIT CONVERTER
 conversion_table = {
-    ("grams", "cups"): 0.0042,
+    # Grams ↔ Others
+    ("grams", "cups"): 1/240,
     ("cups", "grams"): 240,
-    ("ml", "cups"): 0.0042,
+    ("grams", "ml"): 1,
+    ("ml", "grams"): 1,
+    ("grams", "tbsp"): 1/15,
+    ("tbsp", "grams"): 15,
+    ("grams", "tsp"): 1/5,
+    ("tsp", "grams"): 5,
+
+    # Cups ↔ Others
     ("cups", "ml"): 240,
+    ("ml", "cups"): 1/240,
+    ("cups", "tbsp"): 16,      # 240 ÷ 15
+    ("tbsp", "cups"): 1/16,
+    ("cups", "tsp"): 48,       # 240 ÷ 5
+    ("tsp", "cups"): 1/48,
+
+    # Ml ↔ Others
+    ("ml", "tbsp"): 1/15,
+    ("tbsp", "ml"): 15,
+    ("ml", "tsp"): 1/5,
+    ("tsp", "ml"): 5,
+
+    # Tbsp ↔ Tsp
     ("tbsp", "tsp"): 3,
     ("tsp", "tbsp"): 1/3,
 }
