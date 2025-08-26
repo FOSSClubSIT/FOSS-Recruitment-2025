@@ -1,6 +1,6 @@
 
 """
-Crop Yield Prediction using Multiple Linear Regression
+Crop Yield Prediction Using Machine Learning
 
 This project predicts crop yield based on various factors such as crop type, 
 year, season, state, area, production, rainfall, fertilizer, and pesticide usage.
@@ -97,12 +97,17 @@ def train_linear_regression(X_train, y_train, X_test, y_test):
     return lr
 
 # =============================
-# 10. Polynomial Regression Model
+# 10. Random Forest Regression Model
 # =============================
 def train_random_forest(X_train, y_train, X_test, y_test):
+    """
+    Previously applied Polynomial Regression Model but the results were not accurate.
+    Hence switched to Random Forest because it captures non-linear patterns and provides more realistic predictions.
+
+    """
     # Initialize Random Forest Regressor
     rf_regressor = RandomForestRegressor(
-        n_estimators=50,   # number of trees
+        n_estimators=50,      # number of trees
         max_depth=10,         # limit tree depth
         n_jobs=-1,            # use all CPU cores for parallel training
         random_state=0
