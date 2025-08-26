@@ -1,52 +1,43 @@
 # tools/generate_samples.py
 """
-Face Detection with Marker Overlay
-Automatically generates a placeholder marker if not found.
+Advanced AR Program: Real-Time Face Detection with Virtual Object Overlay
 """
 import cv2
 import numpy as np
 import os
-from PIL import Image, ImageDraw
 import tkinter as tk
 from tkinter import messagebox
 
-def create_placeholder_marker():
-    # Create a transparent image
-    width, height = 200, 100
-    marker = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+def load_virtual_object(object_name):
+    """Load the virtual object image based on the selected object name."""
+    object_path = f"objects/{object_name}.png"
+    if not os.path.exists(object_path):
+        messagebox.showerror("Error", f"Virtual object '{object_name}' not found.")
+        return None
+    return cv2.imread(object_path, cv2.IMREAD_UNCHANGED)
 
-    # Draw a simple rectangle as the marker
-    draw = ImageDraw.Draw(marker)
-    draw.rectangle([20, 20, 180, 80], fill=(255, 0, 0, 128), outline=(255, 0, 0))
-
-    # Save the marker image
-    marker.save("marker.png")
-
-def overlay_marker(frame, face_coords, marker):
+def overlay_virtual_object(frame, face_coords, virtual_object):
+    """Overlay the virtual object on the detected face."""
     for (x, y, w, h) in face_coords:
-        marker_resized = cv2.resize(marker, (w, h // 2))
-        marker_h, marker_w, _ = marker_resized.shape
+        object_resized = cv2.resize(virtual_object, (w, h))
+        obj_h, obj_w, _ = object_resized.shape
 
-        y_offset = y - marker_h if y - marker_h > 0 else y
+        y_offset = y
         x_offset = x
 
-        for i in range(marker_h):
-            for j in range(marker_w):
-                if marker_resized[i, j][3] != 0:  # Check alpha channel
-                    frame[y_offset + i, x_offset + j] = marker_resized[i, j][:3]
+        for i in range(obj_h):
+            for j in range(obj_w):
+                if object_resized[i, j][3] != 0:  # Check alpha channel
+                    frame[y_offset + i, x_offset + j] = object_resized[i, j][:3]
 
-def start_webcam():
+def start_advanced_ar():
+    """Start the advanced AR program."""
     # Load pre-trained face detection model
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-    # Ensure marker image exists
-    if not os.path.exists("marker.png"):
-        create_placeholder_marker()
-
-    # Load marker image (e.g., glasses or hat with transparency)
-    marker = cv2.imread('marker.png', cv2.IMREAD_UNCHANGED)
-    if marker is None:
-        messagebox.showerror("Error", "Failed to load marker image.")
+    # Load the default virtual object (e.g., glasses)
+    virtual_object = load_virtual_object("glasses")
+    if virtual_object is None:
         return
 
     cap = cv2.VideoCapture(0)
@@ -64,12 +55,12 @@ def start_webcam():
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-            overlay_marker(frame, faces, marker)
+            overlay_virtual_object(frame, faces, virtual_object)
 
             cv2.putText(frame, "Press 'q' to quit", (10, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
 
-            cv2.imshow("Webcam Feed", frame)
+            cv2.imshow("Advanced AR Program", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -78,7 +69,12 @@ def start_webcam():
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
+    # Ensure the objects directory exists
+    if not os.path.exists("objects"):
+        os.makedirs("objects")
+        messagebox.showinfo("Info", "Please add virtual object images (e.g., glasses.png) to the 'objects' directory.")
+
     root = tk.Tk()
     root.withdraw()  # Hide the root window
 
-    start_webcam()
+    start_advanced_ar()
