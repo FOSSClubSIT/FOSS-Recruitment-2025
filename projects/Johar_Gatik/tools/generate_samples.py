@@ -1,80 +1,29 @@
 # tools/generate_samples.py
 """
-Generate a synthetic marker (reference.png) and a scene (scene.png) by
-warping the marker into a random quadrilateral on a plain background.
-This makes the project fully offline and reproducible.
+Interactive GUI-based program for AR marker generation and webcam feature matching.
 """
 import os
 import cv2
 import numpy as np
+import tkinter as tk
+from tkinter import filedialog, messagebox
+from PIL import Image, ImageTk
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 ASSETS = os.path.join(ROOT, "assets")
 os.makedirs(ASSETS, exist_ok=True)
 
-def make_marker(size=400):
-    img = np.full((size, size, 3), 255, np.uint8)
-    # Thick black border
-    cv2.rectangle(img, (10, 10), (size-10, size-10), (0, 0, 0), thickness=20)
-    # Checkerboard interior (8x8)
-    cells = 8
-    cell = (size - 60) // cells
-    ox = oy = 30
-    for y in range(cells):
-        for x in range(cells):
-            if (x + y) % 2 == 0:
-                cv2.rectangle(img,
-                              (ox + x*cell, oy + y*cell),
-                              (ox + (x+1)*cell, oy + (y+1)*cell),
-                              (0, 0, 0), thickness=-1)
-    # Add a unique identifier text
-    cv2.putText(img, "AR-MARKER", (50, size - 50),
-                cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2, cv2.LINE_AA)
-    return img
-
-def compose_scene(marker, out_h=720, out_w=960):
-    bg = np.full((out_h, out_w, 3), 230, np.uint8)
-
-    h, w = marker.shape[:2]
-    src = np.float32([[0, 0], [w, 0], [w, h], [0, h]])
-
-    # Random-ish convex quad
-    margin = 80
-    dst = np.float32([
-        [np.random.randint(margin, out_w//2), np.random.randint(margin, out_h//2)],
-        [np.random.randint(out_w//2, out_w-margin), np.random.randint(margin, out_h//2)],
-        [np.random.randint(out_w//2, out_w-margin), np.random.randint(out_h//2, out_h-margin)],
-        [np.random.randint(margin, out_w//2), np.random.randint(out_h//2, out_h-margin)],
-    ])
-
-    H = cv2.getPerspectiveTransform(src, dst)
-    warped = cv2.warpPerspective(marker, H, (out_w, out_h))
-
-    mask = np.zeros((out_h, out_w), np.uint8)
-    cv2.fillConvexPoly(mask, dst.astype(np.int32), 255)
-    inv = cv2.bitwise_not(mask)
-
-    bg_fg = cv2.bitwise_and(warped, warped, mask=mask)
-    bg_bg = cv2.bitwise_and(bg, bg, mask=inv)
-    comp = cv2.add(bg_fg, bg_bg)
-
-    # Add light noise/text to avoid being too clean
-    cv2.putText(comp, "MINI AR DEMO", (30, out_h - 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 1.3, (50, 50, 50), 3, cv2.LINE_AA)
-    return comp, H
-
 def webcam_mode(marker):
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
-        print("[ERROR] Cannot access the webcam.")
+        messagebox.showerror("Error", "Cannot access the webcam.")
         return
 
-    print("[INFO] Press 'q' to quit webcam mode.")
     try:
         while True:
             ret, frame = cap.read()
             if not ret:
-                print("[ERROR] Failed to capture frame from webcam.")
+                messagebox.showerror("Error", "Failed to capture frame from webcam.")
                 break
 
             # Convert frame to grayscale
@@ -109,55 +58,34 @@ def webcam_mode(marker):
         cap.release()
         cv2.destroyAllWindows()
 
-def main():
-    try:
-        print("[INFO] Choose an option:")
-        print("1. Generate synthetic marker and scene")
-        print("2. Use webcam mode")
-        print("3. Upload your own image")
-        choice = input("Enter your choice (1/2/3): ")
+def upload_image():
+    file_path = filedialog.askopenfilename(title="Select an Image", filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
+    if not file_path:
+        return None
 
-        if choice == "1":
-            marker = make_marker(460)
-            scene, homography = compose_scene(marker)
-            ref_path = os.path.join(ASSETS, "reference.png")
-            scn_path = os.path.join(ASSETS, "scene.png")
-            homography_path = os.path.join(ASSETS, "homography.txt")
+    marker = cv2.imread(file_path)
+    if marker is None:
+        messagebox.showerror("Error", "Failed to read the image.")
+        return None
 
-            cv2.imwrite(ref_path, marker)
-            cv2.imwrite(scn_path, scene)
-            np.savetxt(homography_path, homography, fmt="%.6f")
+    messagebox.showinfo("Info", "Image uploaded successfully. Starting webcam mode.")
+    webcam_mode(marker)
 
-            print(f"[OK] Wrote {ref_path}")
-            print(f"[OK] Wrote {scn_path}")
-            print(f"[OK] Wrote homography matrix to {homography_path}")
+def main_gui():
+    root = tk.Tk()
+    root.title("AR Marker Program")
+    root.geometry("400x200")
 
-            # Display the generated images
-            cv2.imshow("Generated Marker", marker)
-            cv2.imshow("Generated Scene", scene)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-        elif choice == "2":
-            marker = make_marker(460)  # Default marker for webcam mode
-            webcam_mode(marker)
-        elif choice == "3":
-            file_path = input("Enter the path to your image: ")
-            if not os.path.isfile(file_path):
-                print("[ERROR] File not found.")
-                return
+    label = tk.Label(root, text="Choose an Operation", font=("Arial", 16))
+    label.pack(pady=20)
 
-            marker = cv2.imread(file_path)
-            if marker is None:
-                print("[ERROR] Failed to read the image.")
-                return
+    upload_button = tk.Button(root, text="Upload Marker Image", font=("Arial", 14), command=upload_image)
+    upload_button.pack(pady=10)
 
-            print("[INFO] Using uploaded image as marker.")
-            webcam_mode(marker)
-        else:
-            print("[ERROR] Invalid choice. Please enter 1, 2, or 3.")
-    except Exception as e:
-        print(f"[ERROR] {str(e)}")
+    exit_button = tk.Button(root, text="Exit", font=("Arial", 14), command=root.destroy)
+    exit_button.pack(pady=10)
+
+    root.mainloop()
 
 if __name__ == "__main__":
-    np.random.seed(42)  # determinism for reviewers
-    main()
+    main_gui()
