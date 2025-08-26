@@ -1,15 +1,16 @@
+/* made a project for my bike rental business which my father runs back in hometown  so idea is original*/
 #include <stdio.h>
 #include <string.h>
 
 // Structure for Vehicle
 struct Vehicle {
     int id;
-    char type[20];
-    char model[20];
+    char type[200];
+    char model[200];
     int available;
 };
 
-// Structure for Rental
+// Structure for rentals
 struct Rental {
     int vehicleId;
     int hours;
