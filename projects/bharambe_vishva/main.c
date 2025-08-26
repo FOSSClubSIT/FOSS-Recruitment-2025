@@ -15,19 +15,21 @@ struct Rental {
     int hours;
     int days;
     int weeks;
+    char customerName[50];
+    char customerPhone[15];
 };
 
 int main() {
     // Vehicle database
     struct Vehicle vehicles[5] = {
-        {1, "Car", "Suzuki", 1},
-        {2, "Car", "Hyundai", 1},
-        {3, "Bike", "Yamaha", 1},
+        {1, "Car", "Suzuki Swift", 1},
+        {2, "Car", "Hyundai i20", 1},
+        {3, "Bike", "Yamaha R15", 1},
         {4, "Scooter", "Honda Activa", 1},
         {5, "Bike", "Royal Enfield", 1}
     };
 
-    struct Rental rental = {0, 0, 0, 0};
+    struct Rental rental = {0, 0, 0, 0, "", ""};
     int choice, vid;
 
     // Rates
@@ -36,11 +38,12 @@ int main() {
     float weekly_rate = 2500;  // ₹2500 per week
 
     do {
-        printf("\n========== VEHICLE RENTAL SYSTEM ==========\n");
+        printf("\n================ VEHICLE RENTAL SYSTEM ================\n");
         printf("1. View Available Vehicles\n");
         printf("2. Rent a Vehicle\n");
         printf("3. Return Vehicle\n");
         printf("4. Exit\n");
+        printf("=======================================================\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -49,7 +52,7 @@ int main() {
                 printf("\n--- Available Vehicles ---\n");
                 for(int i=0; i<5; i++) {
                     if(vehicles[i].available == 1)
-                        printf("ID: %d | Type: %s | Model: %s\n",
+                        printf("ID: %d | Type: %-7s | Model: %s\n",
                                vehicles[i].id, vehicles[i].type, vehicles[i].model);
                 }
                 break;
@@ -62,13 +65,24 @@ int main() {
                 } else {
                     vehicles[vid-1].available = 0;
                     rental.vehicleId = vid;
+
+                    printf("Enter Customer Name: ");
+                    getchar(); // clear newline
+                    fgets(rental.customerName, 50, stdin);
+                    rental.customerName[strcspn(rental.customerName, "\n")] = 0; // remove newline
+
+                    printf("Enter Customer Phone: ");
+                    scanf("%s", rental.customerPhone);
+
                     printf("Enter rental hours: ");
                     scanf("%d", &rental.hours);
                     printf("Enter rental days: ");
                     scanf("%d", &rental.days);
                     printf("Enter rental weeks: ");
                     scanf("%d", &rental.weeks);
-                    printf("%s %s rented successfully!\n", vehicles[vid-1].type, vehicles[vid-1].model);
+
+                    printf("\n✅ %s %s rented successfully to %s!\n",
+                           vehicles[vid-1].type, vehicles[vid-1].model, rental.customerName);
                 }
                 break;
 
@@ -80,15 +94,24 @@ int main() {
                                  rental.days * daily_rate +
                                  rental.weeks * weekly_rate;
                     vehicles[rental.vehicleId - 1].available = 1;
-                    printf("\nVehicle Returned: %s %s\n",
+
+                    printf("\n============== RENTAL RECEIPT ==============\n");
+                    printf("Customer Name : %s\n", rental.customerName);
+                    printf("Phone Number  : %s\n", rental.customerPhone);
+                    printf("Vehicle Rented: %s %s\n",
                            vehicles[rental.vehicleId - 1].type, vehicles[rental.vehicleId - 1].model);
-                    printf("Total Rental Cost: ₹%.2f\n", cost);
-                    rental.vehicleId = 0;
+                    printf("Duration      : %d Hours, %d Days, %d Weeks\n",
+                           rental.hours, rental.days, rental.weeks);
+                    printf("-------------------------------------------\n");
+                    printf("Rent to Pay   : ₹%.2f\n", cost);
+                    printf("===========================================\n");
+
+                    rental.vehicleId = 0; // reset
                 }
                 break;
 
             case 4:
-                printf("Exiting system. Thank you!\n");
+                printf("\nThank you for using Vehicle Rental System! 🚗🛵\n");
                 break;
 
             default:
