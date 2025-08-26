@@ -39,4 +39,9 @@ int main()
                         wordle_arr[i] = 1;
                         used[i] = 1;
                     }
+                    else
+                    {
+                        wordle_arr[i] = -2; // mark as not checked
+                    }
+                }
 }
