@@ -2,7 +2,8 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const cellSize = 25;
 
-// Bigger 20x20 grid
+
+// 20x20 grid with single spawn point
 const initialGrid = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -17,7 +18,7 @@ const initialGrid = [
   [1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1],
   [1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1],
   [1,0,1,1,0,1,0,1,1,1,1,1,1,1,0,1,0,1,1,1],
-  [1,0,0,0,0,1,0,0,0,2,0,0,0,0,0,1,0,0,0,1], 
+  [1,0,0,0,0,1,0,0,0,2,0,0,0,0,0,1,0,0,0,1], // spawn point at 10th column
   [1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,1,0,1,0,1],
   [1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,1],
   [1,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0,1],
@@ -28,7 +29,7 @@ const initialGrid = [
 
 
 canvas.width = initialGrid[0].length * cellSize;
-canvas.height = initialGrid.length * cellSize;
+canvas.height = initialGrid.length * cellSize;          // Pac-Man speed
 
 let grid, pacman, score;
 let direction = {x:0, y:0};
@@ -36,43 +37,102 @@ let lastMoveTime = 0;
 const moveDelay = 200;
 let gameLoopId;
 
-function drawGrid() {
-  for (let y=0; y<grid.length; y++){
-    for (let x=0; x<grid[y].length; x++){
-      if (grid[y][x] === 1){
-        ctx.fillStyle = "blue";
-        ctx.fillRect(x*cellSize, y*cellSize, cellSize, cellSize);
-      } else if (grid[y][x] === 0){
-        ctx.fillStyle = "white";
+// Enemies
+let enemies = [];
+const enemyCount = 3;
+let lastEnemyMoveTime = 0;
+const enemyMoveDelay = 500;
+const enemyPositions = [
+  {x:1, y:1},
+  {x:18, y:1},
+  {x:1, y:18}
+];
+
+// Draw ghost shape
+function drawGhost(enemy){
+  const x = enemy.x * cellSize;
+  const y = enemy.y * cellSize;
+  ctx.fillStyle = enemy.color;
+  ctx.beginPath();
+  ctx.arc(x + cellSize/2, y + cellSize/2, cellSize/2, Math.PI, 0);
+  ctx.fill();
+  ctx.fillRect(x, y + cellSize/2, cellSize, cellSize/2);
+}
+
+// Move enemies chasing Pac-Man
+function moveEnemies(){
+  enemies.forEach(e=>{
+    let dx = pacman.x - e.x;
+    let dy = pacman.y - e.y;
+
+    // Decide best direction to move (prioritize axis with greater distance)
+    let moveOptions = [];
+    if(Math.abs(dx) > Math.abs(dy)){
+      moveOptions.push({x:Math.sign(dx), y:0});
+      if(dy!==0) moveOptions.push({x:0, y:Math.sign(dy)});
+    } else {
+      moveOptions.push({x:0, y:Math.sign(dy)});
+      if(dx!==0) moveOptions.push({x:Math.sign(dx), y:0});
+    }
+
+    // Filter valid moves (not walls)
+    const validMoves = moveOptions.filter(d=>{
+      const nx = e.x + d.x;
+      const ny = e.y + d.y;
+      return ny>=0 && ny<grid.length && nx>=0 && nx<grid[0].length && grid[ny][nx]!==1;
+    });
+
+    if(validMoves.length>0){
+      const move = validMoves[Math.floor(Math.random()*validMoves.length)];
+      e.x += move.x;
+      e.y += move.y;
+    }
+
+    // Check collision
+    if(e.x === pacman.x && e.y === pacman.y) gameOver();
+  });
+}
+
+// Draw grid
+function drawGrid(){
+  for(let row=0; row<grid.length; row++){
+    for(let col=0; col<grid[0].length; col++){
+      let cell = grid[row][col];
+      if(cell===1){
+        ctx.fillStyle="blue";
+        ctx.fillRect(col*cellSize, row*cellSize, cellSize, cellSize);
+      } else if(cell===0){
+        ctx.fillStyle="white";
         ctx.beginPath();
-        ctx.arc(x*cellSize + cellSize/2, y*cellSize + cellSize/2, 4, 0, 2*Math.PI);
+        ctx.arc(col*cellSize + cellSize/2, row*cellSize + cellSize/2, 4, 0, Math.PI*2);
         ctx.fill();
-      } else if (grid[y][x] === 2){
-        ctx.strokeStyle = "yellow";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x*cellSize, y*cellSize, cellSize, cellSize);
+      } else {
+        ctx.fillStyle="black";
+        ctx.fillRect(col*cellSize, row*cellSize, cellSize, cellSize);
       }
     }
   }
 }
 
+// Draw Pac-Man
 function drawPacman(){
+  ctx.fillStyle="yellow";
   ctx.beginPath();
-  ctx.arc(pacman.x*cellSize + cellSize/2, pacman.y*cellSize + cellSize/2, cellSize/2.5, 0.2*Math.PI, 1.8*Math.PI);
+  ctx.arc(pacman.x*cellSize + cellSize/2, pacman.y*cellSize + cellSize/2, cellSize/2, 0.25*Math.PI, 1.75*Math.PI);
   ctx.lineTo(pacman.x*cellSize + cellSize/2, pacman.y*cellSize + cellSize/2);
-  ctx.fillStyle = "yellow";
   ctx.fill();
 }
 
+// Find spawn
 function findSpawn(){
-  for (let y=0; y<grid.length; y++){
-    for (let x=0; x<grid[y].length; x++){
-      if (grid[y][x]===2) return {x,y};
+  for(let y=0; y<grid.length; y++){
+    for(let x=0; x<grid[0].length; x++){
+      if(grid[y][x]===2) return {x,y};
     }
   }
-  return {x:1,y:1};
 }
 
+// Keyboard input
 document.addEventListener("keydown", e=>{
   if(e.key==="ArrowUp") direction={x:0,y:-1};
   if(e.key==="ArrowDown") direction={x:0,y:1};
@@ -80,48 +140,62 @@ document.addEventListener("keydown", e=>{
   if(e.key==="ArrowRight") direction={x:1,y:0};
 });
 
+// Update game state
 function updateGame(currentTime){
-  if(currentTime - lastMoveTime < moveDelay) return;
-  lastMoveTime = currentTime;
+  // --- Pac-Man movement ---
+  if(currentTime - lastMoveTime >= moveDelay){
+    lastMoveTime = currentTime;
 
-  const newX = pacman.x + direction.x;
-  const newY = pacman.y + direction.y;
+    const newX = pacman.x + direction.x;
+    const newY = pacman.y + direction.y;
 
-  if(newY>=0 && newY<grid.length && newX>=0 && newX<grid[0].length && grid[newY][newX]!==1){
-    pacman.x=newX;
-    pacman.y=newY;
+    if(newY>=0 && newY<grid.length && newX>=0 && newX<grid[0].length && grid[newY][newX]!==1){
+      pacman.x=newX;
+      pacman.y=newY;
 
-    if(grid[newY][newX]===0){
-      grid[newY][newX]=-1;
-      score++;
-      document.getElementById("score").innerText="Score: "+score;
+      if(grid[newY][newX]===0){
+        grid[newY][newX]=-1;
+        score++;
+        document.getElementById("score").innerText="Score: "+score;
+      }
     }
+
+    if(!grid.flat().includes(0)) gameOver();
   }
 
-  if(!grid.flat().includes(0)) gameOver();
+  // --- Enemy movement ---
+  if(currentTime - lastEnemyMoveTime >= enemyMoveDelay){
+    lastEnemyMoveTime = currentTime;
+    moveEnemies();
+  }
 }
 
+
+// Main game loop
 function gameLoop(timestamp){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   drawGrid();
   drawPacman();
+  enemies.forEach(drawGhost);
   updateGame(timestamp);
-  gameLoopId=requestAnimationFrame(gameLoop);
+  requestAnimationFrame(gameLoop);
 }
 
+// Game over
 function gameOver(){
   document.getElementById("gameOverScreen").style.visibility="visible";
 }
 
+// Start / restart
 function startGame(){
-  grid = initialGrid.map(row=>[...row]); // deep copy
+  grid = initialGrid.map(row=>[...row]);
   pacman=findSpawn();
   score=0;
   direction={x:0,y:0};
   document.getElementById("score").innerText="Score: "+score;
   document.getElementById("gameOverScreen").style.visibility="hidden";
-  lastMoveTime=0;
-  cancelAnimationFrame(gameLoopId);
+
+  enemies = enemyPositions.map(p=>({x:p.x,y:p.y,color:"red"}));
   requestAnimationFrame(gameLoop);
 }
 
