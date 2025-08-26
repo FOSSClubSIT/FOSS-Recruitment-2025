@@ -1,10 +1,10 @@
 import json
-from block import Block
+from .block import Block
 
 def print_chain_prettily(chain):                        #function to print the give chain in pretty redeable form.
 
     chain_data = [block.__dict__ for block in chain]
-    print(json.dump(chain_data,indent=4))
+    print(json.dumps(chain_data,indent=4))
 
 def is_chain_valid(chain):                            #Function for checking wether the chain is valid or not 
     chain_data = [block.__dict__ for block in chain]

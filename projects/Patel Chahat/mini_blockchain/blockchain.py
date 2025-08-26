@@ -1,6 +1,6 @@
 import time
 import json
-from block import Block
+from .block import Block
 
 class Blockchain:
 
@@ -9,7 +9,7 @@ class Blockchain:
         self.create_genesis_block()
 
     def create_genesis_block(self):
-        genesis_block = Block(0,['GENESIS BLOCK'],time.time,"0")
+        genesis_block = Block(0,['GENESIS BLOCK'],time.time(),"0")
         self.chain.append(genesis_block)
     
     def add_block(self,transactions):

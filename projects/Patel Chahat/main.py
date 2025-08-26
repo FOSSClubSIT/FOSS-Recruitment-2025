@@ -12,6 +12,7 @@ def main():
     blockchain = Blockchain()
 
     try:
+        
         blockchain.load_chain()
     except FileNotFoundError:
         print("No chain found, Creating a new one...")
