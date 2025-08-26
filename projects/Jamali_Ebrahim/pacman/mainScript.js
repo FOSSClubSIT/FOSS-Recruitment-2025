@@ -161,7 +161,7 @@ function updateGame(currentTime){
       }
     }
 
-    if(!grid.flat().includes(0)) gameOver();
+    if(!grid.flat().includes(0)) gameWin();
   }
 
   // --- Enemy movement ---
@@ -190,12 +190,23 @@ function gameOver(){
   document.getElementById("finalScore").innerText = "Final Score: " + score;
 }
 
+function gameWin(){
+  gameRunning = false; // stop everything
+  document.getElementById("game-container").style.display = "none"; // hide game
+  document.getElementById("gameOverScreen").style.display = "none"; // hide game over
+  document.getElementById("gameWinScreen").style.display = "block"; // show win screen
+  document.getElementById("winScore").innerText = "Final Score: " + score;
+}
+
+document.getElementById("winRestartBtn").onclick = startGame;
+
+
 // Start / restart
 function startGame(){
   gameRunning = true; // allow updates again
   document.getElementById("game-container").style.display = "flex";  // show game
   document.getElementById("gameOverScreen").style.display = "none";  // hide game over
-
+  document.getElementById("gameWinScreen").style.display = "none";   // hide win screen
   // reset game state
   grid = initialGrid.map(row => [...row]);
   pacman = findSpawn();

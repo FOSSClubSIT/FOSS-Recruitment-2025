@@ -6,6 +6,7 @@
   <title>Pac-Man</title>
   <link rel="stylesheet" href="gamestyle.css">
   <link rel="stylesheet" href="gameover.css">
+  <link rel="stylesheet" href="gamewin.css">
 </head>
 <body>
   <div id="game-container">
@@ -15,10 +16,17 @@
   </div>
 
   <div id="gameOverScreen">
-    <h1 id="game-over">Game Over</h1>
+    <h1 id="game-over">Game Over!</h1>
     <p id="finalScore">Final Score: 0</p>
     <button id="restartBtn">Restart Game</button>
   </div>
+
+<div id="gameWinScreen">
+  <h1 id="you-win">You Win!</h1>
+  <p id="winScore">Final Score: 0</p>
+  <button id="winRestartBtn">Restart Game</button>
+</div>
+
 
   <script src="mainScript.js"></script>
 </body>
