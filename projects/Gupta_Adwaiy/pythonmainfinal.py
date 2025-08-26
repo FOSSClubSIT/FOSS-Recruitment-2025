@@ -2,9 +2,9 @@ import pygame
 import random
 import time
 
-WIDTH, HEIGHT = 800, 600
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("A Ride to Hell")
+WIDTH, HEIGHT = 1000, 800
+WIN = pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption("A Ride To Hell")
 
 BG = pygame.transform.scale(pygame.image.load("hell.jpg"), (WIDTH, HEIGHT))
 
@@ -16,7 +16,7 @@ PLAYER_VEL = 5
 def draw(player):
     WIN.blit(BG, (0, 0))
 
-    pygame.draw.rect(WIN, "violet", player)
+    pygame.draw.rect(WIN, "grey", player)
 
     pygame.display.update()
 
@@ -46,3 +46,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
