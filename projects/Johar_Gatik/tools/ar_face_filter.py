@@ -17,13 +17,18 @@ class ARFaceFilter:
             self.create_marker()
 
     def create_marker(self):
-        """Create a placeholder marker image."""
+        """Create a placeholder marker image resembling glasses."""
         width, height = 200, 100
         marker = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(marker)
-        draw.rectangle([20, 30, 80, 70], fill=(0, 0, 255, 255))  # Left lens
-        draw.rectangle([120, 30, 180, 70], fill=(0, 0, 255, 255))  # Right lens
-        draw.rectangle([80, 45, 120, 55], fill=(0, 0, 255, 255))  # Bridge
+
+        # Draw left lens
+        draw.ellipse([20, 30, 80, 90], fill=(0, 0, 0, 255))
+        # Draw right lens
+        draw.ellipse([120, 30, 180, 90], fill=(0, 0, 0, 255))
+        # Draw bridge
+        draw.rectangle([80, 50, 120, 70], fill=(0, 0, 0, 255))
+
         marker.save(self.marker_path)
 
     def overlay_marker(self, frame, face_coords):
