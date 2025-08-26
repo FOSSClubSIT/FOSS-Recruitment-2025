@@ -118,3 +118,9 @@ Below is a sample output of the project:
 - [x] Explained Future Improvements  
 - [x] Project runs offline
 
+---
+
+# AR Face Filter Program
+
+This project is an Augmented Reality (AR) application that overlays virtual objects (e.g., glasses) on detected faces in real-time using a webcam. It uses OpenCV for face detection and PIL for creating placeholder markers.
+
