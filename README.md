@@ -8,10 +8,7 @@ Instead of a typical interview, you’ll complete a **24-hour open-source style 
 ## Process
 1. Attend the 1-hour Git/GitHub session.
 2. Fork this repo or create a branch from `main` in your fork.
-3. Create your working branch:  
-   ```bash
-   git checkout -b lastname_firstname
-   ```
+
 4. Add your project under:
    ```
    projects/lastname_firstname/
