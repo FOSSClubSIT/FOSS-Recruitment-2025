@@ -1,4 +1,4 @@
-# Project Title: Write your project name here
+# Project Title: CookLens: Modern Tool to Preserve and Simplify Cooking 
 
 ## Student Details
 - **Name**: Eshaan Sumesh 
@@ -83,13 +83,13 @@ Some changes i would like to make are:
 
 
 ## Submission Checklist 
-- [Y] Cloned the Repository 
-- [Y] Added my details (Name, PRN, Year, Branch)  
-- [Y] Wrote Problem Statement  
-- [Y] Listed Features & Tech Stack  
-- [Y] Added clear Run Instructions  
-- [Y] Provided Demo Output (screenshot or text)  
-- [Y] Listed AI tools used (or None)  
-- [Y] Explained Future Improvements  
-- [x] Project runs offline
+- [x] Cloned the Repository
+- [x] Added my details (Name, PRN, Year, Branch)
+- [x] Wrote Problem Statement
+- [x] Listed Features & Tech Stack
+- [x] Added clear Run Instructions
+- [x] Provided Demo Output (screenshot or text)
+- [x] Listed AI tools used (or None)
+- [x] Explained Future Improvements
+- [ ] Project runs offline
 
