@@ -3,8 +3,19 @@ from .block import Block
 
 def print_chain_prettily(chain):                        #function to print the give chain in pretty redeable form.
 
-    chain_data = [block.__dict__ for block in chain]
-    print(json.dumps(chain_data,indent=4))
+    for i, block in enumerate(chain):
+        print("+" + "-"*50 + "+")
+        print(f"| Block {block.index:<43} |")
+        print("+" + "-"*50 + "+")
+        print(f"| Timestamp     : {block.timestamp:<25} |")
+        print(f"| Transactions  : {block.transactions} |")
+        print(f"| Previous Hash : {block.previous_hash[:15]}... |")
+        print(f"| Hash          : {block.hash[:15]}... |")
+        print("+" + "-"*50 + "+")
+        
+        if i < len(chain)-1:
+            print("         |")
+            print("         v")
 
 def is_chain_valid(chain):                            #Function for checking wether the chain is valid or not 
     chain_data = [block.__dict__ for block in chain]
