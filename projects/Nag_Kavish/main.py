@@ -1,17 +1,18 @@
 import string
 
-# ---------------- STOPWORDS ---------------- #
-#Most commonly used words in sentances that doesn't mean much meaning.
+#STOPWORDS
+# Most commonly used words in sentences that don't add much meaning
 STOPWORDS = {
-    "the", "and", "is", "in", "to", "of", "by", "an", "be", "at", "this", "that", 
-    "are", "it", "from", "a", "for", "on", "with","as", }
+    "the", "and", "is", "in", "to", "of", "by", "an", "be", "at", "this", "that",
+    "are", "it", "from", "a", "for", "on", "with", "as",
+}
 
 """Read text from a .txt file"""
 def load(file_path):
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, "r") as f:
         return f.read()
-    
-""" Removing punctuation likes !"#$%."""
+
+"""Removing punctuation like !"#$%."""
 def preprocess(text):
     text = text.lower()
     text = text.translate(str.maketrans("", "", string.punctuation))
@@ -23,10 +24,7 @@ def frequency(text):
     freq = {}
     for word in words:
         if word not in STOPWORDS:
-            if word in freq:        
-                freq[word] += 1
-            else:                 
-                freq[word] = 1
+            freq[word] = freq.get(word, 0) + 1
     return freq
 
 """Assign a score to each sentence based on word frequencies"""
@@ -35,7 +33,7 @@ def score_sentences(original_text, freq):
     scores = {}
     for i in sentences:
         words = i.lower().split()
-        count = 0
+        score = 0   #initialize score for each sentence
         for j in words:
             if j in freq:
                 score += freq[j]
@@ -52,21 +50,38 @@ def summary(text):
 
     # Sort all sentences by score (highest first)
     best = sorted(scores, key=scores.get, reverse=True)
-    
+
     # Take top 30% of sentences
-    total_sentences = len(best)
-    num_sentences = max(1, total_sentences // 3)  
+    total = len(best)
+    num_sentences = max(1, total // 3)
     best = best[:num_sentences]
+
+    #Cleaned sentences
     result = []
     for s in best:
         if s.strip():
             result.append(s.strip())
     return ". ".join(result)
 
-#main program
-file_path = input("Enter path to your .txt file: ")
-text = load(file_path)
 
-print("Original Text")
+file_path = input("Enter path to your .txt file: ").strip()
+
+# Auto-add ".txt" if missing
+if not file_path.endswith(".txt"):
+    file_path += ".txt"
+
+# Try to load safely
+try:
+    text = load(file_path)
+except FileNotFoundError:
+    print(f"Error: File '{file_path}' not found.")
+    exit()
+except Exception as e:
+    print(f"Unexpected error: {e}")
+    exit()
+
+print("\nOriginal Text:\n")
 print(text)
-
+summarized = summary(text)
+print("\nSummary:\n")
+print(summarized)

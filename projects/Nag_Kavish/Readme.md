@@ -48,14 +48,17 @@ offline-text-summarizer/
 ---
 
 ## Demo Screenshot / Output
-WIP
+![sample.txt](image.png)
+![Output](output.png)
 
 ---
 
 ## AI Tools Used
 Chat Gpt
 - To get words which doesn't mean much meaning.
-
+- Help with fixes in summarize function
+- To create the sample text file
+- Cleaning of code.
 ---
 
 ## Future Improvements
@@ -76,7 +79,7 @@ No internet or API dependency.
 - [x] Wrote Problem Statement  
 - [x] Listed Features & Tech Stack  
 - [x] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
+- [x] Provided Demo Output (screenshot or text)  
 - [x] Listed AI tools used (or None)  
 - [x] Explained Future Improvements  
 - [x] Project runs offline
