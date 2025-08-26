@@ -45,18 +45,22 @@ A simple blockchain system that securely records and validates transactions usin
 ---
 
 ## Project Structure
+```text
 mini-blockchain/
-├── main.py                 # CLI entry point
+├── main.py
 ├── mini_blockchain/
-│   ├── __init__.py
-│   ├── block.py            # Block class
-│   ├── blockchain.py       # Blockchain class
-│   ├── utils.py            # Helpers (validation, pretty print)
-│   └── data/
-│       └── chain.json      # Stored blockchain
+│ ├── init.py
+│ ├── block.py
+│ ├── blockchain.py
+│ ├── utils.py
+│ └── data/
+│ └── chain.json
 └── README.md
+```
 
----
+
+
+
 
 ## Demo Screenshot / Output
 Add a screenshot of your project running, or copy-paste sample terminal output here.
