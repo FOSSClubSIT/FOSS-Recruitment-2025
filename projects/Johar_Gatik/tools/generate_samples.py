@@ -1,6 +1,6 @@
 # tools/generate_samples.py
 """
-Interactive GUI-based program for AR marker generation and webcam feature matching.
+AR Marker Detection and Overlay Program
 """
 import os
 import cv2
@@ -9,83 +9,88 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
 
-ROOT = os.path.dirname(os.path.dirname(__file__))
-ASSETS = os.path.join(ROOT, "assets")
-os.makedirs(ASSETS, exist_ok=True)
+class ARProgram:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("AR Marker Program")
+        self.root.geometry("500x300")
 
-def webcam_mode(marker):
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        messagebox.showerror("Error", "Cannot access the webcam.")
-        return
+        self.marker = None
 
-    try:
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                messagebox.showerror("Error", "Failed to capture frame from webcam.")
-                break
+        label = tk.Label(root, text="AR Marker Detection and Overlay", font=("Arial", 18))
+        label.pack(pady=20)
 
-            # Convert frame to grayscale
-            frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            marker_gray = cv2.cvtColor(marker, cv2.COLOR_BGR2GRAY)
+        upload_button = tk.Button(root, text="Upload Marker Image", font=("Arial", 14), command=self.upload_image)
+        upload_button.pack(pady=10)
 
-            # Detect and match features
-            orb = cv2.ORB_create()
-            kp1, des1 = orb.detectAndCompute(marker_gray, None)
-            kp2, des2 = orb.detectAndCompute(frame_gray, None)
+        webcam_button = tk.Button(root, text="Start Webcam Mode", font=("Arial", 14), command=self.start_webcam)
+        webcam_button.pack(pady=10)
 
-            if des1 is not None and des2 is not None:
-                bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-                matches = bf.match(des1, des2)
-                matches = sorted(matches, key=lambda x: x.distance)
+        exit_button = tk.Button(root, text="Exit", font=("Arial", 14), command=root.destroy)
+        exit_button.pack(pady=10)
 
-                # Draw matches
-                frame = cv2.drawMatches(marker, kp1, frame, kp2, matches[:10], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    def upload_image(self):
+        file_path = filedialog.askopenfilename(title="Select an Image", filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
+        if not file_path:
+            return
 
-            # Add overlay text and instructions
-            overlay_text = "Webcam Mode: Press 'q' to quit"
-            cv2.putText(frame, overlay_text, (10, 30),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
+        self.marker = cv2.imread(file_path)
+        if self.marker is None:
+            messagebox.showerror("Error", "Failed to read the image.")
+            return
 
-            # Display the webcam feed
-            cv2.imshow("Webcam Feed", frame)
+        messagebox.showinfo("Info", "Image uploaded successfully. You can now start the webcam mode.")
 
-            # Exit on 'q' key press
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-    finally:
-        cap.release()
-        cv2.destroyAllWindows()
+    def start_webcam(self):
+        if self.marker is None:
+            messagebox.showerror("Error", "Please upload a marker image first.")
+            return
 
-def upload_image():
-    file_path = filedialog.askopenfilename(title="Select an Image", filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
-    if not file_path:
-        return None
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            messagebox.showerror("Error", "Cannot access the webcam.")
+            return
 
-    marker = cv2.imread(file_path)
-    if marker is None:
-        messagebox.showerror("Error", "Failed to read the image.")
-        return None
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    messagebox.showerror("Error", "Failed to capture frame from webcam.")
+                    break
 
-    messagebox.showinfo("Info", "Image uploaded successfully. Starting webcam mode.")
-    webcam_mode(marker)
+                # Convert frame to grayscale
+                frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                marker_gray = cv2.cvtColor(self.marker, cv2.COLOR_BGR2GRAY)
 
-def main_gui():
-    root = tk.Tk()
-    root.title("AR Marker Program")
-    root.geometry("400x200")
+                # Detect and match features
+                orb = cv2.ORB_create()
+                kp1, des1 = orb.detectAndCompute(marker_gray, None)
+                kp2, des2 = orb.detectAndCompute(frame_gray, None)
 
-    label = tk.Label(root, text="Choose an Operation", font=("Arial", 16))
-    label.pack(pady=20)
+                if des1 is not None and des2 is not None:
+                    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+                    matches = bf.match(des1, des2)
+                    matches = sorted(matches, key=lambda x: x.distance)
 
-    upload_button = tk.Button(root, text="Upload Marker Image", font=("Arial", 14), command=upload_image)
-    upload_button.pack(pady=10)
+                    # Draw matches
+                    frame = cv2.drawMatches(self.marker, kp1, frame, kp2, matches[:10], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 
-    exit_button = tk.Button(root, text="Exit", font=("Arial", 14), command=root.destroy)
-    exit_button.pack(pady=10)
+                # Add overlay text and instructions
+                overlay_text = "Webcam Mode: Press 'q' to quit"
+                cv2.putText(frame, overlay_text, (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
 
-    root.mainloop()
+                # Display the webcam feed
+                cv2.imshow("Webcam Feed", frame)
+
+                # Exit on 'q' key press
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+        finally:
+            cap.release()
+            cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main_gui()
+    root = tk.Tk()
+    app = ARProgram(root)
+    root.mainloop()
