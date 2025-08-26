@@ -63,7 +63,7 @@ mini-blockchain/
 
 
 ## Demo Screenshot / Output
-<p align="center">
+<p>
   <img src="screenshot.png" alt="Blockchain Screenshot" width="400">
 </p>
 ---
