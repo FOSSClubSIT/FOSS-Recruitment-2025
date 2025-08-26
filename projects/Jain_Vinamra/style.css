@@ -1,45 +1,122 @@
+/* General body styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #bdd6ef;
+    color: #333;
     text-align: center;
-    margin: 20px;
+    margin: 0;
+    padding: 20px;
 }
-textarea {
-    width: 80%;
+
+/* Heading */
+h1 {
+    color: #2c3e50;
+    font-size: 2.2em;
     margin-bottom: 10px;
 }
+h2 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+/* Textarea */
+textarea {
+    width: 80%;
+    max-width: 700px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-size: 14px;
+    resize: vertical;
+}
+
+/* Buttons */
 button {
     margin: 5px;
-    padding: 8px 15px;
-    font-size: 14px;
+    padding: 10px 18px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
 }
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+}
+
+/* Total amount */
+#total {
+    font-size: 30px;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Expense list */
 ul {
     list-style: none;
     padding: 0;
+    margin: 0 auto;
+    max-width: 700px;
 }
+
 li {
-    border: 1px solid #333;
-    margin: 5px auto;
-    padding: 5px;
-    width: 80%;
+    border-radius: 8px;
+    margin: 8px 0;
+    padding: 12px 15px;
     text-align: left;
+    background: #fff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
 span.cat {
     font-weight: bold;
+    color: #2980b9;
 }
 span.date {
     font-style: italic;
     float: right;
+    color: #7f8c8d;
 }
+
+/* Category totals table */
 table {
     border-collapse: collapse;
     margin: 0 auto 20px auto;
     width: 60%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
+
 th, td {
-    border: 1px solid #333;
-    padding: 8px;
+    padding: 12px 15px;
     text-align: center;
 }
+
 th {
-    background-color: #f2f2f2;
+    background: #3498db;
+    color: #fff;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background: #f7f9fc;
+}
+
+tr:hover {
+    background: #ecf0f1;
 }
