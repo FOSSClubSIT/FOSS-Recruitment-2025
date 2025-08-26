@@ -3,33 +3,11 @@ AR Face Filter Program
 """
 import cv2
 import os
-from PIL import Image, ImageDraw
 
 class ARFaceFilter:
     def __init__(self):
         self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-        self.marker_path = "marker.png"
-        self.ensure_marker()
-
-    def ensure_marker(self):
-        """Ensure the marker image exists."""
-        if not os.path.exists(self.marker_path):
-            self.create_marker()
-
-    def create_marker(self):
-        """Create a placeholder marker image resembling glasses."""
-        width, height = 200, 100
-        marker = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        draw = ImageDraw.Draw(marker)
-
-        # Draw left lens
-        draw.ellipse([20, 30, 80, 90], fill=(0, 0, 0, 255))
-        # Draw right lens
-        draw.ellipse([120, 30, 180, 90], fill=(0, 0, 0, 255))
-        # Draw bridge
-        draw.rectangle([80, 50, 120, 70], fill=(0, 0, 0, 255))
-
-        marker.save(self.marker_path)
+        self.marker_path = "glasses.png"
 
     def overlay_marker(self, frame, face_coords):
         """Overlay the marker on detected faces."""
