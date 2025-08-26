@@ -12,7 +12,7 @@ from overlay import warp_ref_corners_to_scene, draw_polygon, draw_cube
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="Mini AR with OpenCV — offline-first homography + (optional) cube overlay."
+        description="Mini AR with OpenCV"
     )
     p.add_argument("--reference", "-r", required=True, help="Path to reference image (marker).")
     src = p.add_mutually_exclusive_group(required=True)
@@ -20,12 +20,14 @@ def parse_args():
     src.add_argument("--webcam", action="store_true", help="Use webcam (optional).")
 
     p.add_argument("--save", help="Path to save output image/frame.", default=None)
+    p.add_argument("--save-video", help="Path to save output video.", default=None)
     p.add_argument("--draw-cube", action="store_true", help="Overlay a 3D cube.")
     p.add_argument("--keep-ratio", type=float, default=1.0, help="Fraction of best matches to keep (0,1].")
     p.add_argument("--nfeatures", type=int, default=2000, help="ORB nfeatures.")
     p.add_argument("--ransac", type=float, default=3.0, help="RANSAC reprojection threshold (px).")
     p.add_argument("--show", action="store_true", help="cv2.imshow the result window.")
     p.add_argument("--f-scale", type=float, default=1.2, help="Virtual intrinsics focal length scale.")
+    p.add_argument("--webcam-res", type=str, default="640x480", help="Webcam resolution (e.g., 640x480).")
     return p.parse_args()
 
 def process_single_frame(ref_bgr, ref_gray, frame_bgr, args):
@@ -56,6 +58,11 @@ def process_single_frame(ref_bgr, ref_gray, frame_bgr, args):
 
     return out, inliers, len(feats.matches)
 
+def set_webcam_resolution(cap, resolution):
+    width, height = map(int, resolution.split('x'))
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+
 def main():
     args = parse_args()
 
@@ -78,8 +85,19 @@ def main():
         if not cap.isOpened():
             print("[ERROR] Cannot open webcam.", file=sys.stderr)
             sys.exit(1)
+
+        set_webcam_resolution(cap, args.webcam_res)
+
+        # Video writer setup
+        video_writer = None
+        if args.save_video:
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            width, height = map(int, args.webcam_res.split('x'))
+            video_writer = cv2.VideoWriter(args.save_video, fourcc, 20.0, (width, height))
+
         try:
             fps_t0 = time.time(); frames = 0
+            cube_overlay = args.draw_cube
             while True:
                 ok, frame_bgr = cap.read()
                 if not ok:
@@ -94,9 +112,17 @@ def main():
                                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2, cv2.LINE_AA)
 
                 cv2.imshow("AR Webcam", out)
+
+                # Write to video if enabled
+                if video_writer:
+                    video_writer.write(out)
+
                 key = cv2.waitKey(1) & 0xFF
                 if key == 27 or key == ord('q'):
                     break
+                elif key == ord('c'):
+                    cube_overlay = not cube_overlay
+                    args.draw_cube = cube_overlay
 
                 frames += 1
                 if frames % 30 == 0:
@@ -105,6 +131,8 @@ def main():
                     print(f"[INFO] streaming fps ~ {fps:.1f}")
         finally:
             cap.release()
+            if video_writer:
+                video_writer.release()
             cv2.destroyAllWindows()
 
 if __name__ == "__main__":

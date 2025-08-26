@@ -48,4 +48,7 @@ def detect_and_match_orb(ref_img_gray, scene_img_gray,
     pts1 = np.float32([kp1[m.queryIdx].pt for m in matches]).reshape(-1, 1, 2)
     pts2 = np.float32([kp2[m.trainIdx].pt for m in matches]).reshape(-1, 1, 2)
 
-    return FeatureResult(kp1, kp2, matches, pts1, pts2)
+    # Filter matches based on distance threshold
+    good_matches = [m for m in matches if m.distance < 50]
+
+    return FeatureResult(kp1, kp2, good_matches, pts1, pts2)

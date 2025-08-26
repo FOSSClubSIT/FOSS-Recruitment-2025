@@ -27,6 +27,9 @@ def make_marker(size=400):
                               (ox + x*cell, oy + y*cell),
                               (ox + (x+1)*cell, oy + (y+1)*cell),
                               (0, 0, 0), thickness=-1)
+    # Add a unique identifier text
+    cv2.putText(img, "AR-MARKER", (50, size - 50),
+                cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2, cv2.LINE_AA)
     return img
 
 def compose_scene(marker, out_h=720, out_w=960):
@@ -55,20 +58,28 @@ def compose_scene(marker, out_h=720, out_w=960):
     bg_bg = cv2.bitwise_and(bg, bg, mask=inv)
     comp = cv2.add(bg_fg, bg_bg)
 
-    # add light noise/text to avoid being too clean
+    # Add light noise/text to avoid being too clean
     cv2.putText(comp, "MINI AR DEMO", (30, out_h - 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1.3, (50, 50, 50), 3, cv2.LINE_AA)
-    return comp
+    return comp, H
 
 def main():
-    marker = make_marker(460)
-    scene  = compose_scene(marker)
-    ref_path = os.path.join(ASSETS, "reference.png")
-    scn_path = os.path.join(ASSETS, "scene.png")
-    cv2.imwrite(ref_path, marker)
-    cv2.imwrite(scn_path, scene)
-    print(f"[OK] Wrote {ref_path}")
-    print(f"[OK] Wrote {scn_path}")
+    try:
+        marker = make_marker(460)
+        scene, homography = compose_scene(marker)
+        ref_path = os.path.join(ASSETS, "reference.png")
+        scn_path = os.path.join(ASSETS, "scene.spng")
+        homography_path = os.path.join(ASSETS, "homography.txt")
+
+        cv2.imwrite(ref_path, marker)
+        cv2.imwrite(scn_path, scene)
+        np.savetxt(homography_path, homography, fmt="%.6f")
+
+        print(f"[OK] Wrote {ref_path}")
+        print(f"[OK] Wrote {scn_path}")
+        print(f"[OK] Wrote homography matrix to {homography_path}")
+    except Exception as e:
+        print(f"[ERROR] {str(e)}")
 
 if __name__ == "__main__":
     np.random.seed(42)  # determinism for reviewers

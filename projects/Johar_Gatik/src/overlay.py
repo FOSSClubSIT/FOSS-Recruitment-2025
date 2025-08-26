@@ -36,6 +36,27 @@ def project_points(P, pts_3d):
     proj = proj[:, :2] / proj[:, 2:3]
     return proj
 
+def draw_grid(img_bgr, H, w_ref, h_ref, grid_size=10, color=(0, 255, 255), thickness=1):
+    """Draw a grid on the reference plane projected onto the scene."""
+    step_x = w_ref / grid_size
+    step_y = h_ref / grid_size
+    for i in range(grid_size + 1):
+        # Vertical lines
+        p1 = np.float32([[i * step_x, 0, 0]])
+        p2 = np.float32([[i * step_x, h_ref, 0]])
+        proj_p1 = cv2.perspectiveTransform(p1.reshape(-1, 1, 3), H).reshape(-1, 2).astype(int)
+        proj_p2 = cv2.perspectiveTransform(p2.reshape(-1, 1, 3), H).reshape(-1, 2).astype(int)
+        cv2.line(img_bgr, tuple(proj_p1[0]), tuple(proj_p2[0]), color, thickness, cv2.LINE_AA)
+
+        # Horizontal lines
+        p1 = np.float32([[0, i * step_y, 0]])
+        p2 = np.float32([[w_ref, i * step_y, 0]])
+        proj_p1 = cv2.perspectiveTransform(p1.reshape(-1, 1, 3), H).reshape(-1, 2).astype(int)
+        proj_p2 = cv2.perspectiveTransform(p2.reshape(-1, 1, 3), H).reshape(-1, 2).astype(int)
+        cv2.line(img_bgr, tuple(proj_p1[0]), tuple(proj_p2[0]), color, thickness, cv2.LINE_AA)
+
+    return img_bgr
+
 def draw_cube(img_bgr, P, w_ref, h_ref, height_factor=0.5,
               color=(255, 0, 0), thickness=2):
     """
@@ -60,10 +81,15 @@ def draw_cube(img_bgr, P, w_ref, h_ref, height_factor=0.5,
                  color, thickness, cv2.LINE_AA)
     # top square
     for i in range(4, 8):
-        cv2.line(img_bgr, tuple(proj[i]), tuple(proj(((i - 4 + 1) % 4) + 4)),
+        cv2.line(img_bgr, tuple(proj[i]), tuple(proj[((i - 4 + 1) % 4) + 4]),
                  color, thickness, cv2.LINE_AA)
     # vertical edges
     for i in range(4):
         cv2.line(img_bgr, tuple(proj[i]), tuple(proj[i + 4]),
                  color, thickness, cv2.LINE_AA)
+
+    # Add dynamic color to the cube
+    for i in range(4):
+        cv2.fillPoly(img_bgr, [proj[i:i+2].reshape(-1, 2)], (0, 255, 0))
+
     return img_bgr
