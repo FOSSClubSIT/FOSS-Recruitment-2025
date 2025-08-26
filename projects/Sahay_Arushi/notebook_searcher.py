@@ -94,8 +94,9 @@ if __name__ == "__main__":
             print("No searchable files found in the notes folder. Please add some notes to search.")
         else:
             while True:
-                search_query = input("\nEnter a keyword to search (or type 'exit' to quit): ")
-                if search_query.lower() == 'exit':
+                # Use 'q' as the exit command
+                search_query = input("\nEnter a keyword to search (or type 'q' to quit): ")
+                if search_query.lower() == 'q':
                     break
 
                 search_results = search_notes(notes_data, search_query)
