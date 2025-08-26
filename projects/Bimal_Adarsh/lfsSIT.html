@@ -586,9 +586,7 @@
             potentialMatches.forEach(match => {
                 const hasMatchingTag = newItem.tags.some(tag => match.tags.includes(tag));
                 if (hasMatchingTag) {
-                    const message = newItem.status === 'lost' 
-                        ? `Your lost '${newItem.itemName}' has a tag match with a found '${match.itemName}'.`
-                        : `The '${newItem.itemName}' you found has a tag match with a lost '${match.itemName}'.`;
+                    const message = `A '${match.itemName}' was found that may match your lost '${newItem.itemName}'.`;
                     
                     const notification = {
                         message,
@@ -614,7 +612,9 @@
              try {
                 localStorage.setItem(key, JSON.stringify(data));
                 console.log(`--- Data saved successfully with key: ${key} ---`);
-                checkForMatches(data);
+                if (data.status === 'lost') {
+                    checkForMatches(data);
+                }
                 showPage('success-page');
             } catch (error) {
                 console.error("Failed to save data:", error);
