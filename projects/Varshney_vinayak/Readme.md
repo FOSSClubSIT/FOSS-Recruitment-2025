@@ -15,14 +15,17 @@ This project helps users quickly evaluate whether their passwords are weak or st
 ---
 
 ## Features
-Nothing much for now but will be there soon and before 11:59 on tuesday 26 Aug 2025   
+Nothing much for now but will be there soon and before 11:59 on tuesday 26 Aug 2025
+- v0.01
+    - you can now input a password... yay!!!
+
 - Works offline 
 
 ---
 
 ## Tech Stack
 
-Python was used.
+Python is used.
 
 ---
 
@@ -36,7 +39,7 @@ Python was used.
 
 ## Project Structure
 
-your-project/
+projects/Varshney_vinayak/
 
 ---
 

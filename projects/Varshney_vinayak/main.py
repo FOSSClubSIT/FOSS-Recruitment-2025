@@ -1,1 +1,1 @@
-print("Initial Commit (Canon Event)")
+password = input("Enter your password:" )
