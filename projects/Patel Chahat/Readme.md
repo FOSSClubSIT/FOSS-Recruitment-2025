@@ -63,7 +63,7 @@ mini-blockchain/
 
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
+![Blockchain Screenshot](mini_blockchain/data/screenshot.png)
 
 ---
 
