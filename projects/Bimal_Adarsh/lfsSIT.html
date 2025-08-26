@@ -52,15 +52,32 @@
                     <a href="#" class="text-gray-600 hover:text-blue-600 transition-transform duration-200 hover:scale-110 font-medium">Top Contributors</a>
                 </nav>
 
-                <!-- Profile/Auth Button -->
-                <div id="auth-container" class="flex items-center">
-                     <button onclick="handleAuthClick()" class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                        <svg id="login-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <svg id="logout-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 hidden"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    </button>
+                <!-- Right side icons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Notification Center -->
+                    <div class="relative">
+                        <button onclick="toggleNotifications()" class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 focus:outline-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span id="notification-dot" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full border-2 border-white hidden"></span>
+                        </button>
+                        <div id="notification-panel" class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl overflow-hidden z-20 hidden">
+                            <div class="py-2 px-4 text-sm font-semibold text-gray-700 border-b">Notifications</div>
+                            <div id="notification-list" class="divide-y max-h-96 overflow-y-auto">
+                                <!-- Notifications will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile/Auth Button -->
+                    <div id="auth-container" class="flex items-center">
+                         <button onclick="handleAuthClick()" class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            <svg id="login-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <svg id="logout-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 hidden"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -425,6 +442,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             updateAuthStateUI();
+            updateNotificationUI();
         });
 
         // --- PAGE NAVIGATION ---
@@ -441,14 +459,16 @@
         function showLostItemsPage() {
             const grid = document.getElementById('lost-items-grid');
             const noItemsMessage = document.getElementById('no-lost-items');
-            grid.innerHTML = ''; // Clear previous items
+            grid.innerHTML = '';
 
             const lostItems = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key.startsWith('lostItem_')) {
                     try {
-                        lostItems.push(JSON.parse(localStorage.getItem(key)));
+                        const item = JSON.parse(localStorage.getItem(key));
+                        item.storageKey = key;
+                        lostItems.push(item);
                     } catch (e) {
                         console.error(`Could not parse lost item from localStorage with key: ${key}`);
                     }
@@ -466,7 +486,7 @@
                 lostItems.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'bg-white rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300';
-                    const imgSrc = item.imageAttached ? 'https://placehold.co/600x400/e0e7ff/3c82f6?text=Image+Uploaded' : 'https://placehold.co/600x400/f3f4f6/6b7280?text=No+Image';
+                    const imgSrc = item.imageData || 'https://placehold.co/600x400/f3f4f6/6b7280?text=No+Image';
                     const tagsHTML = item.tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full inline-block">${tag}</span>`).join('');
                     card.innerHTML = `
                         <div class="h-48 bg-gray-200 flex items-center justify-center">
@@ -474,7 +494,7 @@
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900 truncate">${item.itemName}</h3>
-                            <p class="text-gray-500 text-sm mt-1">Location: Not Specified</p>
+                            <p class="text-gray-500 text-sm mt-1">Location: ${item.location || 'Not Specified'}</p>
                             <div class="mt-4 flex flex-wrap">
                                 ${tagsHTML || '<span class="text-xs text-gray-400">No tags</span>'}
                             </div>
@@ -484,6 +504,81 @@
                 });
             }
             showPage('lost-items-page');
+        }
+
+        // --- NOTIFICATION SYSTEM ---
+        const notificationPanel = document.getElementById('notification-panel');
+        const notificationDot = document.getElementById('notification-dot');
+        const notificationList = document.getElementById('notification-list');
+
+        function toggleNotifications() {
+            const isHidden = notificationPanel.classList.toggle('hidden');
+            if (!isHidden) {
+                populateNotifications();
+                markNotificationsAsRead();
+                updateNotificationUI();
+            }
+        }
+
+        function updateNotificationUI() {
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            const hasUnread = notifications.some(n => !n.read);
+            notificationDot.classList.toggle('hidden', !hasUnread);
+        }
+
+        function populateNotifications() {
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            notificationList.innerHTML = '';
+
+            if (notifications.length === 0) {
+                notificationList.innerHTML = `<p class="text-gray-500 text-sm p-4 text-center">No notifications yet.</p>`;
+                return;
+            }
+
+            notifications.reverse().forEach(n => {
+                const notifElement = document.createElement('div');
+                notifElement.className = 'p-4 text-sm text-gray-700 hover:bg-gray-50';
+                notifElement.innerHTML = `
+                    <p class="font-semibold">Potential Match Found!</p>
+                    <p>${n.message}</p>
+                    <p class="text-xs text-gray-400 mt-1">${new Date(n.timestamp).toLocaleString()}</p>
+                `;
+                notificationList.appendChild(notifElement);
+            });
+        }
+
+        function markNotificationsAsRead() {
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            notifications.forEach(n => n.read = true);
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        function checkForMatches(newItem) {
+            const allItems = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if ((key.startsWith('lostItem_') || key.startsWith('foundItem_')) && key !== `${newItem.status}Item_${newItem.timestamp}`) {
+                    allItems.push(JSON.parse(localStorage.getItem(key)));
+                }
+            }
+
+            const oppositeStatus = newItem.status === 'lost' ? 'found' : 'lost';
+            const potentialMatches = allItems.filter(item => item.status === oppositeStatus);
+
+            potentialMatches.forEach(match => {
+                const hasMatchingTag = newItem.tags.some(tag => match.tags.includes(tag));
+                if (hasMatchingTag) {
+                    const message = newItem.status === 'lost' 
+                        ? `Your lost '${newItem.itemName}' has a tag match with a found '${match.itemName}'.`
+                        : `The '${newItem.itemName}' you found has a tag match with a lost '${match.itemName}'.`;
+                    
+                    const notification = { message, timestamp: new Date().toISOString(), read: false };
+                    let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+                    notifications.push(notification);
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    updateNotificationUI();
+                }
+            });
         }
 
         // --- AUTHENTICATION SYSTEM ---
@@ -667,8 +762,8 @@
                 updateGlobalTags(cleanedLabel);
                 renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
             }
-            lostTagsInput.value = '';
-            lostSuggestionsEl.classList.add('hidden');
+            if(lostTagsInput) lostTagsInput.value = '';
+            if(lostSuggestionsEl) lostSuggestionsEl.classList.add('hidden');
         }
 
         function removeLostTag(event, label) {
@@ -699,8 +794,8 @@
                 updateGlobalTags(cleanedLabel);
                 renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
             }
-            foundTagsInput.value = '';
-            foundSuggestionsEl.classList.add('hidden');
+            if(foundTagsInput) foundTagsInput.value = '';
+            if(foundSuggestionsEl) foundSuggestionsEl.classList.add('hidden');
         }
 
         function removeFoundTag(event, label) {
@@ -744,22 +839,46 @@
 
         function handleImageChange(e, setDataUrlCallback, previewEl, previewContainerEl, iconEl, textEl) {
             const file = e.target.files[0];
-            if (file) {
-                if (file.size > 10 * 1024 * 1024) {
-                    document.getElementById('error-message').textContent = 'The image is too large. Max size is 10MB.';
-                    showPage('error-page');
-                    e.target.value = ""; return;
-                }
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    setDataUrlCallback(event.target.result);
-                    previewEl.src = event.target.result;
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const MAX_WIDTH = 800;
+                    const MAX_HEIGHT = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+                    setDataUrlCallback(compressedDataUrl);
+                    previewEl.src = compressedDataUrl;
                     previewContainerEl.classList.remove('hidden');
                     iconEl.classList.add('hidden');
                     textEl.textContent = 'Change file';
                 };
-                reader.readAsDataURL(file);
-            }
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         const itemForm = document.getElementById('item-form');
@@ -768,12 +887,15 @@
                 e.preventDefault();
                 const pendingTag = lostTagsInput.value.trim().replace(/,/g, '');
                 if (pendingTag) addLostTag(pendingTag);
-                const fullData = {
+                const dataToSave = {
                     itemName: document.getElementById('item-name').value,
                     description: document.getElementById('item-description').value,
-                    tags: lostFormTags, imageData: imageDataUrl, status: 'lost', timestamp: new Date().toISOString()
+                    tags: lostFormTags, 
+                    imageData: imageDataUrl,
+                    status: 'lost', 
+                    timestamp: new Date().toISOString()
                 };
-                saveData('lostItem', fullData);
+                saveData('lostItem', dataToSave);
             });
         }
 
@@ -783,31 +905,17 @@
                 e.preventDefault();
                 const pendingTag = foundTagsInput.value.trim().replace(/,/g, '');
                 if (pendingTag) addFoundTag(pendingTag);
-                const fullData = {
+                const dataToSave = {
                     itemName: document.getElementById('found-item-name').value,
                     location: document.getElementById('found-item-location').value,
                     description: document.getElementById('found-item-description').value,
-                    tags: foundFormTags, imageData: foundImageDataUrl, status: 'found', timestamp: new Date().toISOString()
+                    tags: foundFormTags, 
+                    imageData: foundImageDataUrl,
+                    status: 'found', 
+                    timestamp: new Date().toISOString()
                 };
-                saveData('foundItem', fullData);
+                saveData('foundItem', dataToSave);
             });
-        }
-
-        function saveData(storagePrefix, fullData) {
-             const storageData = { ...fullData, imageData: undefined, imageAttached: !!fullData.imageData };
-             try {
-                const key = `${storagePrefix}_${storageData.timestamp}`;
-                localStorage.setItem(key, JSON.stringify(storageData));
-                console.log(`--- Data saved to localStorage with key: ${key} ---`);
-                console.log("Data in localStorage:", storageData);
-                console.log("--- Full data (that would go to a backend) ---");
-                console.log(fullData);
-                showPage('success-page');
-            } catch (error) {
-                console.error("Failed to save to localStorage:", error);
-                document.getElementById('error-message').textContent = 'An unexpected error occurred while saving your report.';
-                showPage('error-page');
-            }
         }
 
         function resetFormsAndShowHome() {
