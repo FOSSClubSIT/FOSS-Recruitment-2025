@@ -1,82 +1,79 @@
-# Project Title: Write your project name here
+# Project Title: Wordle Game
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Utkarsh Arya
+- **PRN**: 25070123118
+- **Year**: FY
+- **Branch**: Entc
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
+Sometimes people lack in english words while speaking.
+By playing this game they would come across different new words and they would deep dive into their knowledge to find out what word could it be.
 
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+Few things which my project can do -
+- Increase word stock 
+- Thinking ability of people would increase
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+Being a fresher, I have just used C language in this.
 
 ---
 
 ## How to Run
-Explain step by step how to run your project.  
-Example:  
+Steps to run this game - 
 1. Open the folder in VS Code.  
-2. Run `python main.py`  
+2. Run code in `C`  
 3. The program will start in offline mode.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+Wordle/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
 
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
+![alt text](<Demo SS 1.jpg>)
+![alt text](<Demo SS 2.jpg>)
 
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+Fresher
+Used chatgpt for github related purposes like pushing code and and making repository.
+Got idea to make wordle game from chatgpt.
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+I would have put different level.
+Used dictionary to limit words only till valid english words.
 
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+First project
+This code can run offline as well
 
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 
