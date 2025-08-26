@@ -1,29 +1,29 @@
-# Project Title: Mini AR with OpenCV 
+# Project Title: Hyper-Realistic AR Face Filter
 
 ## Student Details
-- **Name**: Gatik Johar  
-- **PRN**: 24070126060  
-- **Year**: SY  
-- **Branch**: AIML 
+- **Name**: Gatik Johar
+- **PRN**: 24070126060
+- **Year**: SY
+- **Branch**: AIML
 
 ---
 
 ## Problem Statement
-**Goal:** Detect a known flat reference image inside a scene (or webcam) using feature matching and RANSAC homography, then draw a 3D cube aligned to the detected plane — fully offline by default.
+**Goal:** Create a hyper-realistic AR application that overlays virtual objects (e.g., glasses) on detected faces in real-time using a webcam. The program should be streamlined, user-friendly, and impressive.
 
 ---
 
 ## Features
-- ORB feature detection & Hamming BF matching.
-- RANSAC-based homography estimation.
-- Quadrilateral overlay of detected reference plane.
-- Optional virtual 3D cube overlay via homography → pose decomposition.
-- Offline sample generator (`tools/generate_samples.py`).
+- Real-time face detection using OpenCV.
+- Hyper-realistic glasses overlay with dynamic lighting, 3D perspective, and lens effects.
+- Support for multiple faces.
+- Interactive features (e.g., toggle overlays).
+
 ---
 
 ## Tech Stack
-- **Languages**: Python  
-- **Libraries**: OpenCV, NumPy, Matplotlib  
+- **Languages**: Python
+- **Libraries**: OpenCV, NumPy, Pillow
 - **Tools**: VS Code, Git, Virtual Environment
 
 ---
@@ -49,7 +49,7 @@
    ```
 5. Run the main script:
    ```bash
-   python src/generate_samples.py
+   python tools/ar_face_filter.py
    ```
 6. Follow the on-screen instructions to test the AR functionality.
 
@@ -57,18 +57,13 @@
 
 ## Project Structure
 ```
-your-project/
+project/
 ├── README.md
 ├── requirements.txt
-├── src/            # Source code
-│   ├── ar_demo.py  # Main script
-│   ├── features.py # Feature detection and matching
-│   ├── io_utils.py # Input/output utilities
-│   ├── overlay.py  # Overlay rendering
-│   ├── pose.py     # Pose estimation
-├── tools/          # Utility scripts
-│   └── generate_samples.py # Offline sample generator
-└── sample_output/  # (optional) Generated outputs
+├── tools/
+│   └── ar_face_filter.py  # Final streamlined program
+├── assets/
+│   └── glasses.png        # Glasses overlay image
 ```
 
 ---
@@ -78,49 +73,34 @@ Below is a sample output of the project:
 
 - **Terminal Output**:
   ```
-  Reference image detected.
-  Homography matrix computed.
-  3D cube overlay rendered successfully.
+  Faces detected: 2
+  Glasses overlay applied successfully.
   ```
 - **Screenshot**:
-  ![Demo Screenshot](assets/scene.png)  
-
----
-
-## AI Tools Used
-- GitHub Copilot
-- ChatGPT Code Generation
+  ![Demo Screenshot](assets/demo.png)
 
 ---
 
 ## Future Improvements
-- Add support for multiple reference images.
-- Improve the accuracy of feature matching.
-- Optimize the performance for real-time AR applications.
-- Add a GUI for better user interaction.
+- Add support for additional virtual objects.
+- Enhance performance for low-end devices.
+- Introduce a GUI for better user interaction.
 
 ---
 
 ## Notes for Reviewers
-- This project runs offline by default.
 - Ensure the `requirements.txt` dependencies are installed before running the project.
+- The program has been tested on Windows and Linux.
 
 ---
 
-## Submission Checklist 
-- [x] Cloned the Repository 
-- [x] Added my details (Name, PRN, Year, Branch)  
-- [x] Wrote Problem Statement  
-- [x] Listed Features & Tech Stack  
-- [x] Added clear Run Instructions  
-- [x] Provided Demo Output (screenshot or text)  
-- [x] Listed AI tools used (or None)  
-- [x] Explained Future Improvements  
+## Submission Checklist
+- [x] Cloned the Repository
+- [x] Added my details (Name, PRN, Year, Branch)
+- [x] Wrote Problem Statement
+- [x] Listed Features & Tech Stack
+- [x] Added clear Run Instructions
+- [x] Provided Demo Output (screenshot or text)
+- [x] Explained Future Improvements
 - [x] Project runs offline
-
----
-
-# AR Face Filter Program
-
-This project is an Augmented Reality (AR) application that overlays virtual objects (e.g., glasses) on detected faces in real-time using a webcam. It uses OpenCV for face detection and PIL for creating placeholder markers.
 

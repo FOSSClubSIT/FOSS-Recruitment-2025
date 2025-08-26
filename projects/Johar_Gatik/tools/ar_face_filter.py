@@ -1,79 +1,42 @@
 """
 AR Face Filter Program with Realistic Glasses Overlay
 """
+import argparse
+import sys
+import time
 import cv2
 import numpy as np
 
-class ARFaceFilter:
-    def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-        self.glasses = cv2.imread("glasses.png", cv2.IMREAD_UNCHANGED)
+from src.io_utils import imread_color, imread_gray, save_image
+from src.features import detect_and_match_orb
+from src.overlay import draw_polygon
+from src.pose import estimate_homography
 
-    def overlay_glasses(self, frame, face_coords):
-        """Overlay hyper-realistic glasses on detected faces."""
-        for (x, y, w, h) in face_coords:
-            glasses_width = w
-            glasses_height = int(glasses_width * self.glasses.shape[0] / self.glasses.shape[1])
+# Main AR functionality
+def process_frame(ref_bgr, ref_gray, frame_bgr):
+    scene_gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
+    feats = detect_and_match_orb(ref_gray, scene_gray)
+    H, mask, inliers = estimate_homography(feats.pts1, feats.pts2)
+    out = frame_bgr.copy()
+    draw_polygon(out, H, color=(0, 255, 0), thickness=2)
+    return out
 
-            # Resize the glasses image
-            resized_glasses = cv2.resize(self.glasses, (glasses_width, glasses_height), interpolation=cv2.INTER_AREA)
+def main():
+    ref_path = "path_to_reference_image"
+    ref_bgr = imread_color(ref_path)
+    ref_gray = imread_gray(ref_path)
+    cap = cv2.VideoCapture(0)
 
-            # Calculate the position to overlay the glasses
-            y_offset = y + int(h / 4)
-            x_offset = x
-
-            for i in range(glasses_height):
-                for j in range(glasses_width):
-                    if resized_glasses[i, j][3] != 0:  # Check alpha channel
-                        if 0 <= y_offset + i < frame.shape[0] and 0 <= x_offset + j < frame.shape[1]:
-                            # Blend the glasses pixel with the frame pixel for realism
-                            alpha = resized_glasses[i, j][3] / 255.0
-                            frame[y_offset + i, x_offset + j] = (
-                                alpha * resized_glasses[i, j][:3] +
-                                (1 - alpha) * frame[y_offset + i, x_offset + j]
-                            )
-
-            # Add shading and reflection for realism
-            overlay = frame[y_offset:y_offset + glasses_height, x_offset:x_offset + glasses_width]
-            if overlay.shape[:2] == resized_glasses.shape[:2]:
-                reflection = np.full_like(overlay, (255, 255, 255), dtype=np.uint8)
-                reflection = cv2.addWeighted(overlay, 0.8, reflection, 0.2, 0)
-                frame[y_offset:y_offset + glasses_height, x_offset:x_offset + glasses_width] = reflection
-
-    def start(self):
-        """Start the AR Face Filter program."""
-        cap = cv2.VideoCapture(0)
-        if not cap.isOpened():
-            print("Error: Cannot access the webcam.")
-            return
-
-        try:
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    print("Error: Failed to capture frame from webcam.")
-                    break
-
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-
-                self.overlay_glasses(frame, faces)
-
-                # Display the number of detected faces
-                cv2.putText(frame, f"Faces detected: {len(faces)}", (10, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-
-                # Display instructions
-                cv2.putText(frame, "Press 'q' to quit", (10, 60),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-
-                cv2.imshow("AR Face Filter", frame)
-
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-        finally:
-            cap.release()
-            cv2.destroyAllWindows()
+    while True:
+        ret, frame_bgr = cap.read()
+        if not ret:
+            break
+        out = process_frame(ref_bgr, ref_gray, frame_bgr)
+        cv2.imshow("AR", out)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    ARFaceFilter().start()
+    main()
