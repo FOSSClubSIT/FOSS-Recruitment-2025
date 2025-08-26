@@ -45,16 +45,18 @@ A simple blockchain system that securely records and validates transactions usin
 ---
 
 ## Project Structure
+```text
 mini-blockchain/
 ├── main.py
 ├── mini_blockchain/
-│   ├── __init__.py
-│   ├── block.py
-│   ├── blockchain.py
-│   ├── utils.py
-│   └── data/
-│       └── chain.json
+│ ├── init.py
+│ ├── block.py
+│ ├── blockchain.py
+│ ├── utils.py
+│ └── data/
+│ └── chain.json
 └── README.md
+```
 
 
 
