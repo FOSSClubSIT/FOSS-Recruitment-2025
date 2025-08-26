@@ -77,6 +77,15 @@ def webcam_mode():
                 print("[ERROR] Failed to capture frame from webcam.")
                 break
 
+            # Add overlay text and instructions
+            overlay_text = "Webcam Mode: Press 'q' to quit"
+            cv2.putText(frame, overlay_text, (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
+
+            # Add a simple rectangle overlay for AR simulation
+            h, w, _ = frame.shape
+            cv2.rectangle(frame, (w//4, h//4), (3*w//4, 3*h//4), (255, 0, 0), 2)
+
             # Display the webcam feed
             cv2.imshow("Webcam Feed", frame)
 
