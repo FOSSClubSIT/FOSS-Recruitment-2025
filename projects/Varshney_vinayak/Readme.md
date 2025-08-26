@@ -26,6 +26,9 @@ Nothing much for now but will be there soon and before 11:59 on tuesday 26 Aug 2
     - you can now check for if the password has a digit and special character
 - v0.1
     - you password now has a score (heheheeheheh)
+- v0.5
+    - Added a ML model (Logistic Regression) i know it is an overkill but its my personal touch.
+
 - Works offline 
 
 ---
@@ -67,8 +70,8 @@ None
 
 ## Future Improvements
 
-Not sure decided this on a whim but proly i would add a GUI (meh).
-This may be a EOL commit(v0.1) lol.
+Not sure decided this on a whim but proly i would add a GUI as a final touch(meh).
+This may be a EOL commit(v0.5) lol.
 
 
 ---
