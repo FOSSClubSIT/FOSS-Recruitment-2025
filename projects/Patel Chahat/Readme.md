@@ -33,10 +33,12 @@ A simple blockchain system that securely records and validates transactions usin
 ## How to Run
 1. Open the folder in VS Code.  
 2. Run the following commands:  
-    I. python main.py add "Mr.Zoro Bob 10 coins" \n
-    II.python main.py show \n
-    III.python main.py validate \n
-    IV.python main.py reset \n
+
+    ```bash
+    I. python main.py add "Mr.Zoro Bob 10 coins" 
+    II.python main.py show 
+    III.python main.py validate 
+    IV.python main.py reset 
 
 
 
