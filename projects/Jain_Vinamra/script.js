@@ -1,9 +1,18 @@
 const categories = [
-    { name: "Food", keywords: ["zomato","swiggy","blinkit","domino","kfc","pizza"] },
-    { name: "Shopping", keywords: ["amazon","flipkart","myntra","ajio","meesho"] },
-    { name: "Travel", keywords: ["ola","uber","irctc","airasia","makemytrip"] },
-    { name: "Bills", keywords: ["electricity","dth","broadband","gas","prepaid","postpaid"] }
+    { name: "Food", keywords: ["zomato", "swiggy", "blinkit", "domino", "kfc", "pizza"] },
+    { name: "Shopping", keywords: ["amazon", "flipkart", "myntra", "ajio", "meesho"] },
+    { name: "Travel", keywords: ["ola", "uber", "irctc", "airasia", "makemytrip"] },
+    { name: "Bills", keywords: ["electricity", "dth", "broadband", "gas", "prepaid", "postpaid"] }
 ];
+
+const categoryColors = {
+    "Food": "#27ae60",      // green
+    "Shopping": "#e67e22",  // orange
+    "Travel": "#9b59b6",    // purple
+    "Bills": "#c0392b",     // red
+    "Other": "#7f8c8d"      // gray
+};
+
 
 let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 let total = expenses.reduce((sum, e) => sum + e.amount, 0);
@@ -31,7 +40,7 @@ function extractDate(text) {
     if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
     const ymd = text.match(/\b(20\d{2})[-\/](\d{2})[-\/](\d{2})\b/);
     if (ymd) return `${ymd[1]}-${ymd[2]}-${ymd[3]}`;
-    return new Date().toISOString().slice(0,10);
+    return new Date().toISOString().slice(0, 10);
 }
 
 // Render list
@@ -40,9 +49,10 @@ function render() {
 
     // Render expenses list
     list.innerHTML = "";
-    [...expenses].reverse().forEach(e =>  {
+    [...expenses].reverse().forEach(e => {  // most recent first
         let li = document.createElement("li");
-        li.innerHTML = `<span class="cat">${e.category}</span> ₹${e.amount.toFixed(2)} <span class="date">${e.date}</span><br>${e.sms}`;
+        li.style.borderLeft = `6px solid ${categoryColors[e.category] || "#000"}`; // color strip
+        li.innerHTML = `<span class="cat" style="color:${categoryColors[e.category] || "#000"}">${e.category}</span> ₹${e.amount.toFixed(2)} <span class="date">${e.date}</span><br>${e.sms}`;
         list.appendChild(li);
     });
 
@@ -55,9 +65,11 @@ function render() {
     catTableBody.innerHTML = "";
     for (let [cat, amt] of Object.entries(catTotals)) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${cat}</td><td>₹${amt.toFixed(2)}</td>`;
+        tr.style.backgroundColor = categoryColors[cat] + "20"; // light transparent color for row
+        tr.innerHTML = `<td style="color:${categoryColors[cat]}">${cat}</td><td>₹${amt.toFixed(2)}</td>`;
         catTableBody.appendChild(tr);
     }
+
 }
 
 // Add expense
