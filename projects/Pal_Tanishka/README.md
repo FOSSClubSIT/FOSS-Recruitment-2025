@@ -64,16 +64,17 @@ Pal_Tanishka/
 
 ## Demo Screenshot / Output
 
-**Sample Terminal Output:**
+## Sample Terminal Output
 
+```bash
 PS C:\Users\tanis\FOSS-Recruitment-2025\projects\Pal_Tanishka> & C:/Users/tanis/AppData/Local/Programs/Python/Python313/python.exe c:/Users/tanis/FOSS-Recruitment-2025/projects/Pal_Tanishka/src/main.py
 Dataset Preview:
            Crop  Crop_Year       Season  State     Area  Production  Annual_Rainfall  Fertilizer  Pesticide        Yield
 0      Arecanut       1997  Whole Year   Assam  73814.0       56708           2051.4  7024878.38   22882.34     0.796087
-1     Arhar/Tur       1997  Kharif       Assam   6637.0        4685           2051.4   631643.29    2057.47     0.710435
-2   Castor seed       1997  Kharif       Assam    796.0          22           2051.4    75755.32     246.76     0.238333
+1     Arhar/Tur       1997  Kharif       Assam   6637.0       4685           2051.4   631643.29    2057.47     0.710435
+2   Castor seed       1997  Kharif       Assam    796.0         22           2051.4    75755.32     246.76     0.238333
 3      Coconut        1997  Whole Year   Assam  19656.0   126905000           2051.4  1870661.52    6093.36  5238.051739
-4  Cotton(lint)       1997  Kharif       Assam   1739.0         794           2051.4   165500.63     539.09     0.420909
+4  Cotton(lint)       1997  Kharif       Assam   1739.0        794           2051.4   165500.63     539.09     0.420909
 
 Dataset Info:
 <class 'pandas.core.frame.DataFrame'>
@@ -106,6 +107,8 @@ RMSE: 236.23535707977857
 --- Example Prediction ---
 Linear Regression Predicted Yield: 50.006022579434386
 Random Forest Predicted Yield: 1.3474522474810553
+```
+
 
 ---
 
