@@ -31,7 +31,5 @@ class Block:
         block_string = json.dumps(block_data,sort_keys=True)
         return hashlib.sha256(block_string.encode()).hexdigest()
 
-if __name__ == "__main__":
-    block = Block(0,['Mr. Chahat just payed 5 bitcoins'],time.time(),"0")
-    print(f"block hash: {block.hash}")
+
     
