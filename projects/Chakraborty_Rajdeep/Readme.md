@@ -39,38 +39,34 @@ your-project/ ├── README.md ├── src/        index1.html ├── do
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
-
+![alt text](image.png)
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+1. Copilot 
+2. Chatgpt
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
-
-
+1. I would include much more specific Character structure.
+2. I would like to make real guns in the main chracters hand.
+3. I would also make the game environment more lively and more intense with a graphics.
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+The project runs offline in the live server.
 
 ---
 
 ## Submission Checklist 
-- [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [✅ ] Cloned the Repository 
+- [✅ ] Added my details (Name, PRN, Year, Branch)  
+- [✅ ] Wrote Problem Statement  
+- [✅ ] Listed Features & Tech Stack  
+- [✅ ] Added clear Run Instructions  
+- [✅ ] Provided Demo Output (screenshot or text)  
+- [✅ ] Listed AI tools used (or None)  
+- [✅ ] Explained Future Improvements  
+- [✅ ] Project runs offline
 
