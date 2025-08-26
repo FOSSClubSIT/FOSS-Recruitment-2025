@@ -104,4 +104,17 @@
     }
   </style>
 </head>
+<body>
+  <header>🌈🍳 Recipe Finder</header>
+  <p>Enter ingredients separated by commas (e.g. <i>egg, cheese, bread</i>)</p>
+  <input type="text" id="ingredient" placeholder="Type ingredients here...">
+
+  <br><br>
+  <label for="cuisine"><b>Select Cuisine:</b></label>
+  <select id="cuisine"></select>
+
+  <br><br>
+  <button onclick="findRecipes()">Find Recipes</button>
+
+  <div class="recipes" id="recipes"></div>
 
