@@ -26,13 +26,15 @@
 ---
 
 ## How to Run
-1. 
+1. Right click on the index1.html file.
+2. Connect with the live server.
+3. Play the game.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+your-project/ ├── README.md ├── src/        index1.html ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
 
 ---
 
