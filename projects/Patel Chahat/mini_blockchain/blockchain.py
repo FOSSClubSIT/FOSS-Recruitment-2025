@@ -23,4 +23,9 @@ class Blockchain:
         with open(file_name, "w") as f:
             json.dump(chain_data,f,indent=4)
 
+    def load_chain(self,file_name = "chain.json"):
+        with open(file_name,'r') as f:
+            chain_data = json.load(f)
+            self.chain = [Block(**block) for block in chain_data]
+
     
