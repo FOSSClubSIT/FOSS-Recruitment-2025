@@ -11,4 +11,5 @@ Commit 5 → Add file loading (load previous expenses at startup).
 
 Commit 6 → Add categories summary (e.g., Food = ₹500, Travel = ₹300).
 
-Commit 7 (optional) → Pretty formatting / date handling.
+mvp is done
+Commit 7 (optional) → Pretty formatting / date handling (making it more readable and user friendly).
