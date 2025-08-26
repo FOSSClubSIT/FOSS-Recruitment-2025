@@ -63,8 +63,9 @@ mini-blockchain/
 
 
 ## Demo Screenshot / Output
-![Blockchain Screenshot](mini_blockchain/data/screenshot.png)
-
+<p align="center">
+  <img src="mini_blockchain/data/screenshot.png" alt="Blockchain Screenshot" width="400">
+</p>
 ---
 
 ## AI Tools Used
