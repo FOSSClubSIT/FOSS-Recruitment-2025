@@ -1,4 +1,4 @@
-# Project Title: Write your project name here
+# Project Title: Browser Pac-Man
 
 ## Student Details
 - **Name**: Ebrahim Jamali  
