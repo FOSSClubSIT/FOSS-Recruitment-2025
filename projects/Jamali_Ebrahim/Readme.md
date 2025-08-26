@@ -1,82 +1,91 @@
 # Project Title: Write your project name here
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Ebrahim Jamali  
+- **PRN**: 24070127042
+- **Year**: SY
+- **Branch**: Robotics and Automation 
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
-
+It's just Pac-Man, but it is built entirely on HTML, CSS and JavaScript!!! This empowers an extremely light and performance friendly game executable in any browser. Accessible, Easy to run and lightweight, ready to be launched in a web domain. Enjoy Pac-Man once again!
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+- Playable Pac-Man game in browser
+- Grid-based maze with walls and pellets
+- Moving enemies that chase Pac-Man
+- Score counter displayed dynamically
+- Game Over and You Win screens
+- Restart game functionality  
+ 
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+- HTML5
+- CSS3
+- JavaScript (ES6)
 
 ---
 
 ## How to Run
 Explain step by step how to run your project.  
 Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+1. Download and open the folder "pacman"  
+2. Run by double-clicking on main.html  
+3. Control by using arrow keys
 
 ---
 
 ## Project Structure
+Jamali_Ebrahim/  
+├── README.md  
+├── GameScreenshot.png  
+└── pacman/  
+    ├── main.html  
+    ├── mainScript.js  
+    ├── gameover.css  
+    ├── gamestyle.css  
+    └── gamewin.css  
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
 
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
-
+![Game Screenshot](GameScreenshot.png)
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+ChatGPT (for guidance on game logic and code structuring)
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
-
+- Add smooth Pac-Man animations and enemy animations
+- Add better styling for game over and win pages
+- Write a random level generating algorithm
+- Add power ups for pacman
+- Add proper pathfinding to enemies
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+- The project runs entirely offline and only requires a modern browser.
+- No additional software or installation is needed—just open main.html.
+- The enemies stopping is game-design not a bug, they try to find shortest route and will follow pacman again once unblocked
 
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [X] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 
