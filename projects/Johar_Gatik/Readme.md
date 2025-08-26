@@ -47,11 +47,12 @@
    ```bash
    pip install -r requirements.txt
    ```
-5. Run the main script:
+5. Place the marker file (e.g., `glasses.png`) in the `assets/` directory.
+6. Run the main script:
    ```bash
    python tools/ar_face_filter.py
    ```
-6. Follow the on-screen instructions to test the AR functionality.
+7. Follow the on-screen instructions to test the AR functionality.
 
 ---
 
@@ -64,6 +65,11 @@ project/
 │   └── ar_face_filter.py  # Final streamlined program
 ├── assets/
 │   └── glasses.png        # Glasses overlay image
+├── src/
+│   ├── features.py        # Feature detection and matching
+│   ├── io_utils.py        # Input/output utilities
+│   ├── overlay.py         # Overlay rendering
+│   └── pose.py            # Pose estimation
 ```
 
 ---
@@ -90,6 +96,7 @@ Below is a sample output of the project:
 
 ## Notes for Reviewers
 - Ensure the `requirements.txt` dependencies are installed before running the project.
+- Place the marker file (`glasses.png`) in the `assets/` directory before running the program.
 - The program has been tested on Windows and Linux.
 
 ---
