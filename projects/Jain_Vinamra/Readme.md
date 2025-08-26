@@ -54,7 +54,6 @@ projects/Jain_Vinamra/
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
 ![Screenshot of text area to paste SMS](image.png)
 ![Screenshot of logged expenses](image-2.png)
 ![Screenshot of expenditure categories](image-1.png)
