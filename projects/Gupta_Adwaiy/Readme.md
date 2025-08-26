@@ -1,82 +1,79 @@
-# Project Title: Write your project name here
+# Project Title: A Ride To Hell
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Adwaiy Gupta
+- **PRN**: 25070126018
+- **Year**: First Year 
+- **Branch**: AIML
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
-
+Just wanted to check if I remembered how to make a basic game in python. It's just a simple escape the projectiles, as you try to make your way out of hell. The difficulty rampus up the further away you get.
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
-
+- Can show the highest level the player has reached
+- Power-Ups are present
+- The background moves with the playable character, giving it a realistic feeling
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+Python, and pygame module downloaded seperately.(Decent at python, had to use AI for a lot of parts I had no idea about.)
 
 ---
 
-## How to Run
-Explain step by step how to run your project.  
-Example:  
+## How to Run  
 1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+2. Run `pythonmainfinal5.py`  
+3. Make sure to have pygame module installed.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+A-Ride-To-Hell/
+├── README.md
+├── src/                  # your code
+│   ├── pythonmainfinal.py     # version one
+│   ├── pythonmainfinalv2.py   # version two 
+│   ├── pythonmainfinal3.py    # version three
+│   └── pythonmainfinal4.py    # version four
+    └── pythonmainfinal5.py    # final version
 
 ---
 
 ## Demo Screenshot / Output
 Add a screenshot of your project running, or copy-paste sample terminal output here.
+![alt text](image-1.png)
 
+Hello from the pygame community. https://www.pygame.org/contribute.html
+PS C:\Users\Adwaiy\FOSS-Recruitment-2025> & C:\Users\Adwaiy\AppData\Local\Programs\Python\Python312\python.exe c:/Users/Adwaiy/FOSS-Recruitment-2025/projects/Gupta_Adwaiy/pythonmainfinal5.py
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.8)
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+ChatGPT
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+I would like to add custom sprites, along with custom worlds and more backgrounds. Would love to add something like a boss battle too of some sort. Cleaning up the code and making it run smoother could also be in the works.
 
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
-
----
+Please download pygame module and the image hell.jpg that I attached.
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 
