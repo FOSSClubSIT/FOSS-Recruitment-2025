@@ -1,16 +1,15 @@
-# Project Title: Write your project name here
+# Project Title: Top-Down Zombie Survival
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Rajdeep Chakraborty 
+- **PRN**: 25070127073  
+- **Year**: FY  
+- **Branch**: Robotics and Automation
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
+"We often forget our childhood memories. This game brings us back our old memories from it and makes us happy"
 
 ---
 
