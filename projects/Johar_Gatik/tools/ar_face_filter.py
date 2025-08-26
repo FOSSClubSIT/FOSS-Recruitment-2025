@@ -10,13 +10,13 @@ class ARFaceFilter:
         self.glasses = cv2.imread("glasses.png", cv2.IMREAD_UNCHANGED)
 
     def overlay_glasses(self, frame, face_coords):
-        """Overlay glasses on detected faces."""
+        """Overlay hyper-realistic glasses on detected faces."""
         for (x, y, w, h) in face_coords:
             glasses_width = w
             glasses_height = int(glasses_width * self.glasses.shape[0] / self.glasses.shape[1])
 
             # Resize the glasses image
-            resized_glasses = cv2.resize(self.glasses, (glasses_width, glasses_height))
+            resized_glasses = cv2.resize(self.glasses, (glasses_width, glasses_height), interpolation=cv2.INTER_AREA)
 
             # Calculate the position to overlay the glasses
             y_offset = y + int(h / 4)
@@ -26,7 +26,19 @@ class ARFaceFilter:
                 for j in range(glasses_width):
                     if resized_glasses[i, j][3] != 0:  # Check alpha channel
                         if 0 <= y_offset + i < frame.shape[0] and 0 <= x_offset + j < frame.shape[1]:
-                            frame[y_offset + i, x_offset + j] = resized_glasses[i, j][:3]
+                            # Blend the glasses pixel with the frame pixel for realism
+                            alpha = resized_glasses[i, j][3] / 255.0
+                            frame[y_offset + i, x_offset + j] = (
+                                alpha * resized_glasses[i, j][:3] +
+                                (1 - alpha) * frame[y_offset + i, x_offset + j]
+                            )
+
+            # Add shading and reflection for realism
+            overlay = frame[y_offset:y_offset + glasses_height, x_offset:x_offset + glasses_width]
+            if overlay.shape[:2] == resized_glasses.shape[:2]:
+                reflection = np.full_like(overlay, (255, 255, 255), dtype=np.uint8)
+                reflection = cv2.addWeighted(overlay, 0.8, reflection, 0.2, 0)
+                frame[y_offset:y_offset + glasses_height, x_offset:x_offset + glasses_width] = reflection
 
     def start(self):
         """Start the AR Face Filter program."""
