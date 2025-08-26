@@ -13,10 +13,17 @@ def load(file_path):
         return f.read()
 
 """Removing punctuation like !"#$%."""
+"""Remove punctuation and convert text to lowercase"""
 def preprocess(text):
     text = text.lower()
-    text = text.translate(str.maketrans("", "", string.punctuation))
+    # Create translation table for removing punctuation
+    remove_punct = str.maketrans("", "", string.punctuation) #removing all spaces and punctuations
+
+    # Apply the translation table
+    text = text.translate(remove_punct)
+
     return text
+
 
 """Return a dictionary of word frequencies (ignoring stopwords)"""
 def frequency(text):
@@ -70,7 +77,7 @@ file_path = input("Enter path to your .txt file: ").strip()
 if not file_path.endswith(".txt"):
     file_path += ".txt"
 
-# Try to load safely
+# Fixing edge cases, so it won't give errors.
 try:
     text = load(file_path)
 except FileNotFoundError:

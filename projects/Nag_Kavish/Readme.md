@@ -34,7 +34,7 @@ Libraries Used: os, string (built-in libraries)
 3. The program will start in offline mode.
 4. Place your .txt file in the project folder
 5. Run the program
-6. Output will display keywords and summary of the text file.
+6. Output will display the summary of the text file.
 
 ---
 
@@ -42,8 +42,8 @@ Libraries Used: os, string (built-in libraries)
 
 offline-text-summarizer/
 |-README.md
-|- summarizer.py   
-|- input.txt       
+|- main.py   
+|- sample.txt       
 
 ---
 
@@ -54,7 +54,7 @@ offline-text-summarizer/
 ---
 
 ## AI Tools Used
-Chat Gpt
+Chat GPT
 - To get words which doesn't mean much meaning.
 - Help with fixes in summarize function
 - To create the sample text file
