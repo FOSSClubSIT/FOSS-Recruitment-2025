@@ -25,9 +25,20 @@ class Blockchain:
         with open(file_name, "w") as f:
             json.dump(chain_data,f,indent=4)
 
-    def load_chain(self,file_name = "chain.json"):
-        with open(file_name,'r') as f:
+    def load_chain(self, file_name="data/chain.json"):
+        with open(file_name, 'r') as f:
             chain_data = json.load(f)
-            self.chain = [Block(**block) for block in chain_data]
+            self.chain = [
+                Block(
+                    index=block['index'],
+                    transactions=block['transactions'],
+                    timestamp=block['timestamp'],
+                    previous_hash=block['previous_hash'],
+                    nonce=block['nonce'],
+                    hash=block['hash']  # use saved hash
+                )
+                for block in chain_data
+            ]
+
 
     

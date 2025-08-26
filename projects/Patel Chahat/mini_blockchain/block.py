@@ -2,16 +2,14 @@ import time
 import json
 import hashlib
 class Block:
-    def __init__(self,index,transactions,timestamp,previous_hash,nonce = 0,hash = None):
-        """
-        single block in the blockchain.
-        """
+    def __init__(self, index, transactions, timestamp, previous_hash, nonce=0, hash=None):
         self.index = index
         self.transactions = transactions
         self.timestamp = timestamp
         self.previous_hash = previous_hash
         self.nonce = nonce
-        self.hash = self.compute_hash()
+        self.hash = hash if hash else self.compute_hash()
+
     
     def compute_hash(self):
         """

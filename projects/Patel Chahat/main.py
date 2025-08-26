@@ -39,7 +39,7 @@ def main():
             blockchain.save_chain()
             print("🔄 Blockchain has been reset with a new genesis block.")
             print("Your current chain is now: ")
-            print_chain_prettily(blockchain.chain())
+            print_chain_prettily(blockchain.chain)
         
         elif command in ["exit","quit"]:
             print("👋 Exiting blockchain CLI...")
