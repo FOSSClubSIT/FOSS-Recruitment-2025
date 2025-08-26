@@ -1,5 +1,5 @@
 """
-AR Face Filter Program with OpenCV Haar Cascades
+AR Face Filter Program with Realistic Glasses Overlay
 """
 import cv2
 import numpy as np
@@ -25,7 +25,7 @@ class ARFaceFilter:
             for i in range(glasses_height):
                 for j in range(glasses_width):
                     if resized_glasses[i, j][3] != 0:  # Check alpha channel
-                        if y_offset + i < frame.shape[0] and x_offset + j < frame.shape[1]:
+                        if 0 <= y_offset + i < frame.shape[0] and 0 <= x_offset + j < frame.shape[1]:
                             frame[y_offset + i, x_offset + j] = resized_glasses[i, j][:3]
 
     def start(self):
@@ -47,7 +47,12 @@ class ARFaceFilter:
 
                 self.overlay_glasses(frame, faces)
 
-                cv2.putText(frame, "Press 'q' to quit", (10, 30),
+                # Display the number of detected faces
+                cv2.putText(frame, f"Faces detected: {len(faces)}", (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+                # Display instructions
+                cv2.putText(frame, "Press 'q' to quit", (10, 60),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
                 cv2.imshow("AR Face Filter", frame)
