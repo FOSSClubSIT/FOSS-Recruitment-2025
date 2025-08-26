@@ -140,8 +140,9 @@ document.addEventListener("keydown", e=>{
   if(e.key==="ArrowRight") direction={x:1,y:0};
 });
 
-// Update game state
+let gameRunning = true;
 function updateGame(currentTime){
+  if(!gameRunning) return;
   // --- Pac-Man movement ---
   if(currentTime - lastMoveTime >= moveDelay){
     lastMoveTime = currentTime;
@@ -183,21 +184,32 @@ function gameLoop(timestamp){
 
 // Game over
 function gameOver(){
-  document.getElementById("gameOverScreen").style.visibility="visible";
+  gameRunning = false;  // stop movement and scoring
+  document.getElementById("game-container").style.display = "none"; // hide game
+  document.getElementById("gameOverScreen").style.display = "block"; // show game over
+  document.getElementById("finalScore").innerText = "Final Score: " + score;
 }
 
 // Start / restart
 function startGame(){
-  grid = initialGrid.map(row=>[...row]);
-  pacman=findSpawn();
-  score=0;
-  direction={x:0,y:0};
-  document.getElementById("score").innerText="Score: "+score;
-  document.getElementById("gameOverScreen").style.visibility="hidden";
+  gameRunning = true; // allow updates again
+  document.getElementById("game-container").style.display = "flex";  // show game
+  document.getElementById("gameOverScreen").style.display = "none";  // hide game over
 
-  enemies = enemyPositions.map(p=>({x:p.x,y:p.y,color:"red"}));
+  // reset game state
+  grid = initialGrid.map(row => [...row]);
+  pacman = findSpawn();
+  score = 0;
+  direction = {x:0, y:0};
+  document.getElementById("score").innerText = "Score: " + score;
+
+  enemies = enemyPositions.map(p => ({x:p.x, y:p.y, color:"red"}));
+  lastMoveTime = 0;
+  lastEnemyMoveTime = 0;
+
   requestAnimationFrame(gameLoop);
 }
+
 
 document.getElementById("restartBtn").onclick=startGame;
 
