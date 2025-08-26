@@ -1,67 +1,68 @@
 # tools/generate_samples.py
 """
-AR Measurement Tool: Measure distances in real-time using a webcam.
+AR Object Tracker and Annotator
 """
 import cv2
-import numpy as np
+import tkinter as tk
+from tkinter import simpledialog
 
-class ARMeasurementTool:
+class ARObjectTracker:
     def __init__(self):
-        self.points = []
-        self.window_name = "AR Measurement Tool"
-
-    def click_event(self, event, x, y, flags, param):
-        """Handle mouse click events to select points."""
-        if event == cv2.EVENT_LBUTTONDOWN:
-            self.points.append((x, y))
-
-            # Draw the point on the frame
-            cv2.circle(self.frame, (x, y), 5, (0, 0, 255), -1)
-
-            # If two points are selected, calculate and display the distance
-            if len(self.points) == 2:
-                self.calculate_distance()
-
-    def calculate_distance(self):
-        """Calculate the distance between two points."""
-        point1, point2 = self.points
-        distance = np.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
-
-        # Display the distance on the frame
-        cv2.line(self.frame, point1, point2, (255, 0, 0), 2)
-        cv2.putText(self.frame, f"Distance: {distance:.2f} pixels", (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
-
-        # Reset points after displaying the distance
-        self.points = []
+        self.window_name = "AR Object Tracker"
+        self.tracker = cv2.TrackerCSRT_create()
+        self.bbox = None
+        self.annotating = False
 
     def start(self):
-        """Start the AR Measurement Tool."""
+        """Start the AR Object Tracker."""
         cap = cv2.VideoCapture(0)
         if not cap.isOpened():
             print("Error: Cannot access the webcam.")
             return
 
         cv2.namedWindow(self.window_name)
-        cv2.setMouseCallback(self.window_name, self.click_event)
 
         try:
             while True:
-                ret, self.frame = cap.read()
+                ret, frame = cap.read()
                 if not ret:
                     print("Error: Failed to capture frame from webcam.")
                     break
 
-                # Display the frame
-                cv2.imshow(self.window_name, self.frame)
+                if self.annotating:
+                    # Update tracker and draw bounding box
+                    success, self.bbox = self.tracker.update(frame)
+                    if success:
+                        x, y, w, h = [int(v) for v in self.bbox]
+                        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                        cv2.putText(frame, "Tracking", (x, y - 10),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                    else:
+                        cv2.putText(frame, "Lost Track", (10, 30),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2)
 
-                # Exit on 'q' key press
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                cv2.putText(frame, "Press 'a' to annotate, 'q' to quit", (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
+                cv2.imshow(self.window_name, frame)
+
+                key = cv2.waitKey(1) & 0xFF
+                if key == ord('q'):
                     break
+                elif key == ord('a'):
+                    self.annotate(frame)
+        except Exception as e:
+            print(f"An error occurred: {e}")
         finally:
             cap.release()
             cv2.destroyAllWindows()
 
+    def annotate(self, frame):
+        """Annotate an object by selecting a bounding box."""
+        self.bbox = cv2.selectROI(self.window_name, frame, fromCenter=False, showCrosshair=True)
+        self.tracker.init(frame, self.bbox)
+        self.annotating = True
+
 if __name__ == "__main__":
-    tool = ARMeasurementTool()
-    tool.start()
+    tracker = ARObjectTracker()
+    tracker.start()
