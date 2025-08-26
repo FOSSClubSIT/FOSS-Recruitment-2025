@@ -1,8 +1,6 @@
 import time 
 import json
 import hashlib
-
-
 class Block:
     def __init__(self,index,transactions,timestamp,previous_hash,nonce = 0):
         """
