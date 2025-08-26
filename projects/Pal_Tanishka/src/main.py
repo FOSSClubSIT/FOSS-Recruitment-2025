@@ -1,21 +1,27 @@
-# =============================
-# Crop Resilience Predictor
-# Dataset: Agricultural Crop Yield in Indian States (1997–2020)
-# Offline-only, self-contained
-# Author: Tanishka Pal
-# =============================
 
+'''Crop Yield Prediction using Multiple Linear Regression
+
+This project predicts crop yield based on various factors such as crop type, 
+year, season, state, area, production, rainfall, fertilizer, and pesticide usage.
+- Dataset: Agricultural Crop Yield in Indian States (1997–2020)
+- Offline-only
+- Author: Tanishka Pal
+
+
+I researched about projects big techs are funding right now and this project is a simplified version of real-world crop yield prediction systems. 
+Companies like Google (AI for Social Good), Microsoft (AI for Earth), etc are actively funding large-scale projects in this space.
+'''
+
+# =======================
 # 1. Import Libraries
+# =======================
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler, PolynomialFeatures
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, confusion_matrix, classification_report
 
 # =============================
@@ -34,25 +40,25 @@ print(df.info())
 df = df.dropna()
 
 # ==========================================
-# Define categorical and numeric columns
+# 4. Define categorical and numeric columns
 # ==========================================
 categorical_features = ['Crop', 'Season', 'State']
 numeric_features = ['Annual_Rainfall', 'Temperature', 'Fertilizer']
 
 # =============================
-# Features (X) and target (y)
+# 5. Features (X) and target (y)
 # =============================
 X = df.iloc[:, :-1]
 y = df.iloc[:, -1].values
 
 # ========================================
-# Define categorical and numeric columns
+# 6. Define categorical and numeric columns
 # ========================================
 categorical_features = ['Crop', 'Season', 'State']
 numeric_features = ['Crop_Year', 'Area', 'Production', 'Annual_Rainfall', 'Fertilizer', 'Pesticide']
 
 # =============================================
-# Apply OneHotEncoder on categorical features
+# 7. Apply OneHotEncoder on categorical features
 # =============================================
 ct = ColumnTransformer(
     transformers=[
@@ -65,16 +71,19 @@ ct = ColumnTransformer(
 X = ct.fit_transform(X)
 
 # ===================
-# Train-test split
+# 8. Train-test split
 # ===================
 X_train, X_test, y_train, y_test= train_test_split(X, y, test_size= 0.2, random_state=1)
 
 # =============================
-# 5. Regression Models
+# 9. Regression Models
 # =============================
 def train_linear_regression(X_train, y_train, X_test, y_test):
     """
     Train and evaluate a simple Multiple Linear Regression model.
+    I recently learned about 5 ways for efficient feature selection, most used one is Backward elimination, it drops features based on statistical significance (p-values)
+    I know the working of it but didn't apply it as of now because the code would get too complex.
+    I can add it as future improvement to make the model more effective as it removes less relevant features.
     """
     lr = LinearRegression()
     lr.fit(X_train, y_train)
@@ -85,7 +94,7 @@ def train_linear_regression(X_train, y_train, X_test, y_test):
     return lr
 
 # =============================
-# Polynomial Regression Model
+# 10. Polynomial Regression Model
 # =============================
 def train_polynomial_regression(X_train, y_train, X_test, y_test, degree=2):
     """
