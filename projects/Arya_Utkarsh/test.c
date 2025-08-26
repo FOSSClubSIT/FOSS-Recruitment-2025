@@ -12,6 +12,7 @@ int main()
     {
         int guess_count = 0;
         while (guess_count < guess_limit)
+        {
          printf("Guess:\n");
             scanf("%s", guess);
 
@@ -44,4 +45,39 @@ int main()
                         wordle_arr[i] = -2; // mark as not checked
                     }
                 }
+                // Second pass: check wrong positions
+                for (int i = 0; i < 5; i++)
+                {
+                    if (wordle_arr[i] == -2)
+                    {
+                        int found = 0;
+                        for (int j = 0; j < 5; j++)
+                        {
+                            if (!used[j] && guess[i] == secret_word[j])
+                            {
+                                wordle_arr[i] = 0;
+                                used[j] = 1;
+                                found = 1;
+                                break;
+                            }
+                             }
+                        if (!found)
+                            wordle_arr[i] = -1;
+                    }
+                }
+
+                // Print result
+                printf("%s\n[", guess);
+                for (int i = 0; i < 5; i++)
+                {
+                    printf("%d", wordle_arr[i]);
+                    if (i < 4)
+                        printf(", ");
+                }
+                printf("]\n");
+            }
+        }
+    }
+
+    return 0;
 }
