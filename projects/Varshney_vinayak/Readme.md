@@ -24,7 +24,8 @@ Nothing much for now but will be there soon and before 11:59 on tuesday 26 Aug 2
     - you can now check for if the password has an uppercase character
 - v0.07
     - you can now check for if the password has a digit and special character
-
+- v0.1
+    - you password now has a score (heheheeheheh)
 - Works offline 
 
 ---
@@ -54,6 +55,7 @@ Python is used.
 
 ## Demo Screenshot / Output
 
+![alt text](image.png)
 
 ---
 
@@ -65,8 +67,8 @@ None
 
 ## Future Improvements
 
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+Not sure decided this on a whim but proly i would add a GUI (meh).
+This may be a EOL commit(v0.1) lol.
 
 
 ---
@@ -74,7 +76,7 @@ Example: Add more features, make a better design, connect to API, etc.
 ## Notes for Reviewers
 
 Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+"This project runs locally."
 
 ---
 
@@ -82,10 +84,10 @@ Example: "This project runs offline by default." or "Needs an internet connectio
 - [x] Cloned the Repository 
 - [x] Added my details (Name, PRN, Year, Branch)  
 - [x] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
+- [x] Listed Features & Tech Stack  
 - [x] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
+- [x] Provided Demo Output (screenshot or text)  
 - [x] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
+- [x] Explained Future Improvements  
 - [x] Project runs offline
 
