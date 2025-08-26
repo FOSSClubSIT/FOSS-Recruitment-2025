@@ -18,7 +18,7 @@ const layout = [
   1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,
   1,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0,1,
   1,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,1,
-  1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,
+  1,0,1,1,0,1,1,1,0,2,2,0,1,1,1,0,1,1,0,1,
   1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,
   1,0,1,1,0,1,0,1,1,1,1,1,1,1,0,1,0,1,1,1,
   1,0,0,0,0,1,0,0,0,2,2,0,0,0,0,1,0,0,0,1,
@@ -36,6 +36,17 @@ const rows = layout.length / cols;
 // Set canvas size based on grid
 canvas.width = cols * cellSize;
 canvas.height = rows * cellSize;
+
+// --- Pac-Man spawn (center of board) ---
+const spawnRow = Math.floor(rows / 2);
+const spawnCol = Math.floor(cols / 2);
+
+// Pac-Man state
+let pacman = {
+  x: spawnCol,
+  y: spawnRow,
+  radius: cellSize / 2 - 3
+};
 
 // Function to draw grid
 function drawGrid() {
@@ -64,7 +75,34 @@ function drawGrid() {
       }
     }
   }
+
+  // Highlight spawn cell (so you always know where Pac-Man starts)
+  ctx.fillStyle = "gray";
+  ctx.lineWidth = 2;
+  ctx.fillRect(spawnCol * cellSize, spawnRow * cellSize, cellSize, cellSize);
 }
 
-// Draw once
-drawGrid();
+// Function to draw Pac-Man
+function drawPacman() {
+  ctx.beginPath();
+  ctx.arc(
+    pacman.x * cellSize + cellSize / 2,
+    pacman.y * cellSize + cellSize / 2,
+    pacman.radius,
+    0.25 * Math.PI,   // open mouth
+    1.75 * Math.PI    // open mouth
+  );
+  ctx.lineTo(pacman.x * cellSize + cellSize / 2, pacman.y * cellSize + cellSize / 2);
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+}
+
+// Start game
+function startGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // clear old frame
+  drawGrid();
+  drawPacman();
+}
+
+// Run once
+startGame();
