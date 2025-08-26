@@ -83,7 +83,7 @@ Below is a sample output of the project:
   3D cube overlay rendered successfully.
   ```
 - **Screenshot**:
-  ![Demo Screenshot](docs/demo_screenshot.png)  
+  ![Demo Screenshot](assets/scene.png)  
 
 ---
 
