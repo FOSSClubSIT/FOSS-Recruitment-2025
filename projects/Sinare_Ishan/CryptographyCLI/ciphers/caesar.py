@@ -35,5 +35,3 @@ def decrypt(text:str, key:int):
             # Keep non-alphabetic characters unchanged
             decrypted_text += char
     print(f'\nThe decrypted text is : \n{decrypted_text}')
-
-#xxx----------Caesar_Module_Ready-------------xxx#

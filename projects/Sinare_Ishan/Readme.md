@@ -10,7 +10,7 @@
 
 ## Problem Statement
 single program to encrypt/decrypt using various ciphers
-(Caeser, Vignere, Advanced Encryption Systems)
+(Caeser, Vignere,)
 ---
 
 ## Features
@@ -21,16 +21,19 @@ single program to encrypt/decrypt using various ciphers
 
 ## Tech Stack
 List the tools or languages you used.  
-Python, python libraries(parser, )
+Python, python libraries(argparse)
 
 ---
 
 ## How to Run
 Explain step by step how to run your project.  
-Example:  
+Example:
 1. Open the folder in VS Code.  
 2. Run `python main.py`  
 3. The program will start in offline mode.
+4. Enter arguments for which cipher you wish to use
+5. Enter argument for encryption/decryption
+6. Follow given steps in the CLI app
 
 ---
 
@@ -41,20 +44,25 @@ your-project/ ├── README.md ├── src/        # your code ├── do
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
+Using Vigenere cipher 
+Please enter the key string: bananas
 
+Enter the text you want encrypted : 
+Hello World
+
+the encrypted text is :
+Ieylb Wgslq
 ---
 
 ## AI Tools Used
-ChatGPT
+ChatGPT, Claude
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
-
-
+-User friendliness
+-Use of additional ciphers(Advanced encryption system libraries)
+-Add a non-verbose communication
 ---
 
 ## Notes for Reviewers
@@ -65,12 +73,12 @@ Example: "This project runs offline by default." or "Needs an internet connectio
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
 
