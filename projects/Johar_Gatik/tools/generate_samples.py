@@ -1,19 +1,32 @@
 # tools/generate_samples.py
 """
 Advanced AR Program: Real-Time Face Detection with Virtual Object Overlay
+Automatically generates a placeholder glasses image if not found.
 """
 import cv2
 import numpy as np
 import os
+from PIL import Image, ImageDraw
 import tkinter as tk
 from tkinter import messagebox
+
+def create_placeholder_glasses():
+    """Create a placeholder glasses image."""
+    width, height = 200, 100
+    glasses = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+
+    draw = ImageDraw.Draw(glasses)
+    draw.rectangle([20, 30, 80, 70], fill=(0, 0, 0, 255))  # Left lens
+    draw.rectangle([120, 30, 180, 70], fill=(0, 0, 0, 255))  # Right lens
+    draw.rectangle([80, 45, 120, 55], fill=(0, 0, 0, 255))  # Bridge
+
+    glasses.save("objects/glasses.png")
 
 def load_virtual_object(object_name):
     """Load the virtual object image based on the selected object name."""
     object_path = f"objects/{object_name}.png"
     if not os.path.exists(object_path):
-        messagebox.showerror("Error", f"Virtual object '{object_name}' not found.")
-        return None
+        create_placeholder_glasses()
     return cv2.imread(object_path, cv2.IMREAD_UNCHANGED)
 
 def overlay_virtual_object(frame, face_coords, virtual_object):
@@ -38,6 +51,7 @@ def start_advanced_ar():
     # Load the default virtual object (e.g., glasses)
     virtual_object = load_virtual_object("glasses")
     if virtual_object is None:
+        messagebox.showerror("Error", "Failed to load virtual object.")
         return
 
     cap = cv2.VideoCapture(0)
@@ -72,7 +86,6 @@ if __name__ == "__main__":
     # Ensure the objects directory exists
     if not os.path.exists("objects"):
         os.makedirs("objects")
-        messagebox.showinfo("Info", "Please add virtual object images (e.g., glasses.png) to the 'objects' directory.")
 
     root = tk.Tk()
     root.withdraw()  # Hide the root window
