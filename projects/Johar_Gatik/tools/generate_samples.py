@@ -1,96 +1,66 @@
 # tools/generate_samples.py
 """
-AR Marker Detection and Overlay Program
+Face Detection with Marker Overlay
 """
-import os
 import cv2
 import numpy as np
 import tkinter as tk
-from tkinter import filedialog, messagebox
-from PIL import Image, ImageTk
+from tkinter import messagebox
+from PIL import Image
 
-class ARProgram:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("AR Marker Program")
-        self.root.geometry("500x300")
+def overlay_marker(frame, face_coords, marker):
+    for (x, y, w, h) in face_coords:
+        marker_resized = cv2.resize(marker, (w, h // 2))
+        marker_h, marker_w, _ = marker_resized.shape
 
-        self.marker = None
+        y_offset = y - marker_h if y - marker_h > 0 else y
+        x_offset = x
 
-        label = tk.Label(root, text="AR Marker Detection and Overlay", font=("Arial", 18))
-        label.pack(pady=20)
+        for i in range(marker_h):
+            for j in range(marker_w):
+                if marker_resized[i, j][3] != 0:  # Check alpha channel
+                    frame[y_offset + i, x_offset + j] = marker_resized[i, j][:3]
 
-        upload_button = tk.Button(root, text="Upload Marker Image", font=("Arial", 14), command=self.upload_image)
-        upload_button.pack(pady=10)
+def start_webcam():
+    # Load pre-trained face detection model
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-        webcam_button = tk.Button(root, text="Start Webcam Mode", font=("Arial", 14), command=self.start_webcam)
-        webcam_button.pack(pady=10)
+    # Load marker image (e.g., glasses or hat with transparency)
+    marker = cv2.imread('marker.png', cv2.IMREAD_UNCHANGED)
+    if marker is None:
+        messagebox.showerror("Error", "Marker image not found. Please ensure 'marker.png' is in the same directory.")
+        return
 
-        exit_button = tk.Button(root, text="Exit", font=("Arial", 14), command=root.destroy)
-        exit_button.pack(pady=10)
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        messagebox.showerror("Error", "Cannot access the webcam.")
+        return
 
-    def upload_image(self):
-        file_path = filedialog.askopenfilename(title="Select an Image", filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
-        if not file_path:
-            return
+    try:
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                messagebox.showerror("Error", "Failed to capture frame from webcam.")
+                break
 
-        self.marker = cv2.imread(file_path)
-        if self.marker is None:
-            messagebox.showerror("Error", "Failed to read the image.")
-            return
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-        messagebox.showinfo("Info", "Image uploaded successfully. You can now start the webcam mode.")
+            overlay_marker(frame, faces, marker)
 
-    def start_webcam(self):
-        if self.marker is None:
-            messagebox.showerror("Error", "Please upload a marker image first.")
-            return
+            cv2.putText(frame, "Press 'q' to quit", (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
 
-        cap = cv2.VideoCapture(0)
-        if not cap.isOpened():
-            messagebox.showerror("Error", "Cannot access the webcam.")
-            return
+            cv2.imshow("Webcam Feed", frame)
 
-        try:
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    messagebox.showerror("Error", "Failed to capture frame from webcam.")
-                    break
-
-                # Convert frame to grayscale
-                frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                marker_gray = cv2.cvtColor(self.marker, cv2.COLOR_BGR2GRAY)
-
-                # Detect and match features
-                orb = cv2.ORB_create()
-                kp1, des1 = orb.detectAndCompute(marker_gray, None)
-                kp2, des2 = orb.detectAndCompute(frame_gray, None)
-
-                if des1 is not None and des2 is not None:
-                    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-                    matches = bf.match(des1, des2)
-                    matches = sorted(matches, key=lambda x: x.distance)
-
-                    # Draw matches
-                    frame = cv2.drawMatches(self.marker, kp1, frame, kp2, matches[:10], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-
-                # Add overlay text and instructions
-                overlay_text = "Webcam Mode: Press 'q' to quit"
-                cv2.putText(frame, overlay_text, (10, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
-
-                # Display the webcam feed
-                cv2.imshow("Webcam Feed", frame)
-
-                # Exit on 'q' key press
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-        finally:
-            cap.release()
-            cv2.destroyAllWindows()
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+    finally:
+        cap.release()
+        cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = ARProgram(root)
-    root.mainloop()
+    root.withdraw()  # Hide the root window
+
+    start_webcam()
