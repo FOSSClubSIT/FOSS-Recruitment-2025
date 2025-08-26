@@ -1,9 +1,36 @@
 import os
+import cv2  # OpenCV for image processing
+import pytesseract
 from PyPDF2 import PdfReader
+
+# This line is needed if tesseract is not in your system's PATH
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+def extract_text_from_image(image_path):
+    """
+    Extracts text from an image using OCR.
+
+    Args:
+        image_path (str): The path to the image file.
+
+    Returns:
+        str: The extracted text.
+    """
+    try:
+        # Read the image using OpenCV
+        img = cv2.imread(image_path)
+        # Convert the image to grayscale
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # Use Tesseract to do OCR on the image
+        text = pytesseract.image_to_string(gray)
+        return text
+    except Exception as e:
+        print(f"Error processing image {image_path}: {e}")
+        return ""
 
 def extract_text_from_files(folder_path):
     """
-    Extracts text content from .txt and .pdf files in a given folder.
+    Extracts text content from .txt, .pdf, and image files in a given folder.
 
     Args:
         folder_path (str): The path to the folder containing the notes.
@@ -22,16 +49,20 @@ def extract_text_from_files(folder_path):
         
         elif filename.endswith(".pdf"):
             try:
-                # Open the PDF file in binary read mode
                 with open(file_path, "rb") as f:
                     reader = PdfReader(f)
                     content = ""
-                    # Extract text from each page
                     for page in reader.pages:
                         content += page.extract_text() or ""
                     text_data[filename] = content
             except Exception as e:
                 print(f"Error reading {filename}: {e}")
+        
+        # New code for images
+        elif filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+            content = extract_text_from_image(file_path)
+            text_data[filename] = content
+
     return text_data
 
 def search_notes(notes_dict, keyword):
@@ -67,7 +98,7 @@ if __name__ == "__main__":
         notes_data = extract_text_from_files(notes_folder)
 
         if not notes_data:
-            print("No .txt or .pdf files found in the notes folder. Please add some notes to search.")
+            print("No searchable files found in the notes folder. Please add some notes to search.")
         else:
             while True:
                 search_query = input("\nEnter a keyword to search (or type 'exit' to quit): ")
