@@ -68,7 +68,7 @@ Kitchen-Helper-App/
 
 ## AI Tools Used
 Ai tools Used-
-1) Chat gpt for ui
+1) Chat gpt for ui and help with api
 2) Gemini for code dubugging
 
 ---
