@@ -1,82 +1,93 @@
-# Project Title: Write your project name here
+# Project Title: SMS Expense Tracker
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Vinamra Jain  
+- **PRN**: 24070122232  
+- **Year**: SY  
+- **Branch**: CSE  
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
-
+Users receive multiple transaction SMS daily and often forget or lose track of their expenses. This project helps users automatically log expenses from SMS, categorize them, and view totals easily in a browser.
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+- Paste SMS and automatically detect amount, category, and date
+- Categories: Food, Shopping, Travel, Bills, Other
+- Displays expense list with category-colored highlights
+- Shows category-wise totals in a table
+- Most recent transactions appear at the top of the list
+- Copy all expenses to clipboard
+- Clear all expenses
+- Works completely offline
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
+- HTML
+- CSS
+- JavaScript
 
 ---
 
 ## How to Run
-Explain step by step how to run your project.  
-Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+
+1. Download or clone the project folder.
+2. Open index.html in any modern browser (Chrome/Edge/Firefox).
+3. Paste your transaction SMS in the text area.
+4. Click Add Expense to log it.
+5. View expenses in the list and category totals in the table.
+6. Use Copy All to copy all logged expenses or Clear All to reset.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+projects/Jain_Vinamra/
+├── index.html        # Main HTML page
+├── style.css         # Styling for the app
+├── script.js         # Main JavaScript logic
+├── README.md         # This file
+└── sample_sms.txt    # Sample SMS for testing
 
 ---
 
 ## Demo Screenshot / Output
 Add a screenshot of your project running, or copy-paste sample terminal output here.
-
+![Screenshot of text area to paste SMS](image.png)
+![Screenshot of logged expenses](image-2.png)
+![Screenshot of expenditure categories](image-1.png)
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
-
+- Used ChatGPT for guidance on JavaScript logic and UI suggestions.
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
 
-
+- Add automatic SMS reading from phone (requires permissions).
+- Add AI-based categorization for unknown merchants.
+- Add graphs or charts for monthly spending
+- Export data to CSV or PDF.
+- Mobile-friendly responsive design.
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
+- Fully offline and works in any modern browser.
+- Sample SMS can be tested using sample_sms.txt.
+- All expenses are stored in browser localStorage for persistence.
 
 ---
 
 ## Submission Checklist 
-- [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [✔] Cloned the Repository 
+- [✔] Added my details (Name, PRN, Year, Branch)  
+- [✔] Wrote Problem Statement  
+- [✔] Listed Features & Tech Stack  
+- [✔] Added clear Run Instructions  
+- [✔] Provided Demo Output (screenshot or text)  
+- [✔] Listed AI tools used (or None)  
+- [✔] Explained Future Improvements  
+- [✔] Project runs offline
 
