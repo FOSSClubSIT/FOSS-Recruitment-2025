@@ -63,7 +63,7 @@ def compose_scene(marker, out_h=720, out_w=960):
                 cv2.FONT_HERSHEY_SIMPLEX, 1.3, (50, 50, 50), 3, cv2.LINE_AA)
     return comp, H
 
-def webcam_mode():
+def webcam_mode(marker):
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("[ERROR] Cannot access the webcam.")
@@ -77,14 +77,27 @@ def webcam_mode():
                 print("[ERROR] Failed to capture frame from webcam.")
                 break
 
+            # Convert frame to grayscale
+            frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            marker_gray = cv2.cvtColor(marker, cv2.COLOR_BGR2GRAY)
+
+            # Detect and match features
+            orb = cv2.ORB_create()
+            kp1, des1 = orb.detectAndCompute(marker_gray, None)
+            kp2, des2 = orb.detectAndCompute(frame_gray, None)
+
+            if des1 is not None and des2 is not None:
+                bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+                matches = bf.match(des1, des2)
+                matches = sorted(matches, key=lambda x: x.distance)
+
+                # Draw matches
+                frame = cv2.drawMatches(marker, kp1, frame, kp2, matches[:10], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
             # Add overlay text and instructions
             overlay_text = "Webcam Mode: Press 'q' to quit"
             cv2.putText(frame, overlay_text, (10, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
-
-            # Add a simple rectangle overlay for AR simulation
-            h, w, _ = frame.shape
-            cv2.rectangle(frame, (w//4, h//4), (3*w//4, 3*h//4), (255, 0, 0), 2)
 
             # Display the webcam feed
             cv2.imshow("Webcam Feed", frame)
@@ -101,7 +114,8 @@ def main():
         print("[INFO] Choose an option:")
         print("1. Generate synthetic marker and scene")
         print("2. Use webcam mode")
-        choice = input("Enter your choice (1/2): ")
+        print("3. Upload your own image")
+        choice = input("Enter your choice (1/2/3): ")
 
         if choice == "1":
             marker = make_marker(460)
@@ -124,9 +138,23 @@ def main():
             cv2.waitKey(0)
             cv2.destroyAllWindows()
         elif choice == "2":
-            webcam_mode()
+            marker = make_marker(460)  # Default marker for webcam mode
+            webcam_mode(marker)
+        elif choice == "3":
+            file_path = input("Enter the path to your image: ")
+            if not os.path.isfile(file_path):
+                print("[ERROR] File not found.")
+                return
+
+            marker = cv2.imread(file_path)
+            if marker is None:
+                print("[ERROR] Failed to read the image.")
+                return
+
+            print("[INFO] Using uploaded image as marker.")
+            webcam_mode(marker)
         else:
-            print("[ERROR] Invalid choice. Please enter 1 or 2.")
+            print("[ERROR] Invalid choice. Please enter 1, 2, or 3.")
     except Exception as e:
         print(f"[ERROR] {str(e)}")
 
