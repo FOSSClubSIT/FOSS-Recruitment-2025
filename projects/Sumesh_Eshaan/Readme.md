@@ -1,82 +1,95 @@
 # Project Title: Write your project name here
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
-
+- **Name**: Eshaan Sumesh 
+- **PRN**: 24070126058 
+- **Year**: Second year
+- **Branch**: AiMl
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
+Home cooks often struggle with preserving handwritten or online recipes, converting between different kitchen units, and managing cooking time. This project offers a kitchen convenience tool that extracts and saves recipes locally, provides quick unit conversions, and includes a built in timer making cooking easier and more organized.
 
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
+Extract recipes from handwritten/printed images using Gemini OCR
+
+Save extracted recipes locally
+
+Set and track kitchen timers with live updates
+
+Convert between cooking units (grams, cups, ml, tbsp, tsp)
+
+Simple, user-friendly Gradio web interface
 
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
-
+Python
+Gradio (UI framework)
+Google Gemini API (OCR)
+Chat gpt (For help with ui and code debuging)
 ---
 
 ## How to Run
-Explain step by step how to run your project.  
-Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+1) Install requirements using:
+
+    pip install gradio google-genai
+
+2) Open the file cooklens.py and make sure your Gemini API key is pasted in the code.
+
+3) Run the program with:
+
+    python cooklens.py
+
+4) Click the link shown in the terminal to use the app.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+Kitchen-Helper-App/  
+├── cooklens.py         # Main application code (OCR, Timer, Converter, Gradio UI)  
+├── recipes/            # Folder where extracted recipes are saved  
+├── README.md           # Documentation file  
+├── requirements.txt    # Includes google genai 
 
 ---
 
-## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
+## Demo ScreenShot
+
+![Main UI](screenshots/image.png)
+![Recipe Extraction](screenshots/image-1.png)
+![Unit Converter](screenshots/image-2.png)
 
 ---
+
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
+Ai tools Used-
+1) Chat gpt for ui
+2) Gemini for code dubugging
 
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
+Some changes i would like to make are:
+1) Integrate a voice assistant with this project
+2) to add an assistant that would answer questions you have based on the uploaded recipe
+3) Add a recipe scaler 
+4) Add a better ui.
 
 
----
-
-## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
-
----
 
 ## Submission Checklist 
-- [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
+- [Y] Cloned the Repository 
+- [Y] Added my details (Name, PRN, Year, Branch)  
+- [Y] Wrote Problem Statement  
+- [Y] Listed Features & Tech Stack  
+- [Y] Added clear Run Instructions  
+- [Y] Provided Demo Output (screenshot or text)  
+- [Y] Listed AI tools used (or None)  
+- [Y] Explained Future Improvements  
+- [x] Project runs offline
 
