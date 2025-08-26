@@ -1,23 +1,22 @@
 """
-AR Face Filter Program with Hyper-Realistic Glasses Overlay
+AR Face Filter Program with Hyper-Realistic Glasses Overlay using dlib
 """
 import cv2
-import mediapipe as mp
+import dlib
 import numpy as np
 
 class ARFaceFilter:
     def __init__(self):
-        self.face_mesh = mp.solutions.face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, refine_landmarks=True)
-        self.drawing_utils = mp.solutions.drawing_utils
-        self.drawing_styles = mp.solutions.drawing_styles
+        self.detector = dlib.get_frontal_face_detector()
+        self.predictor = dlib.shape_predictor(dlib.shape_predictor_68_face_landmarks.dat)
         self.glasses = cv2.imread("glasses.png", cv2.IMREAD_UNCHANGED)
 
     def overlay_glasses(self, frame, landmarks):
         """Overlay glasses on the face using facial landmarks."""
         # Extract key points for the eyes
-        left_eye = landmarks[33]  # Example landmark for left eye
-        right_eye = landmarks[263]  # Example landmark for right eye
-        nose_bridge = landmarks[168]  # Example landmark for nose bridge
+        left_eye = (landmarks.part(36).x, landmarks.part(36).y)
+        right_eye = (landmarks.part(45).x, landmarks.part(45).y)
+        nose_bridge = (landmarks.part(27).x, landmarks.part(27).y)
 
         # Calculate the width and height of the glasses
         glasses_width = int(np.linalg.norm(np.array(left_eye) - np.array(right_eye)))
@@ -50,20 +49,18 @@ class ARFaceFilter:
                     print("Error: Failed to capture frame from webcam.")
                     break
 
-                # Convert the frame to RGB
-                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                # Convert the frame to grayscale
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-                # Process the frame with Mediapipe Face Mesh
-                results = self.face_mesh.process(rgb_frame)
+                # Detect faces
+                faces = self.detector(gray)
 
-                if results.multi_face_landmarks:
-                    for face_landmarks in results.multi_face_landmarks:
-                        # Extract landmark coordinates
-                        landmarks = [(int(landmark.x * frame.shape[1]), int(landmark.y * frame.shape[0]))
-                                     for landmark in face_landmarks.landmark]
+                for face in faces:
+                    # Get facial landmarks
+                    landmarks = self.predictor(gray, face)
 
-                        # Overlay glasses
-                        self.overlay_glasses(frame, landmarks)
+                    # Overlay glasses
+                    self.overlay_glasses(frame, landmarks)
 
                 cv2.putText(frame, "Press 'q' to quit", (10, 30),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
