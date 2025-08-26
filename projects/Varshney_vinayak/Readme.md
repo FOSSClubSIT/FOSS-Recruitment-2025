@@ -18,6 +18,8 @@ This project helps users quickly evaluate whether their passwords are weak or st
 Nothing much for now but will be there soon and before 11:59 on tuesday 26 Aug 2025
 - v0.01
     - you can now input a password... yay!!!
+- v0.03
+    - you can now check if your password is strong or weak... yay 2 !!!
 
 - Works offline 
 
@@ -39,7 +41,10 @@ Python is used.
 
 ## Project Structure
 
-projects/Varshney_vinayak/
+├── projects/
+│   └── Varshney_vinayak/
+│       ├── main.py
+│       └── Readme.md
 
 ---
 
