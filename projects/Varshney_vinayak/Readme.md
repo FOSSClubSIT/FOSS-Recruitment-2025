@@ -20,6 +20,8 @@ Nothing much for now but will be there soon and before 11:59 on tuesday 26 Aug 2
     - you can now input a password... yay!!!
 - v0.03
     - you can now check if your password is strong or weak... yay 2 !!!
+- v0.05
+    - you can now check for if the password has an uppercase character
 
 - Works offline 
 
