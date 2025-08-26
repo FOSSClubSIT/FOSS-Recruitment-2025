@@ -17,26 +17,51 @@ def preprocess(text):
     text = text.translate(str.maketrans("", "", string.punctuation))
     return text
 
-def frequency():
-    """WIP"""
-    return
+"""Return a dictionary of word frequencies (ignoring stopwords)"""
+def frequency(text):
+    words = text.split()
+    freq = {}
+    for word in words:
+        if word not in STOPWORDS:
+            if word in freq:        
+                freq[word] += 1
+            else:                 
+                freq[word] = 1
+    return freq
 
+"""Assign a score to each sentence based on word frequencies"""
 def score_sentences(original_text, freq):
-    """WIP"""
+    sentences = original_text.split(".")
+    scores = {}
+    for i in sentences:
+        words = i.lower().split()
+        count = 0
+        for j in words:
+            if j in freq:
+                score += freq[j]
+        if len(words) > 0:
+            scores[i] = score / len(words)  # normalize
+    return scores
 
-
-    return
 """Generate a summary"""
 def summary(text):
-    text=preprocess(text)
-    freq=frequency(text)
-    score= score_sentences(text, freq)
+    # Preprocess and get frequencies
+    clean_text = preprocess(text)
+    freq = frequency(clean_text)
+    scores = score_sentences(text, freq)
 
-    """WIP"""
-    return
-
-
-
+    # Sort all sentences by score (highest first)
+    best = sorted(scores, key=scores.get, reverse=True)
+    
+    # Take top 30% of sentences
+    total_sentences = len(best)
+    num_sentences = max(1, total_sentences // 3)  
+    best = best[:num_sentences]
+    result = []
+    for s in best:
+        if s.strip():
+            result.append(s.strip())
+    return ". ".join(result)
 
 #main program
 file_path = input("Enter path to your .txt file: ")
