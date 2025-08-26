@@ -1,82 +1,83 @@
-# Project Title: Write your project name here
+# Project Title: Mood Journal – A Daily Mood & Notes Tracker
 
 ## Student Details
-- **Name**: Your Full Name  
-- **PRN**: Your PRN  
-- **Year**: FY/SY/TY/Final Year  
-- **Branch**: Your Branch  
+- **Name**: Kritika Agrawal 
+- **PRN**: 24070122092 
+- **Year**: SY  
+- **Branch**: CSE 
 
 ---
 
 ## Problem Statement
-Write in 2–3 lines what problem your project solves.  
-Example: "Students often forget their daily timetable. This project shows today's timetable in one click."
-
+It is often difficult for individuals to keep track of their daily moods and emotions. Remembering how we felt and why on a given day can help in mental wellness and self-reflection.
+This project solves that by allowing users to record their daily mood and notes, and view them later on a calendar-based timeline.
 ---
 
 ## Features
-List the main things your project can do.  
-Example:  
-- Show today's timetable  
-- Remind with notifications  
-- Works offline 
-
+- Choose your mood from 10 emoji-based options.
+- Write a short note to reflect on your day.
+- Motivational or supportive quotes appear depending on your mood.
+- Calendar view shows daily moods with emojis.
 ---
 
 ## Tech Stack
-List the tools or languages you used.  
-Example: Python, HTML, CSS, JavaScript, Arduino, etc.
-
+HTML – Structure
+CSS – Styling & responsive design
+JavaScript – Functionality, event handling, calendar logic
+Browser localStorage API
 ---
 
 ## How to Run
-Explain step by step how to run your project.  
-Example:  
-1. Open the folder in VS Code.  
-2. Run `python main.py`  
-3. The program will start in offline mode.
+1. Download or clone this repository.
+2. Open the folder in VS Code (or any editor).
+3. Simply open index.html in any modern browser (Chrome, Edge, Firefox).
+4. Start tracking your moods!
+
+No server or internet connection is required — runs fully offline.
 
 ---
 
 ## Project Structure
 
-your-project/ ├── README.md ├── src/        # your code ├── docs/       # (optional) documentation └── sample_output/   # (optional) if you use APIs
+agrawal_kritika/
+├── index.html       # Home page (select mood, add note, see quotes)
+├── calendar.html    # Calendar page (view past moods & notes)
+├── style.css        # Styling for UI
+├── script.js        # Logic for mood tracking & saving notes
+├── calendar.js      # Calendar generation & entry details
+├── storage.js       # LocalStorage wrapper for saving entries
+└── README.md        # Documentation
 
 ---
 
 ## Demo Screenshot / Output
-Add a screenshot of your project running, or copy-paste sample terminal output here.
-
+![screenshot](screenshot/screenshot1.png)
+![screenshot](screenshot/screenshot2.png)
 ---
 
 ## AI Tools Used
-List any AI tools you used (if any).  
-Example: ChatGPT, GitHub Copilot, Cursor, Gemini, etc.  
-If not used, write "None".
-
+ChatGPT, Cursor, Gemini.  
 ---
 
 ## Future Improvements
-Write how you would improve this project if you had more time.  
-Example: Add more features, make a better design, connect to API, etc.
-
+- Add statistics & charts (e.g., mood trends over time).
+- Daily notification reminders to log mood.
+- Toggle between light and dark themes.
 
 ---
 
 ## Notes for Reviewers
-Any extra note for the FOSS team.  
-Example: "This project runs offline by default." or "Needs an internet connection."
-
+- The project is offline (uses localStorage).
+- Pure HTML/CSS/JavaScript - no external libraries or frameworks
 ---
 
 ## Submission Checklist 
 - [x] Cloned the Repository 
-- [ ] Added my details (Name, PRN, Year, Branch)  
-- [ ] Wrote Problem Statement  
-- [ ] Listed Features & Tech Stack  
-- [ ] Added clear Run Instructions  
-- [ ] Provided Demo Output (screenshot or text)  
-- [ ] Listed AI tools used (or None)  
-- [ ] Explained Future Improvements  
-- [ ] Project runs offline
-
+- [x] Added my details (Name, PRN, Year, Branch)  
+- [x] Wrote Problem Statement  
+- [x] Listed Features & Tech Stack  
+- [x] Added clear Run Instructions  
+- [x] Provided Demo Output (screenshot or text)  
+- [x] Listed AI tools used (or None)  
+- [x] Explained Future Improvements  
+- [x] Project runs offline
