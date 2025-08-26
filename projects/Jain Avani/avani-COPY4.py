@@ -1,6 +1,3 @@
-import subprocess, sys
-subprocess.check_call([sys.executable, "-m", "pip", "install", "pillow"])
-from PIL import Image
 import subprocess
 import sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "tabulate"])
@@ -9,9 +6,12 @@ import sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "pandas"])
 from tabulate import tabulate
 import pandas as pd
-print("What’s up! Diva Devo here — let’s ride the fashion vibe together!!!!!!")
-gender=input("Select your gender(M for Male / F for Female): ")
-print('''Select you body type from the given menu:
+print("*"*110)
+print("WHAT’S UP! DIVA DEVO HERE — LET’S RIDE THE FASHION VIBE TOGETHER!!!!!!")
+print("*"*110)
+gender=input("Select Your Gender(M for Male / F for Female): ")
+print("*"*110)
+print('''Select Your Body Type From The Given Menu:
 1)Pear
 
 2)Apple
@@ -25,17 +25,21 @@ print('''Select you body type from the given menu:
 6)Oval
 
 7)Trapezoid ''')
-shape=int(input("enter your body shape number: "))
-print("what is your mood today?\n")
+shape=int(input("Enter Your Body Shape Number: "))
+print("*"*110)
+print("What Is Your Mood Today?\n")
+print("*"*110)
 a=["SUNNY GLOW MOOD","LOW SOCIAL WEDNESDAY","TANGLED THOUGHTS","SPOTLIGHT DIVA","COFFEE AND RAIN","BLUE HOUR","UNEXPECTED SPARKLE","STORM SURGE"]
 b=["Happy Good Vibes","Silent Black Vibes","Anxious Mood","Popular Vibes","Asthetic Mood","Sad Mood","Surprise Me Mood","Angry Furious"]
 c=["Bright, Warm","Dark Colours","Muted Tones","Brbie Pallet/Bold Neutrals","Vintage Pallet","Blue Colours","Fluorescent Colours","Yellowish Red"]
 title={"Mood":a,"Meaning of Mood":b,"Colour Preferences":c}
 df=pd.DataFrame(title,index=[1,2,3,4,5,6,7,8])
 print(tabulate(df, headers='keys', tablefmt='grid'))
+print("*"*110)
 while True:
-    mood=int(input("enter your mood number: "))
-    print("Let us see what can you wear today!!!\n")
+    mood=int(input("Enter Your Mood Number: "))
+    print("Let Us See What Can You Wear Today!!!\n")
+    print("*"*110)
     if gender=='F':
         if shape==1:
             if mood==1:
@@ -51,9 +55,6 @@ while True:
                   5)Shoes – Strappy block heels or colourful wedges.
 
                   6)Bag – Pop-colour crossbody or mini handbag.''')
-                img = Image.open("C:/Users/DELL/Downloads/Vibrant Style with Bold Accessories.png")
-                img.save("C:/Users/DELL/Downloads/Vibrant Style with Bold Accessories.png")
-                img.show()
             elif mood==2:
                 print('''You can design yourself as:
                   1)Hair & Jewellery – Sleek braids or center-parted hair; silver gothic rings, small black studs or cross earrings, maybe a choker.
@@ -993,8 +994,10 @@ while True:
                   5)Shoes – Combat boots, block loafers, or high-top sneakers in black/red.
                   6)Bag – Bold leather messenger in deep red or black.''')
     again = input("\nDo you want to try again? (Yes/No): ")
+    print("*"*110)
     if again=="No":
         print("Thanks for styling with us 💖 Goodbye!")
+        print("*"*110)
         break
 
 
