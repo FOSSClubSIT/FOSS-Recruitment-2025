@@ -1,5 +1,6 @@
 
-'''Crop Yield Prediction using Multiple Linear Regression
+"""
+Crop Yield Prediction using Multiple Linear Regression
 
 This project predicts crop yield based on various factors such as crop type, 
 year, season, state, area, production, rainfall, fertilizer, and pesticide usage.
@@ -10,7 +11,7 @@ year, season, state, area, production, rainfall, fertilizer, and pesticide usage
 
 I researched about projects big techs are funding right now and this project is a simplified version of real-world crop yield prediction systems. 
 Companies like Google (AI for Social Good), Microsoft (AI for Earth), etc are actively funding large-scale projects in this space.
-'''
+"""
 
 # =======================
 # 1. Import Libraries
@@ -18,11 +19,12 @@ Companies like Google (AI for Social Good), Microsoft (AI for Earth), etc are ac
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, StandardScaler, PolynomialFeatures
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, confusion_matrix, classification_report
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
 
 # =============================
 # 2. Load Dataset
@@ -83,46 +85,50 @@ def train_linear_regression(X_train, y_train, X_test, y_test):
     Train and evaluate a simple Multiple Linear Regression model.
     I recently learned about 5 ways for efficient feature selection, most used one is Backward elimination, it drops features based on statistical significance (p-values)
     I know the working of it but didn't apply it as of now because the code would get too complex.
+
     I can add it as future improvement to make the model more effective as it removes less relevant features.
     """
     lr = LinearRegression()
     lr.fit(X_train, y_train)
     y_pred = lr.predict(X_test)
     print("\n--- Linear Regression Results ---")
-    print("R2 Score:", r2_score(y_test, y_pred))
+    print("R2 Score:", r2_score(y_test, y_pred))   #this tells you how well your regression model explains the variance in the actual data.
     print("RMSE:", np.sqrt(mean_squared_error(y_test, y_pred)))
     return lr
 
 # =============================
 # 10. Polynomial Regression Model
 # =============================
-def train_polynomial_regression(X_train, y_train, X_test, y_test, degree=2):
-    """
-    Train and evaluate Polynomial Regression model.
-    """
-    poly = PolynomialFeatures(degree=degree)
-    X_train_poly = poly.fit_transform(X_train)
-    X_test_poly = poly.transform(X_test)
-
-    lr_poly = LinearRegression()
-    lr_poly.fit(X_train_poly, y_train)
-    y_pred_poly = lr_poly.predict(X_test_poly)
-
-    print(f"\n--- Polynomial Regression (degree={degree}) Results ---")
-    print("R2 Score:", r2_score(y_test, y_pred_poly))
-    print("RMSE:", np.sqrt(mean_squared_error(y_test, y_pred_poly)))
-    return lr_poly, poly
+def train_random_forest(X_train, y_train, X_test, y_test):
+    # Initialize Random Forest Regressor
+    rf_regressor = RandomForestRegressor(
+        n_estimators=50,   # number of trees
+        max_depth=10,         # limit tree depth
+        n_jobs=-1,            # use all CPU cores for parallel training
+        random_state=0
+    )
+    
+    # Train the model
+    rf_regressor.fit(X_train, y_train)
+    
+    # Predictions
+    y_pred = rf_regressor.predict(X_test)
+    
+    # Evaluation
+    print("\n--- Random Forest Regression Results ---")
+    print("R2 Score:", r2_score(y_test, y_pred))
+    print("RMSE:", np.sqrt(mean_squared_error(y_test, y_pred)))
+    
+    return rf_regressor
 
 # ===============
 # Train models
 # ===============
 linear_model = train_linear_regression(X_train, y_train, X_test, y_test)
-poly_model, poly_transformer = train_polynomial_regression(X_train, y_train, X_test, y_test, degree=2)
+rf_model = train_random_forest(X_train, y_train, X_test, y_test)
 
 # Example prediction
-
 def example_prediction():
-    # Example data (replace with realistic values from your dataset)
     sample = pd.DataFrame([{
         "Crop": "Wheat",
         "Crop_Year": 2020,
@@ -138,9 +144,14 @@ def example_prediction():
     # Transform input using same preprocessor
     sample_processed = ct.transform(sample)
 
-    # Predict yield
-    prediction = linear_model.predict(sample_processed)
-    print("Predicted Yield:", prediction[0])
+    # Predictions
+    pred_linear = linear_model.predict(sample_processed)
+    pred_rf = rf_model.predict(sample_processed)
 
-# just call directly
+    print("\n--- Example Prediction ---")
+    print("Linear Regression Predicted Yield:", pred_linear[0])
+    print("Random Forest Predicted Yield:", pred_rf[0])
+
+# Call directly
 example_prediction()
+
