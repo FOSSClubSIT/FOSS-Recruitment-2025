@@ -1,12 +1,26 @@
 # tools/generate_samples.py
 """
 Face Detection with Marker Overlay
+Automatically generates a placeholder marker if not found.
 """
 import cv2
 import numpy as np
+import os
+from PIL import Image, ImageDraw
 import tkinter as tk
 from tkinter import messagebox
-from PIL import Image
+
+def create_placeholder_marker():
+    # Create a transparent image
+    width, height = 200, 100
+    marker = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+
+    # Draw a simple rectangle as the marker
+    draw = ImageDraw.Draw(marker)
+    draw.rectangle([20, 20, 180, 80], fill=(255, 0, 0, 128), outline=(255, 0, 0))
+
+    # Save the marker image
+    marker.save("marker.png")
 
 def overlay_marker(frame, face_coords, marker):
     for (x, y, w, h) in face_coords:
@@ -25,10 +39,14 @@ def start_webcam():
     # Load pre-trained face detection model
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+    # Ensure marker image exists
+    if not os.path.exists("marker.png"):
+        create_placeholder_marker()
+
     # Load marker image (e.g., glasses or hat with transparency)
     marker = cv2.imread('marker.png', cv2.IMREAD_UNCHANGED)
     if marker is None:
-        messagebox.showerror("Error", "Marker image not found. Please ensure 'marker.png' is in the same directory.")
+        messagebox.showerror("Error", "Failed to load marker image.")
         return
 
     cap = cv2.VideoCapture(0)
