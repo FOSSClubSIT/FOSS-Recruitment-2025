@@ -9,9 +9,17 @@ from tkinter import simpledialog
 class ARObjectTracker:
     def __init__(self):
         self.window_name = "AR Object Tracker"
-        self.tracker = cv2.TrackerCSRT_create()
+        self.tracker = self.create_tracker()
         self.bbox = None
         self.annotating = False
+
+    def create_tracker(self):
+        """Create a tracker, falling back to available options if necessary."""
+        try:
+            return cv2.TrackerCSRT_create()
+        except AttributeError:
+            print("CSRT tracker not available. Falling back to KCF tracker.")
+            return cv2.TrackerKCF_create()
 
     def start(self):
         """Start the AR Object Tracker."""
