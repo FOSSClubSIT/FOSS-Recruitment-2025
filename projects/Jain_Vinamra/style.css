@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+textarea {
+    width: 80%;
+    margin-bottom: 10px;
+}
+button {
+    margin: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+li {
+    border: 1px solid #333;
+    margin: 5px auto;
+    padding: 5px;
+    width: 80%;
+    text-align: left;
+}
+span.cat {
+    font-weight: bold;
+}
+span.date {
+    font-style: italic;
+    float: right;
+}
+table {
+    border-collapse: collapse;
+    margin: 0 auto 20px auto;
+    width: 60%;
+}
+th, td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
