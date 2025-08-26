@@ -49,3 +49,39 @@ def search_notes(notes_dict, keyword):
         if matching_lines:
             results[filename] = matching_lines
     return results
+
+
+
+if __name__ == "__main__":
+    # Define the folder where your notes are
+    notes_folder = "sample_notes"
+
+    # Make sure the folder exists
+    if not os.path.exists(notes_folder):
+        print(f"Error: The folder '{notes_folder}' does not exist.")
+    else:
+        # Step 1: Extract all text from files
+        notes_data = extract_text_from_files(notes_folder)
+
+        if not notes_data:
+            print("No .txt files found in the notes folder. Please add some notes to search.")
+        else:
+            while True:
+                # Step 2: Get user input
+                search_query = input("\nEnter a keyword to search (or type 'exit' to quit): ")
+                if search_query.lower() == 'exit':
+                    break
+
+                # Step 3: Search for the keyword
+                search_results = search_notes(notes_data, search_query)
+
+                # Step 4: Display the results
+                if search_results:
+                    print("\n--- Search Results ---")
+                    for filename, matches in search_results.items():
+                        print(f"\nFound in {filename}:")
+                        for match in matches:
+                            print(f"  - {match}")
+                    print("--------------------")
+                else:
+                    print(f"No results found for '{search_query}'.")
