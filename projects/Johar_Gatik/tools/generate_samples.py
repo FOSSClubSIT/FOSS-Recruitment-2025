@@ -68,7 +68,7 @@ def main():
         marker = make_marker(460)
         scene, homography = compose_scene(marker)
         ref_path = os.path.join(ASSETS, "reference.png")
-        scn_path = os.path.join(ASSETS, "scene.spng")
+        scn_path = os.path.join(ASSETS, "scene.png")
         homography_path = os.path.join(ASSETS, "homography.txt")
 
         cv2.imwrite(ref_path, marker)
@@ -78,6 +78,12 @@ def main():
         print(f"[OK] Wrote {ref_path}")
         print(f"[OK] Wrote {scn_path}")
         print(f"[OK] Wrote homography matrix to {homography_path}")
+
+        # Display the generated images
+        cv2.imshow("Generated Marker", marker)
+        cv2.imshow("Generated Scene", scene)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
     except Exception as e:
         print(f"[ERROR] {str(e)}")
 
