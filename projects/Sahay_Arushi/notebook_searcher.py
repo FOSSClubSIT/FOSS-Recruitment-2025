@@ -1,27 +1,19 @@
 import os
-import cv2  # OpenCV for image processing
+import cv2
 import pytesseract
 from PyPDF2 import PdfReader
+import fitz # PyMuPDF
 
 # This line is needed if tesseract is not in your system's PATH
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 def extract_text_from_image(image_path):
     """
     Extracts text from an image using OCR.
-
-    Args:
-        image_path (str): The path to the image file.
-
-    Returns:
-        str: The extracted text.
     """
     try:
-        # Read the image using OpenCV
         img = cv2.imread(image_path)
-        # Convert the image to grayscale
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # Use Tesseract to do OCR on the image
         text = pytesseract.image_to_string(gray)
         return text
     except Exception as e:
@@ -30,13 +22,8 @@ def extract_text_from_image(image_path):
 
 def extract_text_from_files(folder_path):
     """
-    Extracts text content from .txt, .pdf, and image files in a given folder.
-
-    Args:
-        folder_path (str): The path to the folder containing the notes.
-
-    Returns:
-        dict: A dictionary where keys are filenames and values are their text content.
+    Extracts text content from .txt, .pdf, and image files.
+    Handles both searchable and scanned-image PDFs.
     """
     text_data = {}
     for filename in os.listdir(folder_path):
@@ -49,16 +36,29 @@ def extract_text_from_files(folder_path):
         
         elif filename.endswith(".pdf"):
             try:
+                content = ""
+                # First, try to extract text from a searchable PDF
                 with open(file_path, "rb") as f:
                     reader = PdfReader(f)
-                    content = ""
                     for page in reader.pages:
                         content += page.extract_text() or ""
-                    text_data[filename] = content
+
+                # If no text was extracted, assume it's an image-based PDF
+                if not content.strip():
+                    doc = fitz.open(file_path)
+                    for page_num, page in enumerate(doc):
+                        # Render the page as an image
+                        pix = page.get_pixmap()
+                        img_path = os.path.join(folder_path, f"temp_page_{page_num}.png")
+                        pix.save(img_path)
+                        # Run OCR on the image
+                        content += pytesseract.image_to_string(img_path)
+                        os.remove(img_path) # Clean up temp image file
+                
+                text_data[filename] = content
             except Exception as e:
-                print(f"Error reading {filename}: {e}")
+                print(f"Error processing PDF {filename}: {e}")
         
-        # New code for images
         elif filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
             content = extract_text_from_image(file_path)
             text_data[filename] = content
@@ -68,13 +68,6 @@ def extract_text_from_files(folder_path):
 def search_notes(notes_dict, keyword):
     """
     Searches for a keyword in the text content of the notes.
-
-    Args:
-        notes_dict (dict): A dictionary of notes (filename: content).
-        keyword (str): The keyword to search for.
-
-    Returns:
-        dict: A dictionary of search results (filename: list of matching lines).
     """
     results = {}
     for filename, content in notes_dict.items():
