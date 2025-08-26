@@ -63,27 +63,61 @@ def compose_scene(marker, out_h=720, out_w=960):
                 cv2.FONT_HERSHEY_SIMPLEX, 1.3, (50, 50, 50), 3, cv2.LINE_AA)
     return comp, H
 
+def webcam_mode():
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("[ERROR] Cannot access the webcam.")
+        return
+
+    print("[INFO] Press 'q' to quit webcam mode.")
+    try:
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                print("[ERROR] Failed to capture frame from webcam.")
+                break
+
+            # Display the webcam feed
+            cv2.imshow("Webcam Feed", frame)
+
+            # Exit on 'q' key press
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+    finally:
+        cap.release()
+        cv2.destroyAllWindows()
+
 def main():
     try:
-        marker = make_marker(460)
-        scene, homography = compose_scene(marker)
-        ref_path = os.path.join(ASSETS, "reference.png")
-        scn_path = os.path.join(ASSETS, "scene.png")
-        homography_path = os.path.join(ASSETS, "homography.txt")
+        print("[INFO] Choose an option:")
+        print("1. Generate synthetic marker and scene")
+        print("2. Use webcam mode")
+        choice = input("Enter your choice (1/2): ")
 
-        cv2.imwrite(ref_path, marker)
-        cv2.imwrite(scn_path, scene)
-        np.savetxt(homography_path, homography, fmt="%.6f")
+        if choice == "1":
+            marker = make_marker(460)
+            scene, homography = compose_scene(marker)
+            ref_path = os.path.join(ASSETS, "reference.png")
+            scn_path = os.path.join(ASSETS, "scene.png")
+            homography_path = os.path.join(ASSETS, "homography.txt")
 
-        print(f"[OK] Wrote {ref_path}")
-        print(f"[OK] Wrote {scn_path}")
-        print(f"[OK] Wrote homography matrix to {homography_path}")
+            cv2.imwrite(ref_path, marker)
+            cv2.imwrite(scn_path, scene)
+            np.savetxt(homography_path, homography, fmt="%.6f")
 
-        # Display the generated images
-        cv2.imshow("Generated Marker", marker)
-        cv2.imshow("Generated Scene", scene)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+            print(f"[OK] Wrote {ref_path}")
+            print(f"[OK] Wrote {scn_path}")
+            print(f"[OK] Wrote homography matrix to {homography_path}")
+
+            # Display the generated images
+            cv2.imshow("Generated Marker", marker)
+            cv2.imshow("Generated Scene", scene)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        elif choice == "2":
+            webcam_mode()
+        else:
+            print("[ERROR] Invalid choice. Please enter 1 or 2.")
     except Exception as e:
         print(f"[ERROR] {str(e)}")
 
