@@ -28,7 +28,8 @@ Tools Used
 - **HTML5**
 - **CSS3** (including CSS Variables, Flexbox, and Grid)
 - **Vanilla JavaScript (ES6+)** (AI Help needed)
-
+- **Gemini**
+- **Claude**
 
 ---
 
@@ -61,12 +62,11 @@ FOSS-Recruitment-2025\projects\Rishi Dwivedi
 ---
 
 ## Demo Screenshot / Output
-"C:\Users\rd414\FOSS-Recruitment-2025\projects\Rishi Dwivedi\ScreenShot\Screenshot 2025-08-26 230551.png"
-"C:\Users\rd414\FOSS-Recruitment-2025\projects\Rishi Dwivedi\ScreenShot\Screenshot 2025-08-26 230613.png"
-"C:\Users\rd414\FOSS-Recruitment-2025\projects\Rishi Dwivedi\ScreenShot\Screenshot 2025-08-26 230640.png"
-"C:\Users\rd414\FOSS-Recruitment-2025\projects\Rishi Dwivedi\ScreenShot\Screenshot 2025-08-26 230651.png"
-"C:\Users\rd414\FOSS-Recruitment-2025\projects\Rishi Dwivedi\ScreenShot\Screenshot 2025-08-26 230710.png"
-
+![Screenshot 1](./ScreenShot/Screenshot%202025-08-26%20230551.png)
+![Screenshot 2](./ScreenShot/Screenshot%202025-08-26%20230613.png)
+![Screenshot 3](./ScreenShot/Screenshot%202025-08-26%20230640.png)
+![Screenshot 4](./ScreenShot/Screenshot%202025-08-26%20230651.png)
+![Screenshot 5](./ScreenShot/Screenshot%202025-08-26%20230710.png)
 ---
 
 ## AI Tools Used
