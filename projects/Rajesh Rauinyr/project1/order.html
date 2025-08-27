@@ -1,0 +1,128 @@
+
+<!-- Order Section -->
+<section class="order" id="order">
+  <div class="order-container">
+    <h1 class="order-heading">Place Your Order</h1>
+    <p class="order-subtext">Fresh juices delivered right to your doorstep. Fill in the details below!</p>
+
+    <form class="order-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number" required>
+      </div>
+
+      <div class="form-group">
+        <label for="juice">Select Juice</label>
+        <select id="juice" required>
+          <option value="">--Choose your juice--</option>
+          <option value="pineapple">Pineapple Juice</option>
+          <option value="watermelon">Watermelon Juice</option>
+          <option value="mango">Mango Juice</option>
+          <option value="kiwi">Kiwi Juice</option>
+          <option value="papaya">Papaya Juice</option>
+          <option value="avocado">Avocado Juice</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" min="1" max="20" value="1" required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Delivery Address</label>
+        <textarea id="address" rows="3" placeholder="Enter your full address" required></textarea>
+      </div>
+
+      <button type="submit" class="order-btn">Submit Order</button>
+    </form>
+  </div>
+</section>
+
+<!-- Add CSS in <style> -->
+<style>
+.order {
+  background-color: #fdf5e6;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.order-heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #3c1212;
+  margin-bottom: 10px;
+}
+
+.order-subtext {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.order-container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #3c1212;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+  border-color: orange;
+  box-shadow: 0 0 4px rgba(255,165,0,0.5);
+}
+
+.order-btn {
+  background-color: orange;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.order-btn:hover {
+  background-color: #3c1212;
+  color: #fff;
+}
+</style>

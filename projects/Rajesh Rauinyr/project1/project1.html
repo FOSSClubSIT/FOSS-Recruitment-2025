@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Paste inside <head> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <title>Juice Vibe website</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Hand+Pre:wght@400..700&family=Inter:ital,opsz,wght@1,14..32,168&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Hand+Pre:wght@400..700&family=Inter:ital,opsz,wght@1,14..32,200&family=Montserrat&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+NSW+ACT+Hand+Pre:wght@500&family=Inter:ital,opsz,wght@1,14..32,200&family=Montserrat&family=Playwrite+IT+Trad&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+ box-sizing: border-box; 
+ margin:0;
+ padding:0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body{
+    font-family: "Roboto", sans-serif;
+    overflow-y:auto;
+}
+
+main{
+height: 100vh;
+padding-top: 100px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #3c1212;
+    padding: 10px 60px;
+}
+
+
+ .nav-menu{
+    list-style: none;
+    display:flex;
+    gap:60px;
+    margin-top: 5px;
+ }
+ .nav-link {
+    text-decoration:none;
+    color:white;
+    opacity:0.97;
+    border: 2px solid transparent;
+    border-radius:12px ;
+    transition:0.3s ease-out;
+ }
+.nav-link:hover{
+    padding:6px 12px;
+    color:#3c1212; 
+    background-color:rgb(237, 194, 5);
+}
+ #logo{
+    height:80px;
+    width:auto;
+    
+    margin-top:10px;
+    margin-left: 18px;
+    /* padding-bottom:20px; */
+ }
+
+ .hero  {
+    background-color: #3c1212;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:130px 90px;
+
+.content{
+
+}
+ }
+ .title-main{
+  font-family: "Playwrite IT Trad", cursive;
+  font-size:27px;
+  font-weight: 700;
+  color:orange;
+
+ }
+.heading{
+  font-family: "Inter", sans-serif;
+  font-weight: 3000;
+  font-size:30px;
+  color:white;
+  margin-top: 18px;
+  line-height:1.4;
+  max-width: 75%;
+}
+.description{
+    font-size:17px;
+    color:white;
+    font-weight:350;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+    max-width: 75%;
+    
+}
+.hero-imgage{
+ max-width: 150%;
+  width: 150%;
+  height: auto;
+}
+.buttons a{
+text-decoration: none;
+color:#3c1212;
+background-color:orange;
+border:2px solid transparent;
+border-radius:19px;
+padding:8px 18px;
+margin-right: 17px;
+font-size:17px;
+font-weight:500;
+transition:0.3s ease-out;
+}
+
+.buttons :hover{
+color:white;
+background-color:transparent;
+border:2px solid white;
+}
+
+/* about section css */
+     @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive&family=Edu+NSW+ACT+Hand+Pre:wght@500&family=Inter:ital,opsz,wght@1,14..32,200&family=Montserrat:wght@500&family=Playwrite+IT+Trad&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,400;0,500;0,700;1,700&display=swap');
+
+    .about-all {
+   
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 220px;
+      padding: 150px 120px;
+    }
+
+    .about-img img {
+      height: 400px;
+      width: 400px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .paragraph {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 480px;
+    }
+
+    .about-heading {
+      text-transform: uppercase;
+      margin-left: 80px;
+      margin-bottom: 20px;
+      font-size: 35px;
+      font-weight: 600;
+      padding: 0 0 20px 0;
+    }
+
+ .about-heading::after {
+  content: "";
+  display: block;
+  width: 170px;       
+  height: 4px;       
+  background-color: orange;
+  margin-top: 10px;  
+  border-radius: 2px;
+}
+
+ .about-text {
+     font-size:16.5px;
+    color:black;
+    font-weight:370;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+    max-width: 75%;
+    text-align:center;
+    }
+
+ .social-icons {
+  display: flex;
+  justify-content: center; /* horizontally centers icons */
+  /* align-items: center;     vertically aligns them */
+  margin-right:75px;
+  gap: 30px;               /* spacing between icons */
+}
+.social-icons a{
+    /* padding:50px; */
+  align-items: center;
+  text-decoration: none;
+  font-size: 20px;
+  transition: 0.3s;
+  color:black;
+}
+.social-icons a:hover{
+    color:orange;
+}
+
+/* menu section css */
+.menu {
+      background-color:rgb(45, 44, 44);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding: 30px 10px;
+      gap: 30px;
+    }
+
+    .juice {
+      width: 30%;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .menu-img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 15px;
+      color: white;
+    }
+
+    .text {
+      font-size: 14px;
+      color: #dbdbdb;
+      margin-top: 8px;
+      padding: 0 10px;
+    }
+    #menu {
+  scroll-margin-top: 80px; /* Adjust based on your fixed header height */
+}
+
+/* Testimonal section css */
+#testimonial{
+    scroll-margin-top: 80px;
+}
+.review{
+    background-color:rgb(208, 202, 202);
+  }
+  .review-list{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    gap:30px;
+    padding:50px;
+    list-style:none;
+
+  }
+  .review-menu{
+    width:30%;
+    min-width: 280px;
+    display:flex;
+    flex-direction:flex-start;
+    flex-direction: column;
+    text-align: center;
+    align-items:center;
+  
+  }
+
+  .review-menu:nth-child(4),
+    .review-menu:nth-child(5) {
+      margin-left: auto;
+      margin-right: auto;
+    }
+.user-img{
+  width:55%;
+  height:auto;
+  max-height:400px;
+  max-width:400px;
+  object-fit:contain;
+  border-radius:20px;
+   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  */
+  padding:30px 10px;
+}
+.review-text{
+  margin-top:10px;
+}
+
+/* footer section css */
+   footer {
+          font-family: 'Segoe UI', sans-serif;
+      width: 100%;
+      
+    }
+
+    .contact-all {
+      background-color: rgb(80, 78, 78);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 30px 70px;
+      flex-wrap: wrap;
+    }
+
+    .contact-us, .quick, .follow-us {
+      flex: 1;
+      min-width: 220px;
+      margin-bottom: 20px;
+    }
+
+    .contact-title,
+    .links-title,
+    .follow-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .contact-us p {
+      font-size: 16px;
+      margin: 6px 0;
+    }
+
+    .quick {
+      text-align: center;
+    }
+
+    .link {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .link li {
+      margin: 8px 0;
+    }
+
+    .link a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .link a:hover {
+      color: orange;
+    }
+
+    .follow-us {
+        padding:0px 80px;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .follow-us a {
+      color: white;
+      font-size: 20px;
+      margin-left: 12px;
+      transition: color 0.3s ease;
+    }
+
+    .follow-us a:hover {
+      color: orange;
+    }
+
+    .bottom {
+      background-color: orange;
+    }
+
+    .bottom p {
+      text-align: center;
+      padding: 12px 10px;
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0;
+      color: black;
+    }
+
+
+ /* MEDIA QUERIES FOR RESPONSIVENESS */
+
+/* Base tweaks */
+.navbar-toggle {
+  display: none;
+  font-size: 32px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 9999;
+  padding: 6px;
+  background-color: transparent;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: #fff;
+}
+
+.about {
+  background-color: white;
+  padding-top: 150px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 130px 90px;
+  background-color: #3c1212;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-image {
+  z-index: 2;
+}
+
+.hero-image img {
+  display: block;
+  max-width: 150%;
+  width: 150%;
+  height: auto;
+  margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #3c1212;
+    z-index: 1000;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    display: none;
+    margin-top: 10px;
+    background-color: #3c1212;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: left;
+    padding: 10px 20px;
+    border-bottom: none;
+    border-radius: 0;
+    color: white;
+  }
+
+  .nav-link:hover {
+    background-color: orange;
+    color: #3c1212;
+  }
+
+  .hero {
+    flex-direction: column;
+    padding: 150px 40px 40px;
+    text-align: center;
+  }
+
+  .heading, .description {
+    max-width: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .about-all {
+    flex-direction: column;
+    gap: 30px;
+    padding: 80px 30px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .paragraph {
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .about-heading {
+    margin: 0 auto 20px;
+    font-size: 28px;
+    padding-bottom: 10px;
+    position: relative;
+  }
+
+  .about-heading::after {
+    content: "";
+    display: block;
+    margin: 10px auto 0;
+    width: 120px;
+    height: 4px;
+    background-color: orange;
+    border-radius: 2px;
+  }
+
+  .social-icons {
+    justify-content: center;
+    margin: 0;
+  }
+
+  .menu .juice {
+    width: 45%;
+  }
+
+  .review-menu {
+    width: 45%;
+  }
+
+  .contact-all {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 30px;
+  }
+
+  .follow-us {
+    padding: 0;
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu .juice,
+  .review-menu {
+    width: 100%;
+  }
+
+  .about-img img {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 576px) {
+  .title-main {
+    font-size: 22px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  .menu-img {
+    max-height: 200px;
+  }
+
+  .contact-title,
+  .links-title,
+  .follow-title {
+    font-size: 20px;
+  }
+
+  .contact-us p,
+  .link a,
+  .bottom p {
+    font-size: 14px;
+  }
+}
+
+/* Scroll margin fix for smooth scroll */
+html {
+  scroll-padding-top: 150px;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+
+</style>
+
+</head>
+<body>
+
+    <!-- Home section -->
+<section class="home" id="home">
+<header>
+<nav class="navbar">
+    <div class="logo-container">
+       <a href="#home"><img src="juice-logo.png" alt="logo" id="logo"></a> 
+    </div>
+     
+    <ul class="nav-menu">
+        <li ><a href="#" class="nav-link">Home</a></li>
+        <li ><a href="#about" class="nav-link">About</a></li>
+        <li ><a href="#menu" class="nav-link">Menu</a></li>
+        <li ><a href="#testimonial" class="nav-link">Testimonial</a></li>
+        <li ><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    </div>
+</nav>
+</header>
+<main>
+    <div class="hero">
+        <div class="content">
+            <div class="title-main">Refreshing Juice</div>
+            <div class="heading">Make your day refreshing and great with our special juice!</div>
+            <div class="description">Freshly Squeezed Goodness -Pure, Natural, and Packed with Flavor. Sip the Taste of Health!</div>
+            <div class="buttons">
+                <a href="order.html">order now</a>
+                <a href="#contact">contact us</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="fruit-hero.png" alt="fruit">
+        </div>
+    </div>
+    </section>
+
+  <!-- About section -->
+  <section class="about" id="about">
+    <div class="about-all">
+      <div class="about-img">
+        <img src="about-fruit.jpg" alt="contact" />
+      </div>
+      <div class="paragraph">
+        <div class="about-heading">About us</div>
+        <div class="about-text">
+          At Juice Vibe, we’re all about keeping it fresh, natural, and vibrant. From the heart of our juice bar to the hands of our customers, we blend the finest fruits to create delicious, energizing drinks made with love.
+          Whether you're here to fuel your day or simply enjoy a refreshing break, our mission is to serve up wellness in every sip. With a cozy atmosphere and flavors that spark joy, Juice Vibe is your go-to spot to sip, chill, and vibe.
+        </div>
+        <div class="social-icons">
+           <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+           <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+           <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu section -->
+   <section class="menu" id="menu">
+    
+    <div class="juice">
+      <img src="pineapple.png" alt="Pineapple" class="menu-img">
+      <div class="title">Pineapple Juice</div>
+      <div class="text">Pineapple juice bursting with tropical goodness—sweet, zesty, and sunshine in a glass!</div>
+    </div>
+
+    <div class="juice">
+      <img src="watermelon.png" alt="Watermelon" class="menu-img">
+      <div class="title">Watermelon Juice</div>
+      <div class="text">Watermelon juice that’s juicy, cooling, and refreshingly light—hydrate your soul the fruity way!</div>
+    </div>
+
+    <div class="juice">
+      <img src="mango.png" alt="Mango" class="menu-img">
+      <div class="title">Mango Juice</div>
+      <div class="text">Mango juice magic—rich, smooth, and golden like summer in every sip!</div>
+    </div>
+
+    <div class="juice">
+      <img src="kiwi.png" alt="Kiwi" class="menu-img">
+      <div class="title">Kiwi Juice</div>
+      <div class="text">Kiwi juice with a tangy punch—vibrant, zesty, and full of fresh flair!</div>
+    </div>
+
+    <div class="juice">
+      <img src="papaya.png" alt="Papaya" class="menu-img">
+      <div class="title">Papaya Juice</div>
+      <div class="text">Papaya juice—naturally sweet, tropical, and your daily dose of mellow delight!</div>
+    </div>
+
+    <div class="juice">
+      <img src="avocardo.png" alt="Avocado" class="menu-img">
+      <div class="title">Avocado Juice</div>
+      <div class="text">Avocado juice—creamy, dreamy, and packed with green power in every gulp!</div>
+    </div>
+
+  </section>
+
+  <!-- Testimonal section -->
+   <section class="review" id="testimonial">
+
+    <div class="review-all">
+
+      <ul class="review-list">
+
+        <li class="review-menu">
+          <img src="user1.jpg" alt="user1" class="user-img">
+          <h3 class="review-text">Sam curran</h3>
+          <div class="review-text">
+             <i>	❛❛Absolutely loved the mango juice! Super refreshing and felt like I was drinking straight from the fruit. Will definitely order again!	❜❜</i>
+          </div>
+        </li>
+
+        <li class="review-menu">
+          <img src="user2.jpg" alt="user2" class="user-img">
+          <h3 class="review-text">sarah Taylor</h3>
+          <div class="review-text">
+              <i>	❛❛The packaging was neat and the juice was chilled just right. I tried the mixed berry flavor — it tasted natural and wasn’t too sweet. Perfect for summer days.	❜❜</i>
+          </div>
+        </li>
+
+        <li class="review-menu">
+          <img src="user3.jpg" alt="user3" class="user-img">
+          <h3 class="review-text">Rajesh rauniyar</h3>
+          <div class="review-text">
+           <i>	❛❛Honestly, one of the best orange juices I’ve ever had. No artificial aftertaste, just pure fruit goodness. Keep it up!	❜❜</i>
+          </div>
+        </li>
+
+        <li class="review-menu">
+          <img src="user4.jpg" alt="user4" class="user-img">
+          <h3 class="review-text">Hayley Matthews</h3>
+          <div class="review-text">
+            <i>	❛❛I ordered the pineapple and watermelon combo — and it was amazing! Fresh, juicy, and so energizing. Totally recommend to juice lovers.	❜❜</i>
+          </div>
+        </li>
+
+        <li class="review-menu">
+          <img src="user5.jpg" alt="user5" class="user-img">
+          <h3 class="review-text">Andrew symonds</h3>
+          <div class="review-text">
+            <i>	❛❛Great value for the price. Tried the detox green juice and was pleasantly surprised — fresh ingredients and felt really clean and hydrating.	❜❜</i>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+<!-- footer section or contact section -->
+  <footer>
+    <section class="contact" id="contact">
+      <div class="contact-all">
+        <div class="contact-us">
+          <h1 class="contact-title">Contact us</h1>
+          <p>Email: juicevibe404@gmail.com</p>
+          <p>Phone: +9779815390321</p>
+          <p>Address: New Town, California</p>
+        </div>
+
+        <div class="quick">
+          <h1 class="links-title">Quick Links</h1>
+          <ul class="link">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#testimonial">Testimonal</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="follow-us">
+          <h1 class="follow-title">Follow us</h1>
+          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <p>&copy; 2025 Company. All rights reserved.</p>
+      </div>
+    </section>
+  </footer>
+</main>
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const nav = document.querySelector('.navbar');
+    const navMenu = document.querySelector('.nav-menu');
+
+    const toggleButton = document.createElement('button');
+    toggleButton.className = 'navbar-toggle';
+    toggleButton.setAttribute('aria-label', 'Toggle menu');
+    toggleButton.innerHTML = '&#9776;'; // ☰
+
+    toggleButton.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+      toggleButton.innerHTML = navMenu.classList.contains('show') ? '&times;' : '&#9776;';
+    });
+
+    nav.appendChild(toggleButton);
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+        toggleButton.innerHTML = '&#9776;';
+      });
+    });
+  });
+</script>
+
+</html>
