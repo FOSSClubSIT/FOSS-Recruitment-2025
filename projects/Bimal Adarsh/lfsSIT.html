@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L//F_SIT.com - Lost and Found</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Fredoka One -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FEF3C7; /* Sandy yellow background */
+        }
+        .font-comic {
+            font-family: 'Fredoka One', cursive;
+        }
+        /* Custom shadow for the blocky look */
+        .custom-shadow {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .custom-shadow-lg {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .custom-shadow:hover {
+            box-shadow: 2px 2px 0px #000;
+        }
+        .dotted-divider {
+            border-bottom: 4px dotted black;
+        }
+        .suggestions-box {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-sky-300 fixed top-0 left-0 right-0 z-50 border-b-4 border-black">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Website Title -->
+                <div class="flex items-center">
+                    <a href="#" onclick="showPage('landing-page')" class="text-2xl font-bold text-black font-comic">L//F_SIT.com</a>
+                </div>
+                
+                <!-- Right side icons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" onclick="showFoundItemsPage()" class="text-black hover:text-blue-800 font-medium hidden md:block transition-transform hover:scale-105">Lost Items</a>
+                    <!-- Notification Center -->
+                    <div class="relative">
+                        <button onclick="toggleNotifications()" class="bg-white hover:bg-gray-200 rounded-full p-2 focus:outline-none border-2 border-black custom-shadow transition-all duration-150">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span id="notification-dot" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full border-2 border-white hidden"></span>
+                        </button>
+                        <div id="notification-panel" class="absolute right-0 mt-2 w-80 bg-white rounded-lg border-2 border-black shadow-xl overflow-hidden z-20 hidden">
+                            <div class="py-2 px-4 text-sm font-semibold text-gray-700 border-b-2 border-black">Notifications</div>
+                            <div id="notification-list" class="divide-y-2 divide-black max-h-96 overflow-y-auto">
+                                <!-- Notifications will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile/Auth Button -->
+                    <div id="auth-container" class="flex items-center">
+                         <button onclick="handleAuthClick()" class="bg-white hover:bg-gray-200 rounded-full p-2 focus:outline-none border-2 border-black custom-shadow transition-all duration-150">
+                            <svg id="login-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <svg id="logout-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 hidden"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div id="app-container">
+        <!-- Landing Page Section -->
+        <div id="landing-page">
+            <main>
+                <!-- Hero Section -->
+                <section class="bg-sky-300 pt-32 pb-20 md:pt-40 md:pb-28">
+                    <div class="container mx-auto px-6 text-center">
+                        <h1 class="text-5xl md:text-7xl font-bold text-black leading-tight tracking-wide font-comic">
+                            Reuniting What's Lost,
+                            <br class="hidden md:block">
+                            <span class="text-white">One Item at a Time.</span>
+                        </h1>
+                        <p class="mt-6 text-lg md:text-xl text-gray-800 max-w-3xl mx-auto">
+                            The trusted platform for the SIT community to report lost items and help others find what they're missing. Let's make our campus a more connected place.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <a href="#" onclick="showPage('lost-item-form')" class="w-full sm:w-auto bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-blue-600 transition-all duration-150 transform hover:-translate-y-1">
+                                I Lost Something
+                            </a>
+                            <a href="#" onclick="showPage('found-item-form')" class="w-full sm:w-auto bg-yellow-400 text-black px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-yellow-500 transition-all duration-150 transform hover:-translate-y-1">
+                                I Found Something
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                
+                 <!-- Dotted Divider -->
+                <div class="dotted-divider"></div>
+
+                <!-- Features Section -->
+                <section class="py-20 bg-amber-100">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl md:text-5xl font-bold text-black font-comic">How It Works</h2>
+                            <p class="mt-4 text-lg text-gray-800">A simple, three-step process to find or report items.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                            <!-- Feature 1 -->
+                            <div class="text-center p-8 bg-white rounded-2xl border-4 border-black custom-shadow-lg">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-blue-200 border-2 border-black text-blue-600 mx-auto mb-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path><path d="m21 21-4.35-4.35"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-black mb-3 font-comic">1. Report an Item</h3>
+                                <p class="text-gray-700">Quickly post details about a lost or found item. Add a description, location, and even a photo to help others identify it.</p>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div class="text-center p-8 bg-white rounded-2xl border-4 border-black custom-shadow-lg">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-yellow-200 border-2 border-black text-yellow-600 mx-auto mb-6">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-black mb-3 font-comic">2. Get Notified</h3>
+                                <p class="text-gray-700">Our system automatically searches for matches. You'll receive instant notifications when a potential match is found.</p>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div class="text-center p-8 bg-white rounded-2xl border-4 border-black custom-shadow-lg">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-200 border-2 border-black text-green-600 mx-auto mb-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-black mb-3 font-comic">3. Reconnect</h3>
+                                <p class="text-gray-700">Connect securely with the finder or owner through our platform to arrange a safe and convenient return.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Lost Item Form Section -->
+        <div id="lost-item-form" class="hidden">
+            <section class="pt-32 pb-20 bg-amber-100 min-h-screen">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-2xl border-4 border-black custom-shadow-lg">
+                        <div class="flex items-center mb-8">
+                            <button onclick="showPage('landing-page')" class="text-gray-500 hover:text-blue-600 mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                            </button>
+                            <h2 class="text-3xl font-bold text-black">Report a Lost Item</h2>
+                        </div>
+                        
+                        <form id="item-form" class="space-y-6">
+                            <!-- Item Name -->
+                            <div>
+                                <label for="item-name" class="block text-sm font-medium text-black mb-1">What did you lose?</label>
+                                <input type="text" id="item-name" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" placeholder="e.g., Black Jansport Backpack" required>
+                            </div>
+
+                            <!-- Description -->
+                            <div>
+                                <label for="item-description" class="block text-sm font-medium text-black mb-1">Description</label>
+                                <textarea id="item-description" rows="4" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" placeholder="Provide any specific details..." required></textarea>
+                            </div>
+
+                            <!-- Tags Input -->
+                            <div class="relative">
+                                <label for="item-tags" class="block text-sm font-medium text-black mb-1">Tags (Keywords)</label>
+                                <p class="text-xs text-gray-600 mb-2">Help us find matches. Start typing to see suggestions.</p>
+                                <div id="tags-container" class="flex flex-wrap items-center gap-2 p-2 bg-white border-2 border-black rounded-lg custom-shadow">
+                                    <input type="text" id="item-tags-input" class="flex-grow p-1 focus:outline-none bg-transparent" placeholder="e.g., laptop, hydroflask, keys...">
+                                </div>
+                                <div id="lost-suggestions" class="suggestions-box absolute z-10 w-full bg-white border-2 border-black mt-1 rounded-lg shadow-lg hidden"></div>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div>
+                                <label class="block text-sm font-medium text-black mb-1">Add a Photo (Optional)</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-black border-dashed rounded-md">
+                                    <div class="space-y-1 text-center">
+                                        <div id="image-preview-container" class="hidden mx-auto mb-4">
+                                            <img id="image-preview" src="#" alt="Image Preview" class="max-h-40 rounded-lg mx-auto border-2 border-black"/>
+                                        </div>
+                                        <svg id="upload-icon" class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="item-image" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
+                                                <span>Upload a file</span>
+                                                <input id="item-image" name="item-image" type="file" class="sr-only" accept="image/*">
+                                            </label>
+                                            <p id="upload-text" class="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="pt-4">
+                                <button type="submit" class="w-full bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-blue-600 transition-all duration-150 transform hover:-translate-y-1">
+                                    Submit Report
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Found Item Form Section -->
+        <div id="found-item-form" class="hidden">
+             <section class="pt-32 pb-20 bg-amber-100 min-h-screen">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-2xl border-4 border-black custom-shadow-lg">
+                        <div class="flex items-center mb-8">
+                            <button onclick="showPage('landing-page')" class="text-gray-500 hover:text-blue-600 mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                            </button>
+                            <h2 class="text-3xl font-bold text-black">Report a Found Item</h2>
+                        </div>
+                        
+                        <form id="found-form" class="space-y-6">
+                            <!-- Item Name -->
+                            <div>
+                                <label for="found-item-name" class="block text-sm font-medium text-black mb-1">What did you find?</label>
+                                <input type="text" id="found-item-name" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" placeholder="e.g., Blue Hydroflask" required>
+                            </div>
+
+                             <!-- Location Found -->
+                            <div>
+                                <label for="found-item-location" class="block text-sm font-medium text-black mb-1">Where did you find it?</label>
+                                <input type="text" id="found-item-location" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" placeholder="e.g., Library, Level 2" required>
+                            </div>
+
+                            <!-- Description -->
+                            <div>
+                                <label for="found-item-description" class="block text-sm font-medium text-black mb-1">Description</label>
+                                <textarea id="found-item-description" rows="4" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" placeholder="Provide any specific details..." required></textarea>
+                            </div>
+
+                            <!-- Tags Input -->
+                            <div class="relative">
+                                <label for="found-item-tags" class="block text-sm font-medium text-black mb-1">Tags (Keywords)</label>
+                                <p class="text-xs text-gray-600 mb-2">Help us find matches. Start typing to see suggestions.</p>
+                                <div id="found-tags-container" class="flex flex-wrap items-center gap-2 p-2 bg-white border-2 border-black rounded-lg custom-shadow">
+                                    <input type="text" id="found-item-tags-input" class="flex-grow p-1 focus:outline-none bg-transparent" placeholder="e.g., water bottle, stickers...">
+                                </div>
+                                <div id="found-suggestions" class="suggestions-box absolute z-10 w-full bg-white border-2 border-black mt-1 rounded-lg shadow-lg hidden"></div>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div>
+                                <label class="block text-sm font-medium text-black mb-1">Add a Photo (Optional)</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-black border-dashed rounded-md">
+                                    <div class="space-y-1 text-center">
+                                        <div id="found-image-preview-container" class="hidden mx-auto mb-4">
+                                            <img id="found-image-preview" src="#" alt="Image Preview" class="max-h-40 rounded-lg mx-auto border-2 border-black"/>
+                                        </div>
+                                        <svg id="found-upload-icon" class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="found-item-image" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
+                                                <span>Upload a file</span>
+                                                <input id="found-item-image" name="found-item-image" type="file" class="sr-only" accept="image/*">
+                                            </label>
+                                            <p id="found-upload-text" class="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="pt-4">
+                                <button type="submit" class="w-full bg-yellow-400 text-black px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-yellow-500 transition-all duration-150 transform hover:-translate-y-1">
+                                    Submit Report
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Found Items Display Page -->
+        <div id="found-items-page" class="hidden">
+            <section class="pt-32 pb-20 bg-amber-100 min-h-screen">
+                <div class="container mx-auto px-6">
+                    <div class="flex items-center mb-8">
+                         <button onclick="showPage('landing-page')" class="text-gray-500 hover:text-blue-600 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                         </button>
+                        <h2 class="text-3xl font-bold text-black">Recently Reported Found Items</h2>
+                    </div>
+                    <div id="found-items-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Cards will be injected here by JavaScript -->
+                    </div>
+                     <div id="no-found-items" class="text-center py-12 hidden">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                        <h3 class="mt-2 text-sm font-medium text-black">No items have been found yet.</h3>
+                        <p class="mt-1 text-sm text-gray-600">Report an item you've found to get started.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Login/Register Page -->
+        <div id="login-page" class="hidden">
+            <section class="pt-32 pb-20 bg-amber-100 min-h-screen flex items-center justify-center">
+                <div class="max-w-md w-full mx-auto bg-white p-8 md:p-12 rounded-2xl border-4 border-black custom-shadow-lg">
+                    <!-- Login Form -->
+                    <div id="login-form-container">
+                        <h2 class="text-3xl font-bold text-black text-center mb-6">Welcome Back</h2>
+                        <form id="login-form" class="space-y-6">
+                            <div>
+                                <label for="login-email" class="block text-sm font-medium text-black mb-1">Student Email</label>
+                                <input type="email" id="login-email" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" required>
+                            </div>
+                            <div>
+                                <label for="login-password" class="block text-sm font-medium text-black mb-1">Password</label>
+                                <input type="password" id="login-password" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" required>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-blue-600 transition-all duration-150 transform hover:-translate-y-1">Log In</button>
+                            </div>
+                        </form>
+                        <p class="text-center text-sm text-gray-600 mt-6">
+                            Don't have an account? <a href="#" onclick="toggleAuthForms()" class="font-medium text-blue-600 hover:underline">Register here</a>
+                        </p>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <div id="register-form-container" class="hidden">
+                        <h2 class="text-3xl font-bold text-black text-center mb-6">Create Account</h2>
+                        <form id="register-form" class="space-y-6">
+                            <div>
+                                <label for="register-email" class="block text-sm font-medium text-black mb-1">Student Email</label>
+                                <input type="email" id="register-email" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" required>
+                                <p id="email-error" class="text-red-500 text-xs mt-1 hidden">Email must end with @sitpune.edu.in</p>
+                            </div>
+                            <div>
+                                <label for="register-password" class="block text-sm font-medium text-black mb-1">Password</label>
+                                <input type="password" id="register-password" class="w-full px-4 py-2 bg-white border-2 border-black rounded-lg focus:ring-blue-500 focus:border-blue-500 custom-shadow" required>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-yellow-400 text-black px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-yellow-500 transition-all duration-150 transform hover:-translate-y-1">Register</button>
+                            </div>
+                        </form>
+                        <p class="text-center text-sm text-gray-600 mt-6">
+                            Already have an account? <a href="#" onclick="toggleAuthForms()" class="font-medium text-blue-600 hover:underline">Log in here</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="hidden">
+            <section class="pt-32 pb-20 bg-amber-100 min-h-screen">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-2xl border-4 border-black custom-shadow-lg text-center">
+                        <h2 class="text-3xl font-bold text-black mb-4">Your Profile</h2>
+                        <div class="w-24 h-24 rounded-full bg-sky-200 mx-auto flex items-center justify-center mb-6 border-2 border-black">
+                            <span id="profile-initials" class="text-4xl font-bold text-sky-800"></span>
+                        </div>
+                        <p class="text-2xl font-semibold text-black" id="profile-name"></p>
+                        <p class="text-gray-600 mt-1" id="profile-email"></p>
+                        <div class="mt-8 border-t-2 border-black pt-6">
+                            <h3 class="text-xl font-semibold text-black">Your Activity</h3>
+                            <p class="text-gray-500 mt-2">Your reported items will appear here.</p>
+                            <!-- Activity feed can be added here later -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Success Page -->
+        <div id="success-page" class="hidden">
+             <section class="pt-32 pb-20 bg-amber-100 min-h-screen flex items-center justify-center">
+                <div class="text-center max-w-lg mx-auto bg-white p-8 md:p-12 rounded-2xl border-4 border-black custom-shadow-lg">
+                    <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-200 border-2 border-black mb-6">
+                        <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-black mb-3">Report Submitted!</h2>
+                    <p class="text-gray-600 mb-8">Thank you! We've saved your report. Your contribution helps our community stay connected.</p>
+                    <button onclick="resetFormsAndShowHome()" class="w-full bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-blue-600 transition-all duration-150 transform hover:-translate-y-1">
+                        Back to Home
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Error Page -->
+        <div id="error-page" class="hidden">
+             <section class="pt-32 pb-20 bg-amber-100 min-h-screen flex items-center justify-center">
+                <div class="text-center max-w-lg mx-auto bg-white p-8 md:p-12 rounded-2xl border-4 border-black custom-shadow-lg">
+                    <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-red-200 border-2 border-black mb-6">
+                        <svg class="h-12 w-12 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-black mb-3">Submission Error</h2>
+                    <p id="error-message" class="text-gray-600 mb-8">The image you selected is too large. Please upload a file smaller than 10MB.</p>
+                    <button onclick="showPage('lost-item-form')" class="w-full bg-yellow-400 text-black px-8 py-3 rounded-lg font-semibold text-lg border-2 border-black custom-shadow hover:bg-yellow-500 transition-all duration-150 transform hover:-translate-y-1">
+                        Try Again
+                    </button>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white border-t-4 border-black">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400">&copy; 2024 L//F_SIT.com. All rights reserved.</p>
+                <div class="flex mt-4 md:mt-0 space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- GLOBAL STATE & INITIALIZATION ---
+        let allTags = JSON.parse(localStorage.getItem('allTags')) || ['bottle', 'keys', 'wallet', 'laptop', 'airpods', 'notebook'];
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthStateUI();
+            updateNotificationUI();
+        });
+
+        // --- PAGE NAVIGATION ---
+        function showPage(pageId) {
+            ['landing-page', 'lost-item-form', 'found-item-form', 'success-page', 'error-page', 'login-page', 'profile-page', 'found-items-page'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            const page = document.getElementById(pageId);
+            if (page) page.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showFoundItemsPage() {
+            const grid = document.getElementById('found-items-grid');
+            const noItemsMessage = document.getElementById('no-found-items');
+            grid.innerHTML = '';
+
+            const foundItems = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('foundItem_')) {
+                    try {
+                        const item = JSON.parse(localStorage.getItem(key));
+                        foundItems.push(item);
+                    } catch (e) { console.error(`Could not parse found item from localStorage with key: ${key}`); }
+                }
+            }
+
+            if (foundItems.length === 0) {
+                grid.classList.add('hidden');
+                noItemsMessage.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noItemsMessage.classList.add('hidden');
+                foundItems.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                foundItems.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-2xl border-4 border-black custom-shadow-lg overflow-hidden';
+                    const imgSrc = item.imageData || 'https://placehold.co/600x400/f3f4f6/6b7280?text=No+Image';
+                    const tagsHTML = item.tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full border border-black">${tag}</span>`).join('');
+                    card.innerHTML = `
+                        <div class="h-48 bg-gray-200 border-b-4 border-black flex items-center justify-center">
+                            <img class="h-full w-full object-cover" src="${imgSrc}" alt="${item.itemName}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/fee2e2/b91c1c?text=Image+Error';">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-black truncate">${item.itemName}</h3>
+                            <p class="text-gray-600 text-sm mt-1">Location: ${item.location || 'Not Specified'}</p>
+                            <div class="mt-4 flex flex-wrap">
+                                ${tagsHTML || '<span class="text-xs text-gray-400">No tags</span>'}
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            showPage('found-items-page');
+        }
+
+        // --- NOTIFICATION SYSTEM ---
+        const notificationPanel = document.getElementById('notification-panel');
+        const notificationDot = document.getElementById('notification-dot');
+        const notificationList = document.getElementById('notification-list');
+
+        function toggleNotifications() {
+            const isHidden = notificationPanel.classList.toggle('hidden');
+            if (!isHidden) {
+                populateNotifications();
+                markNotificationsAsRead();
+                updateNotificationUI();
+            }
+        }
+
+        function toggleNotificationDetail(event) {
+            const details = event.currentTarget.querySelector('.notification-details');
+            if (details) {
+                details.classList.toggle('hidden');
+            }
+        }
+
+        function updateNotificationUI() {
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            const hasUnread = notifications.some(n => !n.read);
+            notificationDot.classList.toggle('hidden', !hasUnread);
+        }
+
+        function populateNotifications() {
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            notificationList.innerHTML = '';
+
+            if (notifications.length === 0) {
+                notificationList.innerHTML = `<p class="text-gray-500 text-sm p-4 text-center">No notifications yet.</p>`;
+                return;
+            }
+
+            notifications.reverse().forEach(n => {
+                const notifElement = document.createElement('div');
+                notifElement.className = 'p-4 text-sm text-gray-700 hover:bg-amber-50 cursor-pointer';
+                notifElement.setAttribute('onclick', 'toggleNotificationDetail(event)');
+                
+                const imgSrc = n.matchDetails.imageData || 'https://placehold.co/600x400/f3f4f6/6b7280?text=No+Image';
+
+                notifElement.innerHTML = `
+                    <div>
+                        <p class="font-semibold">Potential Match Found!</p>
+                        <p>${n.message}</p>
+                        <p class="text-xs text-gray-400 mt-1">${new Date(n.timestamp).toLocaleString()}</p>
+                    </div>
+                    <div class="notification-details hidden mt-4 pt-4 border-t-2 border-dashed border-gray-300">
+                        <img src="${imgSrc}" class="rounded-lg mb-2 w-full object-cover max-h-40 border-2 border-black" alt="Item Image">
+                        <p><span class="font-semibold">Item:</span> ${n.matchDetails.itemName}</p>
+                        <p><span class="font-semibold">Location:</span> ${n.matchDetails.location}</p>
+                    </div>
+                `;
+                notificationList.appendChild(notifElement);
+            });
+        }
+
+        function markNotificationsAsRead() {
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            notifications.forEach(n => n.read = true);
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        function checkForMatches(newItem) {
+            const allItems = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if ((key.startsWith('lostItem_') || key.startsWith('foundItem_')) && key !== `${newItem.status}Item_${newItem.timestamp}`) {
+                    try {
+                        allItems.push(JSON.parse(localStorage.getItem(key)));
+                    } catch (e) { /* ignore parse errors */ }
+                }
+            }
+
+            const oppositeStatus = newItem.status === 'lost' ? 'found' : 'lost';
+            const potentialMatches = allItems.filter(item => item.status === oppositeStatus);
+
+            potentialMatches.forEach(match => {
+                const hasMatchingTag = newItem.tags.some(tag => match.tags.includes(tag));
+                if (hasMatchingTag) {
+                    const message = `A '${match.itemName}' was found that may match your lost '${newItem.itemName}'.`;
+                    
+                    const notification = {
+                        message,
+                        timestamp: new Date().toISOString(),
+                        read: false,
+                        matchDetails: {
+                            itemName: match.itemName,
+                            location: match.location || 'Not Specified',
+                            imageData: match.imageData
+                        }
+                    };
+                    let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+                    notifications.push(notification);
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    updateNotificationUI();
+                }
+            });
+        }
+
+        // --- DATA HANDLING ---
+        function saveData(storagePrefix, data) {
+             const key = `${storagePrefix}_${data.timestamp}`;
+             try {
+                localStorage.setItem(key, JSON.stringify(data));
+                console.log(`--- Data saved successfully with key: ${key} ---`);
+                if (data.status === 'lost') {
+                    checkForMatches(data);
+                }
+                showPage('success-page');
+            } catch (error) {
+                console.error("Failed to save data:", error);
+                document.getElementById('error-message').textContent = 'An unexpected error occurred while saving your report. This may be due to storage limits.';
+                showPage('error-page');
+            }
+        }
+        
+        // --- AUTHENTICATION ---
+        const loginIcon = document.getElementById('login-icon');
+        const logoutIcon = document.getElementById('logout-icon');
+        function updateAuthStateUI() {
+            if (currentUser) {
+                loginIcon.classList.add('hidden');
+                logoutIcon.classList.remove('hidden');
+            } else {
+                loginIcon.classList.remove('hidden');
+                logoutIcon.classList.add('hidden');
+            }
+        }
+        function handleAuthClick() {
+            if (currentUser) {
+                currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                updateAuthStateUI();
+                showPage('landing-page');
+            } else {
+                showPage('login-page');
+            }
+        }
+        function toggleAuthForms() {
+            document.getElementById('login-form-container').classList.toggle('hidden');
+            document.getElementById('register-form-container').classList.toggle('hidden');
+        }
+        const registerForm = document.getElementById('register-form');
+        const registerEmailInput = document.getElementById('register-email');
+        const emailError = document.getElementById('email-error');
+        if (registerEmailInput) {
+            registerEmailInput.addEventListener('input', () => {
+                if (!registerEmailInput.value.endsWith('@sitpune.edu.in')) {
+                    emailError.classList.remove('hidden');
+                    registerEmailInput.classList.add('border-red-500');
+                } else {
+                    emailError.classList.add('hidden');
+                    registerEmailInput.classList.remove('border-red-500');
+                }
+            });
+        }
+        if (registerForm) {
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = registerEmailInput.value;
+                const password = document.getElementById('register-password').value;
+                if (!email.endsWith('@sitpune.edu.in')) {
+                    alert('Please use a valid @sitpune.edu.in email address.');
+                    return;
+                }
+                let users = JSON.parse(localStorage.getItem('users')) || {};
+                if (users[email]) {
+                    alert('An account with this email already exists.');
+                    return;
+                }
+                const newName = generateUniqueName(Object.values(users).map(u => u.name));
+                users[email] = { name: newName, email: email };
+                localStorage.setItem('users', JSON.stringify(users));
+                currentUser = users[email];
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAuthStateUI();
+                loadProfilePage();
+                showPage('profile-page');
+            });
+        }
+        const loginForm = document.getElementById('login-form');
+        if(loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                let users = JSON.parse(localStorage.getItem('users')) || {};
+                if (users[email]) {
+                    currentUser = users[email];
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    updateAuthStateUI();
+                    loadProfilePage();
+                    showPage('profile-page');
+                } else {
+                    alert('Invalid email or password.');
+                }
+            });
+        }
+        function loadProfilePage() {
+            if (currentUser) {
+                document.getElementById('profile-name').textContent = currentUser.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                document.getElementById('profile-email').textContent = currentUser.email;
+                document.getElementById('profile-initials').textContent = currentUser.name.split('-').map(w => w[0].toUpperCase()).join('');
+            }
+        }
+        function generateUniqueName(existingNames) {
+            const adjectives = ['Happy', 'Clever', 'Brave', 'Sunny', 'Gentle', 'Wise', 'Swift'];
+            const animals = ['Lion', 'Tiger', 'Eagle', 'Dolphin', 'Fox', 'Wolf', 'Bear'];
+            const nouns = ['Runner', 'Jumper', 'Seeker', 'Finder', 'Guard', 'Pilot', 'Rover'];
+            let name;
+            let attempts = 0;
+            do {
+                const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+                const animal = animals[Math.floor(Math.random() * animals.length)];
+                const noun = nouns[Math.floor(Math.random() * nouns.length)];
+                name = `${adj}-${animal}-${noun}`.toLowerCase();
+                attempts++;
+            } while (existingNames.includes(name) && attempts < 100);
+            return name;
+        }
+        function updateGlobalTags(tagLabel) {
+            const cleanedLabel = tagLabel.trim();
+            if (cleanedLabel && !allTags.includes(cleanedLabel)) {
+                allTags.push(cleanedLabel);
+                localStorage.setItem('allTags', JSON.stringify(allTags));
+            }
+        }
+        function showSuggestions(inputValue, suggestionsEl, onSelectCallback) {
+            suggestionsEl.innerHTML = '';
+            if (inputValue.length === 0) {
+                suggestionsEl.classList.add('hidden');
+                return;
+            }
+            const filteredTags = allTags.filter(tag => tag.toLowerCase().startsWith(inputValue.toLowerCase()));
+            if (filteredTags.length > 0) {
+                filteredTags.forEach(tag => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = tag;
+                    suggestionItem.className = 'p-2 cursor-pointer hover:bg-gray-100';
+                    suggestionItem.onclick = () => onSelectCallback(tag);
+                    suggestionsEl.appendChild(suggestionItem);
+                });
+                suggestionsEl.classList.remove('hidden');
+            } else {
+                suggestionsEl.classList.add('hidden');
+            }
+        }
+        function renderTagBubbles(tagsArray, container, removeCallback) {
+            while (container.children.length > 1) {
+                container.removeChild(container.firstChild);
+            }
+            tagsArray.forEach(label => {
+                const tagElement = document.createElement('div');
+                tagElement.className = 'flex items-center bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full border border-black';
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'ml-2 text-blue-500 hover:text-blue-700';
+                button.innerHTML = '&times;';
+                button.onclick = (e) => removeCallback(e, label);
+                const span = document.createElement('span');
+                span.textContent = label;
+                tagElement.appendChild(span);
+                tagElement.appendChild(button);
+                container.insertBefore(tagElement, container.lastElementChild);
+            });
+        }
+        const lostTagsInput = document.getElementById('item-tags-input');
+        const lostTagsContainer = document.getElementById('tags-container');
+        const lostSuggestionsEl = document.getElementById('lost-suggestions');
+        let lostFormTags = [];
+        function addLostTag(tagLabel) {
+            const cleanedLabel = tagLabel.trim();
+            if (cleanedLabel && !lostFormTags.includes(cleanedLabel)) {
+                lostFormTags.push(cleanedLabel);
+                updateGlobalTags(cleanedLabel);
+                renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
+            }
+            if(lostTagsInput) lostTagsInput.value = '';
+            if(lostSuggestionsEl) lostSuggestionsEl.classList.add('hidden');
+        }
+        function removeLostTag(event, label) {
+            event.preventDefault();
+            lostFormTags = lostFormTags.filter(tag => tag !== label);
+            renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
+        }
+        if (lostTagsInput) {
+            lostTagsInput.addEventListener('input', () => showSuggestions(lostTagsInput.value, lostSuggestionsEl, addLostTag));
+            lostTagsInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter' || e.key === ',') {
+                    e.preventDefault();
+                    addLostTag(lostTagsInput.value.replace(/,/g, ''));
+                }
+            });
+        }
+        const foundTagsInput = document.getElementById('found-item-tags-input');
+        const foundTagsContainer = document.getElementById('found-tags-container');
+        const foundSuggestionsEl = document.getElementById('found-suggestions');
+        let foundFormTags = [];
+        function addFoundTag(tagLabel) {
+            const cleanedLabel = tagLabel.trim();
+            if (cleanedLabel && !foundFormTags.includes(cleanedLabel)) {
+                foundFormTags.push(cleanedLabel);
+                updateGlobalTags(cleanedLabel);
+                renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
+            }
+            if(foundTagsInput) foundTagsInput.value = '';
+            if(foundSuggestionsEl) foundSuggestionsEl.classList.add('hidden');
+        }
+        function removeFoundTag(event, label) {
+            event.preventDefault();
+            foundFormTags = foundFormTags.filter(tag => tag !== label);
+            renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
+        }
+        if (foundTagsInput) {
+            foundTagsInput.addEventListener('input', () => showSuggestions(foundTagsInput.value, foundSuggestionsEl, addFoundTag));
+            foundTagsInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter' || e.key === ',') {
+                    e.preventDefault();
+                    addFoundTag(foundTagsInput.value.replace(/,/g, ''));
+                }
+            });
+        }
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.relative')) {
+                if(lostSuggestionsEl) lostSuggestionsEl.classList.add('hidden');
+                if(foundSuggestionsEl) foundSuggestionsEl.classList.add('hidden');
+            }
+        });
+        const imageInput = document.getElementById('item-image');
+        const imagePreview = document.getElementById('image-preview');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const uploadIcon = document.getElementById('upload-icon');
+        const uploadText = document.getElementById('upload-text');
+        let imageDataUrl = null;
+        if(imageInput) imageInput.addEventListener('change', (e) => handleImageChange(e, (dataUrl) => { imageDataUrl = dataUrl; }, imagePreview, imagePreviewContainer, uploadIcon, uploadText));
+        const foundImageInput = document.getElementById('found-item-image');
+        const foundImagePreview = document.getElementById('found-image-preview');
+        const foundImagePreviewContainer = document.getElementById('found-image-preview-container');
+        const foundUploadIcon = document.getElementById('found-upload-icon');
+        const foundUploadText = document.getElementById('found-upload-text');
+        let foundImageDataUrl = null;
+        if(foundImageInput) foundImageInput.addEventListener('change', (e) => handleImageChange(e, (dataUrl) => { foundImageDataUrl = dataUrl; }, foundImagePreview, foundImagePreviewContainer, foundUploadIcon, foundUploadText));
+        function handleImageChange(e, setDataUrlCallback, previewEl, previewContainerEl, iconEl, textEl) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const MAX_WIDTH = 800;
+                    const MAX_HEIGHT = 800;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    setDataUrlCallback(compressedDataUrl);
+                    previewEl.src = compressedDataUrl;
+                    previewContainerEl.classList.remove('hidden');
+                    iconEl.classList.add('hidden');
+                    textEl.textContent = 'Change file';
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        const itemForm = document.getElementById('item-form');
+        if(itemForm) {
+            itemForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pendingTag = lostTagsInput.value.trim().replace(/,/g, '');
+                if (pendingTag) addLostTag(pendingTag);
+                const dataToSave = {
+                    itemName: document.getElementById('item-name').value,
+                    description: document.getElementById('item-description').value,
+                    tags: lostFormTags, 
+                    imageData: imageDataUrl,
+                    status: 'lost', 
+                    timestamp: new Date().toISOString()
+                };
+                saveData('lostItem', dataToSave);
+            });
+        }
+        const foundForm = document.getElementById('found-form');
+        if(foundForm) {
+            foundForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pendingTag = foundTagsInput.value.trim().replace(/,/g, '');
+                if (pendingTag) addFoundTag(pendingTag);
+                const dataToSave = {
+                    itemName: document.getElementById('found-item-name').value,
+                    location: document.getElementById('found-item-location').value,
+                    description: document.getElementById('found-item-description').value,
+                    tags: foundFormTags, 
+                    imageData: foundImageDataUrl,
+                    status: 'found', 
+                    timestamp: new Date().toISOString()
+                };
+                saveData('foundItem', dataToSave);
+            });
+        }
+        function resetFormsAndShowHome() {
+            if(itemForm) {
+                itemForm.reset();
+                lostFormTags = [];
+                renderTagBubbles(lostFormTags, lostTagsContainer, removeLostTag);
+                imageDataUrl = null; imageInput.value = ''; imagePreview.src = '#';
+                imagePreviewContainer.classList.add('hidden');
+                uploadIcon.classList.remove('hidden');
+                uploadText.textContent = 'or drag and drop';
+            }
+            if(foundForm) {
+                foundForm.reset();
+                foundFormTags = [];
+                renderTagBubbles(foundFormTags, foundTagsContainer, removeFoundTag);
+                foundImageDataUrl = null; foundImageInput.value = ''; foundImagePreview.src = '#';
+                foundImagePreviewContainer.classList.add('hidden');
+                foundUploadIcon.classList.remove('hidden');
+                foundUploadText.textContent = 'or drag and drop';
+            }
+            showPage('landing-page');
+        }
+    </script>
+</body>
+</html>
