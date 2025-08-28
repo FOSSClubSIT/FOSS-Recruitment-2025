@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offline Study Buddy — Tasks • Pomodoro • Notes</title>
+  <meta name="description" content="A tiny offline web app with Tasks, Pomodoro timer, and Notes. Stores data locally. No internet required."/>
+  <style>
+    :root{
+      --bg:#0f172a; --panel:#111827; --muted:#94a3b8; --text:#e5e7eb;
+      --accent:#22d3ee; --accent-2:#a78bfa; --ok:#34d399; --warn:#f59e0b; --danger:#fb7185;
+      --border:#1f2937; --shadow: 0 10px 30px rgba(0,0,0,.35); --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;
+      background:linear-gradient(180deg,#0b1222,var(--bg));
+      color:var(--text);
+      min-height:100dvh;
+      display:flex;flex-direction:column
+    }
+    header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .container{max-width:1000px;margin:0 auto;padding:16px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.3px}
+    .brand .dot{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--accent),var(--accent-2));box-shadow:0 0 24px var(--accent)}
+    nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .tab{appearance:none;border:1px solid var(--border);background:transparent;color:var(--text);padding:8px 12px;border-radius:999px;cursor:pointer;transition:.15s transform,.15s background}
+    .tab[aria-selected="true"]{background:#0b1020;border-color:#233048}
+    .tab:hover{transform:translateY(-1px)}
+    main{flex:1}
+    .panel{background:#0b1020;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-top:16px}
+    h2{margin:0 0 12px;font-size:18px;font-weight:700;color:#e2e8f0}
+    .muted{color:var(--muted);font-size:14px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    input[type="text"],input[type="number"],textarea,input[type="file"]{background:#0a1426;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 12px;outline:none;width:100%}
+    input[type="number"]{width:120px}
+    textarea{min-height:200px;resize:vertical}
+    button{background:#0a1426;color:var(--text);border:1px solid var(--border);padding:10px 12px;border-radius:10px;cursor:pointer;transition:.15s transform,.15s background}
+    button:hover{transform:translateY(-1px)}
+    .primary{background:linear-gradient(180deg,#0f1a33,#0a1426);border-color:#223352}
+    .accent{border-color:#194d58;box-shadow:0 0 0 1px #133a43 inset}
+    .danger{border-color:#4a1e25}
+    .ok{border-color:#1c3b2d}
+    .pill{border-radius:999px}
+    ul{list-style:none;padding:0;margin:12px 0 0}
+    .todo{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#081227}
+    .todo+.todo{margin-top:8px}
+    .todo.done{opacity:.7}
+    .todo .text{flex:1}
+    .todo .text s{color:var(--muted)}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .count{margin-left:auto;color:var(--muted)}
+    .timer{display:grid;place-items:center;text-align:center;padding:16px 0 0}
+    .clock{font-size:56px;letter-spacing:2px;font-weight:800}
+    .chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .chip{font-size:13px;padding:6px 10px;border-radius:999px;border:1px dashed var(--border)}
+    pre{background:#0a1426;border:1px solid var(--border);border-radius:10px;padding:12px;overflow:auto;max-height:260px}
+    footer{padding:12px 16px;text-align:center;color:var(--muted);border-top:1px solid var(--border)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="brand">
+        <div class="dot" aria-hidden="true"></div>
+        <div>Offline Study Buddy <span class="muted">— Tasks • Pomodoro • Notes</span></div>
+      </div>
+      <nav aria-label="Primary">
+        <button class="tab pill" data-tab="tasks" aria-selected="true">Tasks</button>
+        <button class="tab pill" data-tab="pomodoro">Pomodoro</button>
+        <button class="tab pill" data-tab="notes">Notes</button>
+        <button class="tab pill" data-tab="about">About</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Tasks -->
+    <section id="tab-tasks" class="panel" role="region" aria-labelledby="tasks-label">
+      <h2 id="tasks-label">Tasks</h2>
+      <p class="muted">Add your tasks. They’re saved in your browser only (LocalStorage). Works fully offline.</p>
+      <div class="row" style="margin-top:8px">
+        <label class="sr-only" for="newTask">New task</label>
+        <input id="newTask" type="text" placeholder="e.g., Finish FOSS README, record 2-min demo, push PR" autocomplete="off" />
+        <button id="addTaskBtn" class="primary accent">Add</button>
+      </div>
+      <div class="filters" style="margin-top:10px">
+        <div class="muted">Filter:</div>
+        <button class="pill" data-filter="all" aria-pressed="true">All</button>
+        <button class="pill" data-filter="active">Active</button>
+        <button class="pill" data-filter="done">Done</button>
+        <div class="count" id="count">0 remaining</div>
+      </div>
+      <ul id="list" aria-live="polite" aria-relevant="additions removals"></ul>
+
+      <div class="row" style="margin-top:16px">
+        <button id="exportBtn" class="ok pill">Export Data</button>
+        <label class="pill" for="importFile" style="display:inline-flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer">
+          Import Data<input id="importFile" type="file" accept="application/json" style="display:none">
+        </label>
+        <button id="clearDoneBtn" class="danger pill">Clear Done</button>
+      </div>
+    </section>
+
+    <!-- Pomodoro -->
+    <section id="tab-pomodoro" class="panel" hidden role="region" aria-labelledby="pomo-label">
+      <h2 id="pomo-label">Pomodoro</h2>
+      <p class="muted">Simple Pomodoro timer. Defaults: 25 min focus, 5 min break. Adjust as you like.</p>
+      <div class="row">
+        <label>Focus (min) <input id="focusMin" type="number" min="1" max="180" value="25"></label>
+        <label>Break (min) <input id="breakMin" type="number" min="1" max="60" value="5"></label>
+      </div>
+      <div class="timer">
+        <div class="clock" id="clock">25:00</div>
+        <div class="chips muted" style="margin:10px 0 0">
+          <span class="chip" id="phaseChip">Phase: Focus</span>
+          <span class="chip">Sessions: <strong id="sessions">0</strong></span>
+        </div>
+        <div class="row" style="justify-content:center; margin-top:12px">
+          <button id="startBtn" class="primary accent pill">Start</button>
+          <button id="pauseBtn" class="pill">Pause</button>
+          <button id="resetBtn" class="pill">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes -->
+    <section id="tab-notes" class="panel" hidden role="region" aria-labelledby="notes-label">
+      <h2 id="notes-label">Notes</h2>
+      <p class="muted">Quick notes (autosave). Export via the button below.</p>
+      <textarea id="notesArea" placeholder="Jot thoughts, decisions, commit plan, etc. here..."></textarea>
+      <div class="row" style="margin-top:12px">
+        <button id="downloadNotes" class="pill">Download Notes (.txt)</button>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="tab-about" class="panel" hidden role="region" aria-labelledby="about-label">
+      <h2 id="about-label">About</h2>
+      <p class="muted">This tiny app is intentionally offline-first. No build tools. One HTML file. Your data never leaves your browser.</p>
+      <pre><code>Tech: Vanilla HTML/CSS/JS · LocalStorage · Web Audio API (beep)
+Folders: projects/kesbhat_anary/index.html (this file)
+Run: Double-click index.html (or open with any browser)
+Export: Tasks & settings → JSON. Notes → .txt.
+Reset: Clear browser storage for this site.
+License: MIT</code></pre>
+    </section>
+  </main>
+
+  <footer>© 2025 Offline Study Buddy · MIT License</footer>
+
+<script>
+(() => {
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  const escapeHTML = (s) =>
+    s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#039;'}[m]));
+
+  // Tabs
+  const tabs = $$('.tab');
+  const sections = {
+    tasks: $('#tab-tasks'),
+    pomodoro: $('#tab-pomodoro'),
+    notes: $('#tab-notes'),
+    about: $('#tab-about')
+  };
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.tab;
+      tabs.forEach(b => b.setAttribute('aria-selected', b === btn ? 'true' : 'false'));
+      Object.entries(sections).forEach(([key, el]) => {
+        el.hidden = key !== name;
+      });
+    });
+  });
+
+  // LocalStorage helpers
+  const store = {
+    get(key, fallback){
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+      catch { return fallback; }
+    },
+    set(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+  };
+
+  // --- Tasks ---
+  const listEl = $('#list');
+  const newTask = $('#newTask');
+  const addTaskBtn = $('#addTaskBtn');
+  const countEl = $('#count');
+  const clearDoneBtn = $('#clearDoneBtn');
+  const exportBtn = $('#exportBtn');
+  const importFile = $('#importFile');
+  let filter = 'all';
+  let todos = store.get('osb_tasks', []);
+
+  const render = () => {
+    listEl.innerHTML = '';
+    const visible = todos.filter(t => filter === 'all' ? true : filter === 'done' ? t.done : !t.done);
+    visible.forEach(t => {
+      const li = document.createElement('li');
+      li.className = 'todo' + (t.done ? ' done' : '');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = !!t.done;
+      checkbox.addEventListener('change', () => {
+        t.done = checkbox.checked;
+        store.set('osb_tasks', todos);
+        updateCount();
+        render();
+      });
+
+      const span = document.createElement('div');
+      span.className = 'text';
+      span.innerHTML = t.done ? '<s>' + escapeHTML(t.text) + '</s>' : escapeHTML(t.text);
+
+      const del = document.createElement('button');
+      del.className = 'danger pill';
+      del.textContent = 'Delete';
+      del.addEventListener('click', () => {
+        todos = todos.filter(x => x.id !== t.id);
+        store.set('osb_tasks', todos);
+        updateCount();
+        render();
+      });
+
+      li.append(checkbox, span, del);
+      listEl.append(li);
+    });
+  };
+
+  const updateCount = () => {
+    const remaining = todos.filter(t => !t.done).length;
+    countEl.textContent = remaining + ' remaining';
+  };
+
+  addTaskBtn.addEventListener('click', () => {
+    const text = newTask.value.trim();
+    if(!text) return;
+    todos.push({ id: Date.now() + Math.random().toString(36).slice(2,7), text, done:false });
+    store.set('osb_tasks', todos);
+    newTask.value = '';
+    updateCount(); render();
+  });
+  newTask.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ addTaskBtn.click(); }
+  });
+
+  $$('.filters [data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('.filters [data-filter]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      filter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  clearDoneBtn.addEventListener('click', () => {
+    todos = todos.filter(t => !t.done);
+    store.set('osb_tasks', todos);
+    updateCount(); render();
+  });
+
+  exportBtn.addEventListener('click', () => {
+    const payload = {
+      tasks: todos,
+      settings: store.get('osb_settings', {}),
+      notes: store.get('osb_notes', '')
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'offline-study-buddy-data.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  importFile.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const data = JSON.parse(String(reader.result));
+        if(Array.isArray(data.tasks)) todos = data.tasks;
+        store.set('osb_tasks', todos);
+        if(data.settings) store.set('osb_settings', data.settings);
+        if(typeof data.notes === 'string') store.set('osb_notes', data.notes);
+        updateCount(); render();
+        alert('Import successful.');
+      }catch{
+        alert('Invalid file.');
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // initial
+  updateCount(); render();
+
+  // --- Pomodoro ---
+  const focusMin = $('#focusMin');
+  const breakMin = $('#breakMin');
+  const clock = $('#clock');
+  const phaseChip = $('#phaseChip');
+  const sessionsEl = $('#sessions');
+  const startBtn = $('#startBtn');
+  const pauseBtn = $('#pauseBtn');
+  const resetBtn = $('#resetBtn');
+
+  let cfg = Object.assign({focus:25, break:5}, store.get('osb_settings', {}));
+  let phase = 'focus'; // 'focus' | 'break'
+  let remaining = cfg.focus * 60;
+  let timer = null;
+  let sessions = store.get('osb_sessions', 0);
+
+  const fmt = (s) => {
+    const m = Math.floor(s/60).toString().padStart(2,'0');
+    const sec = Math.floor(s%60).toString().padStart(2,'0');
+    return m + ':' + sec;
+  };
+  const updateClock = () => { clock.textContent = fmt(remaining); };
+  const updatePhase = () => {
+    phaseChip.textContent = 'Phase: ' + (phase === 'focus' ? 'Focus' : 'Break');
+    document.title = clock.textContent + ' • ' + (phase === 'focus' ? 'Focus' : 'Break') + ' — Offline Study Buddy';
+  };
+  const beep = () => {
+    try{
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = 880;
+      o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.4);
+      o.start(); o.stop(ctx.currentTime + 0.42);
+    }catch(e){ /* ignore */ }
+  };
+
+  const tick = () => {
+    remaining -= 1;
+    if(remaining <= 0){
+      beep();
+      if(phase === 'focus'){
+        phase = 'break';
+        remaining = cfg.break * 60;
+        sessions += 1;
+        sessionsEl.textContent = sessions;
+        localStorage.setItem('osb_sessions', sessions);
+      }else{
+        phase = 'focus';
+        remaining = cfg.focus * 60;
+      }
+      updatePhase(); updateClock();
+    }else{
+      updateClock();
+    }
+  };
+
+  const saveCfg = () => {
+    cfg.focus = Math.max(1, Math.min(180, Number(focusMin.value) || 25));
+    cfg.break = Math.max(1, Math.min(60, Number(breakMin.value) || 5));
+    store.set('osb_settings', cfg);
+  };
+
+  const stop = () => { if(timer){ clearInterval(timer); timer = null; } };
+
+  startBtn.addEventListener('click', () => {
+    saveCfg();
+    if(!timer){
+      timer = setInterval(tick, 1000);
+    }
+  });
+  pauseBtn.addEventListener('click', () => stop());
+  resetBtn.addEventListener('click', () => {
+    stop();
+    phase = 'focus';
+    remaining = cfg.focus * 60;
+    updatePhase(); updateClock();
+  });
+
+  // Initialize Pomo UI
+  focusMin.value = cfg.focus;
+  breakMin.value = cfg.break;
+  sessionsEl.textContent = sessions;
+  updatePhase(); updateClock();
+
+  // --- Notes ---
+  const notesArea = $('#notesArea');
+  notesArea.value = store.get('osb_notes', '');
+  notesArea.addEventListener('input', () => {
+    store.set('osb_notes', notesArea.value);
+  });
+  $('#downloadNotes').addEventListener('click', () => {
+    const blob = new Blob([notesArea.value], {type:'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'offline-study-buddy-notes.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+</body>
+</html>
