@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Blog</title>
+</head>
+<body style="font-family: Arial; max-width: 700px; margin: auto; padding: 40px;">
+
+<h1>My Blog</h1>
+{% if user.is_authenticated %}
+    <p>
+        Welcome {{ user.username }} |
+        <a href="{% url 'create_post' %}">Create Post</a> |
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; padding:0;">
+        Logout
+    </button>
+</form>
+    </p>
+{% else %}
+    <a href="{% url 'login' %}">Login</a> |
+<a href="{% url 'register' %}">Register</a>
+{% endif %}
+
+{% for post in posts %}
+    <div style="margin-bottom: 30px;">
+        <h2>
+            <a href="{% url 'post_detail' post.pk %}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p>{{ post.created_at }}</p>
+        <p>👍 {{ post.total_upvotes }} upvote{{ post.total_upvotes|pluralize }}</p>
+    </div>
+{% empty %}
+    <p>No posts yet.</p>
+{% endfor %}
+
+</body>
+</html>

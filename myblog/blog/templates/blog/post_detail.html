@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body style="font-family: Arial; max-width: 700px; margin: auto; padding: 40px;">
+
+<a href="/">← Back</a>
+
+<h1>{{ post.title }}</h1>
+<p>{{ post.created_at }}</p>
+
+<p>👍 {{ post.total_upvotes }} upvotes</p>
+
+<form action="{% url 'upvote_post' post.pk %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Upvote</button>
+</form>
+
+<hr>
+
+<p>{{ post.content }}</p>
+
+<hr>
+
+<h3>Comments</h3>
+
+{% for comment in post.comments.all %}
+    <p><strong>{{ comment.author }}</strong>: {{ comment.text }}</p>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<hr>
+
+<h3>Add Comment</h3>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="author" placeholder="Your name" required><br><br>
+    <textarea name="text" placeholder="Write comment..." required></textarea><br><br>
+    <button type="submit">Post Comment</button>
+</form>
+
+</body>
+</html>
