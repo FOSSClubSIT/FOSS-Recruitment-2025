@@ -1,0 +1,41 @@
+.body1 {
+  background-color: #ffffff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  margin-top: 100px;
+}
+
+#timer {
+  font-family: 'Jokerman', cursive;
+  font-size: 80px;
+  margin-bottom: 40px;
+}
+
+button {
+  font-family: 'Bradley Hand ITC', cursive;
+  font-size: 24px;
+  font-weight: 100;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #b4b4b4;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #646363;
+}
+
+.break-btn {
+  background-color: #2196f3;
+}
+
+.break-btn:hover {
+  background-color: #19d222;
+}

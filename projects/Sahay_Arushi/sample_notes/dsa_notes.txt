@@ -1,0 +1,5 @@
+DSA Notes 
+Binary tree is a hierarchical data structure. 
+A node in a binary tree has at most two children. 
+Traversal algorithms include pre-order, in-order, and post-order. 
+Binary search is an efficient algorithm for finding an item. 

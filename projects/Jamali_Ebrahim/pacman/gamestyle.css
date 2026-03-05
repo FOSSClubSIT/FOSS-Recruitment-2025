@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* use min-height instead of fixed height */
+  color: white;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column; /* stack elements */
+  align-items: center;
+  gap: 10px; /* space between h1, canvas, score */
+}
+
+canvas {
+  border: 2px solid lightseagreen;
+  box-shadow: 0 0 20px lightseagreen;
+  background-color: black;
+}

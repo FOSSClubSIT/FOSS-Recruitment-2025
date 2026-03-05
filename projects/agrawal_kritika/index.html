@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">Mood Journal</div>
+    <nav class="nav">
+      <a href="index.html" class="nav-link active">Today</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>How are you feeling today?</h1>
+
+  <!-- Emoji options -->
+    <div class="emoji-grid card" id="moods">
+      <span class="emoji" data-mood="happy" title="Happy">😊</span>
+      <span class="emoji" data-mood="sad" title="Sad">😢</span>
+      <span class="emoji" data-mood="angry" title="Angry">😠</span>
+      <span class="emoji" data-mood="calm" title="Calm">😌</span>
+      <span class="emoji" data-mood="excited" title="Excited">🤩</span>
+      <span class="emoji" data-mood="tired" title="Tired">🥱</span>
+      <span class="emoji" data-mood="anxious" title="Anxious">😰</span>
+      <span class="emoji" data-mood="confident" title="Confident">😎</span>
+      <span class="emoji" data-mood="bored" title="Bored">😐</span>
+      <span class="emoji" data-mood="in-love" title="In Love">😍</span>
+    </div>
+
+    <!-- Quote display -->
+    <div id="quote" class="quote card" style="display: none;"></div>
+
+    <div class="input-group card">
+      <label for="note-input">Add a note for today</label>
+      <input type="text" id="note-input" placeholder="E.g., Had a great workout, coffee with friends...">
+      <button id="save-note" class="btn">Save Note</button>
+    </div>
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

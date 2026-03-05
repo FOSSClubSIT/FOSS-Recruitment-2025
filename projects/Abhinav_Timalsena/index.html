@@ -1,0 +1,275 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helix Bot - Official Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #f1f5f9;
+    }
+    header {
+      background: #1e293b;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #38bdf8;
+    }
+    header p {
+      margin-top: 0.5rem;
+      color: #94a3b8;
+    }
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+    }
+    h2 {
+      border-bottom: 2px solid #38bdf8;
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
+      color: #38bdf8;
+    }
+    .commands {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .command-card {
+      background: #1e293b;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+    }
+    .command-card:hover {
+      transform: translateY(-4px);
+    }
+    .command-card h3 {
+      margin: 0;
+      color: #facc15;
+    }
+    .usage {
+      color: #38bdf8;
+      font-family: monospace;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .feature-box {
+      background: #1e293b;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    }
+    .feature-box h3 {
+      color: #facc15;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: #1e293b;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Helix Bot</h1>
+    <p>The all-in-one multipurpose Discord bot for fun, moderation, and community interaction.</p>
+  </header>
+
+  <main>
+    <h2>ℹ️ About Helix Bot</h2>
+    <p>
+      Helix Bot is designed to be your server’s ultimate companion — blending powerful moderation tools,
+      engaging fun commands, interactive features, and handy utilities into one sleek bot. Whether you’re running
+      a small community or a large server, Helix Bot adapts to your needs, keeping things organized and entertaining.
+    </p>
+
+    <h2>✨ Features</h2>
+    <div class="features">
+      <div class="feature-box">
+        <h3>🔧 Moderation</h3>
+        <p>Kick, ban, mute, warn, and manage messages with ease.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🎲 Fun & Games</h3>
+        <p>Play rock-paper-scissors, trivia, coin flips, jokes, roasts, and more.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🌟 Interactive</h3>
+        <p>Use hug, slap, ship, mock, and reverse text for fun interactions with friends.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🛠 Utility</h3>
+        <p>Check user/server info, polls, reminders, avatars, and more.</p>
+      </div>
+      <div class="feature-box">
+        <h3>⚡ Reliable</h3>
+        <p>Fast responses, organized categories, and simple-to-use commands.</p>
+      </div>
+    </div>
+
+    <h2>📜 Command Reference</h2>
+    
+    <h3>⚙️ Basic Commands</h3>
+    <div class="commands">
+      <div class="command-card">
+        <h3>!ping</h3>
+        <p><span class="usage">Usage:</span> !ping</p>
+        <p>Check the bot's latency.</p>
+      </div>
+      <div class="command-card">
+        <h3>!hello</h3>
+        <p><span class="usage">Usage:</span> !hello</p>
+        <p>Bot replies with a friendly greeting.</p>
+      </div>
+    </div>
+
+    <h3>🎲 Fun & Games</h3>
+    <div class="commands">
+      <div class="command-card">
+        <h3>!roll</h3>
+        <p><span class="usage">Usage:</span> !roll</p>
+        <p>Rolls a random number between 1 and 6.</p>
+      </div>
+      <div class="command-card">
+        <h3>!coinflip</h3>
+        <p><span class="usage">Usage:</span> !coinflip</p>
+        <p>Flips a coin and shows heads or tails.</p>
+      </div>
+      <div class="command-card">
+        <h3>!joke</h3>
+        <p><span class="usage">Usage:</span> !joke</p>
+        <p>Sends a random joke to make you laugh.</p>
+      </div>
+      <div class="command-card">
+        <h3>!roast</h3>
+        <p><span class="usage">Usage:</span> !roast @user</p>
+        <p>Sends a funny roast targeting a mentioned user.</p>
+      </div>
+      <div class="command-card">
+        <h3>!rps</h3>
+        <p><span class="usage">Usage:</span> !rps rock</p>
+        <p>Play rock-paper-scissors with the bot.</p>
+      </div>
+      <div class="command-card">
+        <h3>!trivia</h3>
+        <p><span class="usage">Usage:</span> !trivia</p>
+        <p>Asks a trivia question for you to answer.</p>
+      </div>
+    </div>
+
+    <h3>🌟 Interactive</h3>
+    <div class="commands">
+      <div class="command-card">
+        <h3>!hug</h3>
+        <p><span class="usage">Usage:</span> !hug @user</p>
+        <p>Give a virtual hug to another member.</p>
+      </div>
+      <div class="command-card">
+        <h3>!slap</h3>
+        <p><span class="usage">Usage:</span> !slap @user</p>
+        <p>Playfully slap a mentioned user.</p>
+      </div>
+      <div class="command-card">
+        <h3>!ship</h3>
+        <p><span class="usage">Usage:</span> !ship @user1 @user2</p>
+        <p>Rates compatibility between two members.</p>
+      </div>
+      <div class="command-card">
+        <h3>!mock</h3>
+        <p><span class="usage">Usage:</span> !mock text</p>
+        <p>Converts your text into a mocking sPoNgEbOb style.</p>
+      </div>
+      <div class="command-card">
+        <h3>!reverse</h3>
+        <p><span class="usage">Usage:</span> !reverse text</p>
+        <p>Reverses the input text.</p>
+      </div>
+    </div>
+
+    <h3>🛠 Utility</h3>
+    <div class="commands">
+      <div class="command-card">
+        <h3>!userinfo</h3>
+        <p><span class="usage">Usage:</span> !userinfo @user</p>
+        <p>Displays information about a user.</p>
+      </div>
+      <div class="command-card">
+        <h3>!serverinfo</h3>
+        <p><span class="usage">Usage:</span> !serverinfo</p>
+        <p>Shows details about the server.</p>
+      </div>
+      <div class="command-card">
+        <h3>!avatar</h3>
+        <p><span class="usage">Usage:</span> !avatar @user</p>
+        <p>Displays a user's profile picture.</p>
+      </div>
+      <div class="command-card">
+        <h3>!remindme</h3>
+        <p><span class="usage">Usage:</span> !remindme 10m Take a break</p>
+        <p>Sets a reminder after a given time.</p>
+      </div>
+      <div class="command-card">
+        <h3>!poll</h3>
+        <p><span class="usage">Usage:</span> !poll Question?</p>
+        <p>Creates a simple yes/no poll.</p>
+      </div>
+    </div>
+
+    <h3>🔧 Moderation</h3>
+    <div class="commands">
+      <div class="command-card">
+        <h3>!kick</h3>
+        <p><span class="usage">Usage:</span> !kick @user</p>
+        <p>Kicks a user from the server.</p>
+      </div>
+      <div class="command-card">
+        <h3>!ban</h3>
+        <p><span class="usage">Usage:</span> !ban @user</p>
+        <p>Bans a user from the server.</p>
+      </div>
+      <div class="command-card">
+        <h3>!clear</h3>
+        <p><span class="usage">Usage:</span> !clear 10</p>
+        <p>Deletes the last 10 messages in a channel.</p>
+      </div>
+      <div class="command-card">
+        <h3>!mute</h3>
+        <p><span class="usage">Usage:</span> !mute @user</p>
+        <p>Mutes a user so they cannot send messages.</p>
+      </div>
+      <div class="command-card">
+        <h3>!unmute</h3>
+        <p><span class="usage">Usage:</span> !unmute @user</p>
+        <p>Unmutes a muted user.</p>
+      </div>
+      <div class="command-card">
+        <h3>!warn</h3>
+        <p><span class="usage">Usage:</span> !warn @user reason</p>
+        <p>Issues a warning to a user.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Helix Bot © 2025 | A multipurpose Discord bot with fun, moderation, and interactive features.</p>
+  </footer>
+</body>
+</html>
+```

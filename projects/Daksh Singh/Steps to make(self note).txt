@@ -1,0 +1,15 @@
+Commit 1 → Initialize repo, add Expense class (with amount, category, date).
+
+Commit 2 → Add menu + option to add expenses (stored in memory).
+
+Commit 3 → Implement Store in a text file and read it from a text file 
+
+Commit 4 → Implement “show total expenses”.
+
+
+Commit 5 → Add file loading (load previous expenses at startup).
+
+Commit 6 → Add categories summary (e.g., Food = ₹500, Travel = ₹300).
+
+mvp is done
+Commit 7 (optional) → Pretty formatting / date handling (making it more readable and user friendly).

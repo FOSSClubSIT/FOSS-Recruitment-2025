@@ -1,0 +1,6 @@
+Free and Open Source Software, or FOSS, allows users to run, study, and modify software freely. 
+It encourages collaboration and community-driven development. 
+Many popular tools like Linux, Python, and Firefox are FOSS projects. 
+Unlike proprietary software, FOSS provides transparency and control to the user. 
+Students and developers benefit from FOSS by learning directly from the source code. 
+Overall, FOSS plays a vital role in innovation and knowledge sharing.

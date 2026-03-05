@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>SMS Expense Tracker</h1>
+    <textarea id="sms" placeholder="Paste your SMS here" rows="8" cols="60"></textarea><br>
+    <button id="addBtn">Add Expense</button>
+    <button id="clearBtn">Clear All</button>
+    <button id="copyAll">Copy All</button>
+
+    <h2>Total: ₹<span id="total">0</span></h2>
+
+    <h2>Expenses</h2>
+    <ul id="list"></ul>
+
+    <h2>Category Totals</h2>
+    <table id="catTable">
+        <thead>
+            <tr><th>Category</th><th>Total</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

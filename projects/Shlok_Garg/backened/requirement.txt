@@ -1,0 +1,15 @@
+fastapi==0.110.1
+uvicorn==0.25.0
+python-dotenv>=1.0.1
+pydantic>=2.6.4
+python-multipart>=0.0.9
+PyPDF2==3.0.1
+requests>=2.31.0
+numpy==1.26.4
+torch>=2.0.0
+scikit-learn>=1.0.0
+transformers==4.44.2
+sentence-transformers==3.0.1
+keybert==0.8.5
+spacy>=3.7.0
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
